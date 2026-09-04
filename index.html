@@ -172,9 +172,8 @@
         <button class="bg-btn bg-btn-danger" onclick="removeHeaderBg()">❌ সরান</button>
     </div>
 
-    <h1>38 Air Defence Regement</h1>
-    <h2>First To Fire</h2>
-    <p>Smart Duty Management System</p>
+    <h1>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h1>
+    <p>স্মার্ট ডিউটি ম্যানেজমেন্ট সিস্টেম</p>
     <nav>
         <button class="nav-link active" onclick="switchTab('homeTab', this)">🏠 হোম</button>
         <button class="nav-link" onclick="switchTab('profileTab', this)">👤 সদস্য ও প্রোফাইল</button>
@@ -480,33 +479,20 @@
         renderMemberList();
     }
 
-   function renderMemberList() {
+    function renderMemberList() {
         const listDiv = document.getElementById('memberList');
         if(!listDiv) return;
         listDiv.innerHTML = '';
 
         const searchQ = document.getElementById('searchInput').value.toLowerCase();
 
-        // ১. ফিল্টার করা সদস্যসমূহ
         let filtered = membersData.filter(m => {
             const matchesBty = (selectedBattery === 'ALL') || (m.unit === selectedBattery);
             const matchesSearch = m.name.toLowerCase().includes(searchQ) || m.armyNo.toLowerCase().includes(searchQ);
             return matchesBty && matchesSearch;
         });
 
-        // ২. প্রতিটি ব্যাটারীর জন্য আলাদা সিরিয়াল গণনার ভ্যারিয়েবল
-        let batterySerialCounter = {};
-
         filtered.forEach((member) => {
-            // ব্যাটারী অনুযায়ী কাউন্টার ১ বাড়িয়ে নেওয়া
-            if (!batterySerialCounter[member.unit]) {
-                batterySerialCounter[member.unit] = 1;
-            } else {
-                batterySerialCounter[member.unit]++;
-            }
-
-            const currentSerial = batterySerialCounter[member.unit];
-
             const item = document.createElement('div');
             let itemClass = `member-item ${member.armyNo === selectedMemberArmyNo ? 'active' : ''}`;
             if(member.isPostedOut) itemClass += ' posted-out';
@@ -528,15 +514,13 @@
                 badgeHtml = `<span class="badge badge-attached">সংযুক্ত: ${member.courseName || 'কোর্স'}</span>`;
             }
 
-            // প্রতিটি ব্যাটারীর সিরিয়াল নম্বর আলাদাভাবে ১ থেকে শুরু হবে
             item.innerHTML = `
-                <strong>${currentSerial}. ${member.rank} ${member.name}</strong><br>
+                <strong>${member.rank} ${member.name}</strong><br>
                 <small>নম্বর: ${member.armyNo} | ব্যাটারি: ${member.unit}</small>
                 ${badgeHtml ? '<br>' + badgeHtml : ''}
             `;
             listDiv.appendChild(item);
         });
-    }
     }
 
     function changeHeaderBg(event) {
