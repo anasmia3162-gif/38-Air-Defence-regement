@@ -3,26 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</title>
+    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট - ডিউটি ম্যানেজমেন্ট সিস্টেম</title>
+    <!-- বাংলা ফন্ট সোর্স (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #f1f5f9; color: #1e293b; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Noto Sans Bengali', 'Tiro Bangla', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body { background-color: #f1f5f9; color: #0f172a; line-height: 1.5; }
         
         header { 
             background-color: #0f172a; 
             color: #fff; 
-            padding: 30px 20px 20px 20px; 
+            padding: 25px 20px 15px 20px; 
             text-align: center; 
             border-bottom: 4px solid #10b981; 
             position: relative;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55));
-            transition: background 0.3s ease;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8));
         }
-        header h1 { font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        header p { text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        header h1 { font-size: 28px; margin-bottom: 5px; font-weight: 700; }
+        header p { font-size: 14px; opacity: 0.9; }
 
         .header-btn-group {
             position: absolute;
@@ -32,133 +42,85 @@
             gap: 6px;
             z-index: 10;
         }
-
         .bg-btn {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 6px 12px;
+            padding: 5px 10px;
             font-size: 12px;
             border-radius: 4px;
             cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
         }
-        .bg-btn:hover { background: rgba(0, 0, 0, 0.85); }
-        .bg-btn-danger { background: rgba(239, 68, 68, 0.8); }
-        .bg-btn-danger:hover { background: rgba(220, 38, 38, 1); }
 
-        nav { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        nav button { background: rgba(30, 41, 59, 0.9); color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        nav button { background: rgba(30, 41, 59, 0.9); color: #e2e8f0; border: none; padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
         nav button:hover, nav button.active { background: #10b981; color: #fff; }
         
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 1250px; margin: 20px auto; padding: 0 15px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; }
-        .btn { padding: 8px 14px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .btn { padding: 8px 14px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 13px; }
         .btn-primary { background-color: #10b981; color: white; }
         .btn-primary:hover { background-color: #059669; }
         .btn-edit { background-color: #0284c7; color: white; }
-        .btn-edit:hover { background-color: #0369a1; }
         .btn-danger { background-color: #ef4444; color: white; }
-        .btn-danger:hover { background-color: #dc2626; }
         .btn-warning { background-color: #f59e0b; color: white; }
-        .btn-warning:hover { background-color: #d97706; }
         
         .profile-layout { display: flex; flex-wrap: wrap; gap: 20px; }
-        .sidebar { flex: 1 1 300px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .main-profile { flex: 3 1 600px; background: #fff; border-radius: 8px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .sidebar { flex: 1 1 320px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .main-profile { flex: 3 1 600px; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         
-        .bty-filter-group { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
-        .bty-btn { flex: 1; min-width: 55px; padding: 6px 4px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: bold; text-align: center; }
+        .bty-filter-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+        .bty-btn { flex: 1; min-width: 50px; padding: 6px 2px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 600; text-align: center; }
         .bty-btn.active, .bty-btn:hover { background: #10b981; color: white; border-color: #10b981; }
 
-        .search-box { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; }
-        .member-item { padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 10px; cursor: pointer; position: relative; }
+        .search-box { width: 100%; padding: 8px 10px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 13px; }
+        .member-item { padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; cursor: pointer; font-size: 13px; }
         .member-item:hover, .member-item.active { background-color: #ecfdf5; border-color: #10b981; }
-        .member-item.posted-out { background-color: #fef2f2; border-color: #fca5a5; opacity: 0.8; }
+        .member-item.posted-out { background-color: #fef2f2; border-color: #fca5a5; }
         .member-item.sick { background-color: #fff7ed; border-color: #fdba74; }
-        
-        .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 3px; }
+        .member-item.exempted { background-color: #f3e8ff; border-color: #c084fc; }
+
+        .badge { font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 3px; }
         .badge-attached { background: #fef3c7; color: #92400e; }
         .badge-posted { background: #fee2e2; color: #991b1b; }
         .badge-sick { background: #ffedd5; color: #c2410c; }
-        .badge-fixed { background: #e0e7ff; color: #3730a3; }
-
-        .profile-header-card { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .avatar { width: 70px; height: 70px; background-color: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; }
-        
-        .profile-tabs { display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; flex-wrap: wrap; }
-        .prof-tab-btn { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; }
-        .prof-tab-btn:hover, .prof-tab-btn.active { background: #10b981; color: white; border-color: #10b981; }
-
-        .history-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; }
-        .history-card h3 { color: #0f172a; margin-bottom: 12px; font-size: 16px; border-bottom: 2px solid #10b981; padding-bottom: 5px; display: inline-block; }
+        .badge-exempt { background: #f3e8ff; color: #6b21a8; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        table th, table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
-        table th { background-color: #f8fafc; color: #475569; }
-        select, input[type="date"], input[type="text"], input[type="number"] { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; }
+        table th, table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        table th { background-color: #f8fafc; color: #334155; font-weight: 600; }
+        select, input[type="date"], input[type="text"], input[type="number"], textarea { padding: 7px 9px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; font-size: 13px; }
 
-        .section-divider { background-color: #e2e8f0; color: #0f172a; font-weight: bold; padding: 8px 12px; border-left: 4px solid #10b981; margin-top: 10px; }
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .dash-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; border-bottom: 4px solid #10b981; }
+        .dash-card h3 { font-size: 28px; color: #0f172a; font-weight: 700; }
 
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .dash-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; border-bottom: 4px solid #10b981; }
-        .dash-card h3 { font-size: 32px; color: #0f172a; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: white; padding: 25px; border-radius: 8px; width: 100%; max-width: 550px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 15px; overflow-y: auto; }
+        .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
         .form-row { display: flex; gap: 10px; }
         .form-row .form-group { flex: 1; }
 
-        .post-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; margin-top: 12px; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
-        .post-title { font-size: 16px; font-weight: bold; color: #0f172a; }
-        .post-time-badge { font-size: 12px; background: #e2e8f0; color: #334155; padding: 3px 8px; border-radius: 4px; margin-left: 8px; }
-        
-        .post-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 13px; color: #334155; }
-        .post-details-qg { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 13px; color: #334155; }
-        .safety-box { background: white; padding: 12px 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 15px; border-radius: 6px; margin-top: 20px; }
+        .notice-board h3 { color: #b45309; margin-bottom: 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
 
-        .post-input-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr 1fr 1fr 1fr; gap: 10px; align-items: end; }
-        .role-display { padding: 8px 10px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 5px; font-weight: bold; color: #0f172a; }
+        .a4-container { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 12mm 10mm; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; page-break-after: always; }
+        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 12px; }
+        .a4-header h2 { font-size: 18px; color: #0f172a; font-weight: 700; }
 
-        @media (max-width: 900px) {
-            .post-input-grid { grid-template-columns: 1fr 1fr; }
-            .post-details-qg { grid-template-columns: 1fr; }
-        }
-
-        .a4-container {
-            background: #fff;
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
-            padding: 15mm 10mm;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-family: 'Segoe UI', Arial, sans-serif;
-            box-sizing: border-box;
-        }
-        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 15px; }
-        .a4-header h2 { font-size: 18px; color: #0f172a; text-transform: uppercase; }
-        .a4-header h3 { font-size: 13px; color: #475569; margin-top: 3px; }
-
-        .three-column-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .column-box { border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; background: #fafafa; }
-        .chit-post-block { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #cbd5e1; }
-        .chit-post-block:last-child { border-bottom: none; }
-        .chit-post-title { font-weight: bold; font-size: 13px; margin-bottom: 5px; background-color: #e2e8f0; padding: 4px 6px; border-radius: 3px; color: #0f172a; }
-        .chit-shift-title { font-weight: bold; font-size: 11px; color: #334155; text-decoration: underline; margin: 4px 0 2px 4px; }
-        .chit-member-item { font-size: 11px; margin-left: 8px; line-height: 1.4; color: #1e293b; }
+        .summary-table, .parade-table { width: 100%; border: 1px solid #000; border-collapse: collapse; margin-bottom: 15px; }
+        .summary-table th, .summary-table td, .parade-table th, .parade-table td { border: 1px solid #000; padding: 5px 8px; font-size: 12px; text-align: center; }
 
         @media print {
             body * { visibility: hidden; }
             #chitPrintArea, #chitPrintArea * { visibility: visible; }
             #chitPrintArea { position: absolute; left: 0; top: 0; width: 100%; }
-            .a4-container { box-shadow: none; border: none; width: 100%; padding: 0; }
+            .a4-container { box-shadow: none; border: none; width: 100%; padding: 0; margin: 0; }
+            .no-print { display: none !important; }
             @page { size: A4 portrait; margin: 10mm; }
         }
     </style>
@@ -169,28 +131,28 @@
     <input type="file" id="bgImageInput" accept="image/*" style="display: none;" onchange="changeHeaderBg(event)">
     <div class="header-btn-group">
         <button class="bg-btn" onclick="document.getElementById('bgImageInput').click()">🖼️ ছবি আপলোড</button>
-        <button class="bg-btn bg-btn-danger" onclick="removeHeaderBg()">❌ সরান</button>
+        <button class="bg-btn" style="background:#ef4444;" onclick="removeHeaderBg()">❌ সরান</button>
     </div>
 
     <h1>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h1>
-    <p>স্মার্ট ডিউটি ম্যানেজমেন্ট সিস্টেম</p>
+    <p>স্মার্ট ডিউটি ও অটো রোটেশন ম্যানেজমেন্ট সিস্টেম</p>
     <nav>
-        <button class="nav-link active" onclick="switchTab('homeTab', this)">🏠 হোম</button>
+        <button class="nav-link active" onclick="switchTab('homeTab', this)">🏠 হোম ও ডিউটি লিস্ট</button>
         <button class="nav-link" onclick="switchTab('profileTab', this)">👤 সদস্য ও প্রোফাইল</button>
-        <button class="nav-link" onclick="switchTab('postTab', this)">🛡️ ডিউটি পোস্ট সেটআপ</button>
-        <button class="nav-link" onclick="switchTab('rosterTab', this)">📋 দৈনিক ডিউটি রস্টার</button>
-        <button class="nav-link" onclick="switchTab('chitTab', this)">📜 চিট ভিউ ও প্রিন্ট</button>
+        <button class="nav-link" onclick="switchTab('postTab', this)">🛡️ ডিউটি ও ওয়ার্কিং সেটআপ</button>
+        <button class="nav-link" onclick="switchTab('rosterTab', this)">📋 দৈনিক ডিউটি বণ্টন</button>
+        <button class="nav-link" onclick="switchTab('chitTab', this)">📜 প্যারেড স্টেট ও চিট ভিউ</button>
     </nav>
 </header>
 
 <div class="container">
     
-    <!-- ১. হোম ট্যাব -->
+    <!-- ১. হোম ট্যাব (হোম পেজেই ডিউটি লিস্ট ও নোটিশ বোর্ড) -->
     <div id="homeTab" class="tab-content active">
         <div class="dash-grid">
             <div class="dash-card">
                 <h3 id="totalMembersCount">0</h3>
-                <p>মোট সদস্য সংখ্যা</p>
+                <p>মোট সক্রিয় সদস্য</p>
             </div>
             <div class="dash-card">
                 <h3 id="totalPostsCount">0</h3>
@@ -202,31 +164,45 @@
             </div>
         </div>
 
+        <!-- ডিউটি লিস্ট এখন হোম পেজে প্রদর্শিত হবে -->
         <div class="card">
-            <h3>দ্রুত অ্যাকশন (Quick Actions)</h3>
-            <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
-                <button class="btn btn-primary" onclick="openModal('profileModal')">+ নতুন সদস্য যোগ করুন</button>
-                <button class="btn btn-primary" style="background:#3b82f6;" onclick="switchTab('rosterTab', document.querySelectorAll('.nav-link')[3])">আজকের ডিউটি রস্টার তৈরি করুন</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px;">📋 আজকের পূর্ণাঙ্গ ডিউটি রোস্টার</h3>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <label style="font-weight: bold; font-size: 13px;">তারিখ:</label>
+                    <input type="date" id="homeRosterDate" style="width: 160px;" onchange="renderHomeRoster()">
+                </div>
             </div>
+            <div id="homeRosterDisplay"></div>
+        </div>
+
+        <!-- নোটিশ বোর্ড (হোম পেজের নিচে) -->
+        <div class="notice-board">
+            <h3>
+                <span>📌 নোটিশ বোর্ড (Notice Board)</span>
+                <button class="btn btn-edit" style="padding: 2px 8px; font-size: 11px;" onclick="openNoticeModal()">✏️ নোটিশ লিখুন</button>
+            </h3>
+            <p id="noticeText" style="font-size: 14px; color: #451a03; white-space: pre-line; margin-top: 5px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
         </div>
     </div>
 
-    <!-- ২. প্রোফাইল ট্যাব -->
+    <!-- ২. সদস্য ও প্রোফাইল ট্যাব -->
     <div id="profileTab" class="tab-content">
         <div class="profile-layout">
             <div class="sidebar">
                 <button class="btn btn-primary" style="width: 100%; margin-bottom: 12px;" onclick="openModal('profileModal')">+ নতুন সদস্য যুক্ত করুন</button>
                 
-                <h3>ব্যাটারি ফিল্টার</h3>
+                <h4 style="font-size: 13px; margin-bottom: 6px;">ব্যাটারি ও ক্যাটেগরি ফিল্টার</h4>
                 <div class="bty-filter-group">
                     <button class="bty-btn active" onclick="setBatteryFilter('ALL', this)">সব</button>
                     <button class="bty-btn" onclick="setBatteryFilter('পাপা', this)">পাপা</button>
                     <button class="bty-btn" onclick="setBatteryFilter('কিউবেক', this)">কিউবেক</button>
                     <button class="bty-btn" onclick="setBatteryFilter('রোমিও', this)">রোমিও</button>
                     <button class="bty-btn" onclick="setBatteryFilter('হেঃ কোয়াঃ', this)">হেঃ কোয়াঃ</button>
+                    <button class="bty-btn" style="background:#fee2e2;" onclick="setBatteryFilter('POSTED', this)">পোস্টিং</button>
                 </div>
 
-                <input type="text" id="searchInput" class="search-box" placeholder="নাম বা নম্বর দিয়ে খুঁজুন..." onkeyup="filterMembers()">
+                <input type="text" id="searchInput" class="search-box" placeholder="নাম, নম্বর বা র‍্যাঙ্ক দিয়ে খুঁজুন..." onkeyup="filterMembers()">
                 <div id="memberList"></div>
             </div>
 
@@ -234,60 +210,71 @@
         </div>
     </div>
 
-    <!-- ৩. ডিউটি পোস্ট সেটআপ ট্যাব -->
+    <!-- ৩. ডিউটি ও ওয়ার্কিং সেটআপ ট্যাব -->
     <div id="postTab" class="tab-content">
         <div class="card">
             <h3 style="margin-bottom: 15px;" id="formHeaderTitle">নতুন ডিউটি পোস্ট যুক্ত করুন</h3>
             <input type="hidden" id="editingPostId" value="">
             
-            <div class="post-input-grid">
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">পোস্টের নাম</label>
-                    <input type="text" id="newPostName" placeholder="যেমন: কোয়ার্টার গার্ড / আরপি গেট">
+            <div class="form-row">
+                <div class="form-group" style="flex:2;">
+                    <label>পোস্টের নাম</label>
+                    <input type="text" id="newPostName" placeholder="যেমন: আরপি গেট / লাইন ডিউটি">
                 </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">পোস্টের ধরন</label>
-                    <select id="newPostIsFixed">
-                        <option value="No">ঘূর্ণায়মান (Normal Duty)</option>
-                        <option value="Yes">ফিক্সড (Fixed Duty)</option>
+                <div class="form-group">
+                    <label>ডিউটির সময়</label>
+                    <select id="newPostTimeType" onchange="toggleSafetyInputs()">
+                        <option value="Night">রাতের ডিউটি (৩টি সেফটি)</option>
+                        <option value="Day">দিনের ডিউটি (২টি সেফটি)</option>
                     </select>
-                </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">ডিউটির সময়</label>
-                    <select id="newPostTimeType">
-                        <option value="Night">রাতের ডিউটি</option>
-                        <option value="Day">দিনের ডিউটি</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">ডিউটি রোল (Role)</label>
-                    <input type="hidden" id="currentStepRole" value="Guard Commander">
-                    <div id="roleDisplay" class="role-display">গার্ড কমান্ডার (Guard Commander)</div>
-                </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">১ম সেফটি (জন)</label>
-                    <input type="number" id="s1_count" value="1" min="0">
-                </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">২য় সেফটি (জন)</label>
-                    <input type="number" id="s2_count" value="1" min="0">
-                </div>
-
-                <div>
-                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">৩য় সেফটি (জন)</label>
-                    <input type="number" id="s3_count" value="1" min="0">
                 </div>
             </div>
 
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <button class="btn btn-primary" id="savePostBtn" onclick="addOrUpdateDutyPost()">পোস্ট সেভ করুন</button>
-                <button class="btn btn-danger" id="cancelEditBtn" style="display:none;" onclick="resetPostForm()">বাতিল করুন</button>
+            <div style="background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:12px;">
+                <label style="font-weight:bold; font-size:13px; display:block; margin-bottom:8px;">গার্ড কমান্ডার সংখ্যা (GC):</label>
+                <div class="form-row">
+                    <div class="form-group"><label>১ম সেফটি</label><input type="number" id="gc_s1" value="1" min="0"></div>
+                    <div class="form-group"><label>২য় সেফটি</label><input type="number" id="gc_s2" value="1" min="0"></div>
+                    <div class="form-group" id="gc_s3_group"><label>৩য় সেফটি</label><input type="number" id="gc_s3" value="1" min="0"></div>
+                </div>
             </div>
+
+            <div style="background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:15px;">
+                <label style="font-weight:bold; font-size:13px; display:block; margin-bottom:8px;">সেন্ট্রি সংখ্যা (Sentry):</label>
+                <div class="form-row">
+                    <div class="form-group"><label>১ম সেফটি</label><input type="number" id="sentry_s1" value="1" min="0"></div>
+                    <div class="form-group"><label>২য় সেফটি</label><input type="number" id="sentry_s2" value="1" min="0"></div>
+                    <div class="form-group" id="sentry_s3_group"><label>৩য় সেফটি</label><input type="number" id="sentry_s3" value="1" min="0"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" id="savePostBtn" onclick="saveDutyPost()">পোস্ট সেভ করুন</button>
+                <button class="btn btn-danger" id="cancelEditBtn" style="display:none;" onclick="resetPostForm()">বাতিল</button>
+            </div>
+        </div>
+
+        <!-- ওয়ার্কিং সেটআপ সেকশন -->
+        <div class="card">
+            <h3>🛠️ ওয়ার্কিং পার্টি সেটআপ</h3>
+            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">দৈনিক বিভিন্ন ওয়ার্কিং কাজের জন্য টিম গঠন করুন।</p>
+            
+            <div class="form-row" style="align-items: flex-end; margin-bottom: 12px;">
+                <div class="form-group" style="flex:2;">
+                    <label>ওয়ার্কিং এর নাম</label>
+                    <input type="text" id="workingNameInput" placeholder="যেমন: মেস ওয়ার্কিং / গ্রাউন্ড ক্লিন ">
+                </div>
+                <div class="form-group" style="flex:3;">
+                    <label>সদস্য নির্বাচন করুন</label>
+                    <select id="workingMemberSelect"></select>
+                </div>
+                <button class="btn btn-primary" onclick="addMemberToWorkingTemp()">+ যোগ করুন</button>
+            </div>
+
+            <div id="tempWorkingMembers" style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+            <button class="btn btn-primary" onclick="saveWorkingParty()">ওয়ার্কিং টিম সেভ করুন</button>
+
+            <div id="workingPartiesList" style="margin-top:15px;"></div>
         </div>
 
         <div class="card">
@@ -296,14 +283,15 @@
         </div>
     </div>
 
-    <!-- ৪. দৈনিক ডিউটি রস্টার ট্যাব -->
+    <!-- ৪. দৈনিক ডিউটি বণ্টন ট্যাব -->
     <div id="rosterTab" class="tab-content">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <h3>দৈনিক ডিউটি বণ্টন</h3>
-                <div style="width:200px;">
-                    <label style="font-size:12px; font-weight:bold;">তারিখ: </label>
-                    <input type="date" id="rosterDate" onchange="renderRosterFormat()">
+                <h3>📋 দৈনিক ডিউটি নির্বাচন ও বণ্টন</h3>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <label style="font-weight:bold; font-size:13px;">তারিখ:</label>
+                    <input type="date" id="rosterDate" style="width:160px;" onchange="renderRosterFormat()">
+                    <button class="btn btn-primary" onclick="saveRosterAssignments()">💾 সেভ করুন</button>
                 </div>
             </div>
         </div>
@@ -311,66 +299,57 @@
         <div id="rosterTablesContainer"></div>
     </div>
 
-    <!-- ৫. চিট ভিউ ট্যাব (A4 3-Column) -->
+    <!-- ৫. চিট ভিউ ও প্রিন্ট (A4 প্যারেড স্টেট সহ) -->
     <div id="chitTab" class="tab-content">
-        <div class="card" style="text-align: center;">
-            <button class="btn btn-primary" onclick="window.print()">🖨️ A4 পেজে প্রিন্ট করুন (৩ অংশ)</button>
+        <div class="card no-print" style="text-align: center;">
+            <button class="btn btn-primary" onclick="window.print()">🖨️ ৫টি প্যারেড স্টেট ও চিট প্রিন্ট করুন (A4)</button>
         </div>
         
-        <div id="chitPrintArea">
-            <div class="a4-container">
-                <div class="a4-header">
-                    <h2>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h2>
-                    <h3 id="chitDateText">দৈনিক ডিউটি রোস্টার চিত্র</h3>
-                </div>
-                
-                <div class="three-column-grid">
-                    <div class="column-box" id="col1Content"></div>
-                    <div class="column-box" id="col2Content"></div>
-                    <div class="column-box" id="col3Content"></div>
-                </div>
-            </div>
-        </div>
+        <div id="chitPrintArea"></div>
     </div>
 
 </div>
 
-<!-- রেকর্ড যোগ / এডিটের মডাল -->
-<div class="modal" id="recordModal">
-    <div class="modal-content">
-        <h3 id="recordModalTitle">তথ্য যুক্ত করুন</h3>
-        <input type="hidden" id="recordType">
-        <input type="hidden" id="editingRecordIndex" value="-1">
-        <div class="form-group" style="margin-top:10px;">
-            <label>তারিখ*</label>
-            <input type="date" id="recDate" required>
-        </div>
-        <div class="form-group">
-            <label id="scoreLabel">ফলাফল/স্কোর*</label>
-            <input type="text" id="recScore" placeholder="যেমন: Pass / 80% / 15 Mins" required>
-        </div>
-        <div class="form-group">
-            <label>রিমার্কস/মন্তব্য</label>
-            <input type="text" id="recRemarks" placeholder="ঐচ্ছিক">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
-            <button type="button" class="btn" onclick="closeModal('recordModal')">বাতিল</button>
-            <button type="button" class="btn btn-primary" onclick="saveCustomRecord()">সেভ করুন</button>
-        </div>
-    </div>
-</div>
-
-<!-- সদস্য যোগ করার মডাল -->
+<!-- সদস্য যোগ/এডিটের মডাল -->
 <div class="modal" id="profileModal">
     <div class="modal-content">
-        <h3>নতুন সদস্যের তথ্য যোগ করুন</h3>
+        <h3 style="margin-bottom:12px;">সদস্যের বিস্তারিত তথ্য যোগ/এডিট</h3>
         <form id="memberForm" onsubmit="saveMember(event)">
-            <div class="form-row">
-                <div class="form-group"><label>সেনা নম্বর*</label><input type="text" id="armyNo" required></div>
-                <div class="form-group"><label>পদবি*</label><input type="text" id="rank" placeholder="যেমন: SGT, CPL, Gnr" required></div>
-            </div>
-            <div class="form-group"><label>নাম*</label><input type="text" id="name" required></div>
+            <input type="hidden" id="editMemberArmyNo" value="">
             
+            <div class="form-row">
+                <div class="form-group">
+                    <label>শ্রেণি (Category)*</label>
+                    <select id="personCategory" onchange="toggleRankOptions()">
+                        <option value="OTHER">অন্যান্য (সার্জেন্ট - সৈনিক)</option>
+                        <option value="OFFICER">অফিসার (Officer)</option>
+                        <option value="JCO">জেসিও (JCO)</option>
+                        <option value="RCO">আরসিও (RCO)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>সেনা নম্বর*</label><input type="text" id="armyNo" required></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>র‍্যাঙ্ক (Rank)*</label>
+                    <select id="rank" required></select>
+                </div>
+                <div class="form-group">
+                    <label>পেশা (Trade)*</label>
+                    <select id="trade" required>
+                        <option value="GNR">GNR</option>
+                        <option value="OPR">OPR</option>
+                        <option value="OCU">OCU</option>
+                        <option value="COOK">COOK</option>
+                        <option value="OFFR">OFFR</option>
+                        <option value="JCO">JCO</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group"><label>নাম*</label><input type="text" id="name" required></div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label>ব্যাটারি*</label>
@@ -381,18 +360,29 @@
                         <option value="হেঃ কোয়াঃ">হেঃ কোয়াঃ</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>সংযুক্ত (Class Cadre/Course)?</label>
-                    <select id="isAttached" onchange="toggleCourseInput()">
-                        <option value="No">না</option>
-                        <option value="Yes">হ্যাঁ</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>জন্ম তারিখ</label><input type="date" id="dob"></div>
+                <div class="form-group"><label>ভর্তির তারিখ</label><input type="date" id="doj"></div>
             </div>
 
-            <div class="form-group" id="courseGroup" style="display:none;">
-                <label>কোর্সের নাম (সংযুক্ত)</label>
-                <input type="text" id="courseName" placeholder="যেমন: Class Cadre / Cadre Course">
+            <div class="form-group"><label>সিভিল শিক্ষাগত যোগ্যতা</label><input type="text" id="civilEdu" placeholder="যেমন: এইচএসসি / বিএসসি"></div>
+            
+            <div class="form-group"><label>কোর্স/ক্যাডার (কমা দিয়ে একাধিক লিখুন)</label><input type="text" id="courseList" placeholder="যেমন: Class Cadre 2023, Artillery Course"></div>
+
+            <div class="form-group"><label>ই-আরি (ERE) ও সংযুক্ত বিবরণ (বছর উল্লেখসহ)</label><textarea id="ereDetails" rows="2" placeholder="যেমন: HQ 66 Arty Bde (2021-2023)"></textarea></div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>মেডিকেল ক্যাটাগরি</label>
+                    <select id="medCategory" onchange="toggleMedProblemInput()">
+                        <option value="A">মেডিকেল ক্যাটাগরি এ</option>
+                        <option value="B">নিম্ন মেডিকেল ক্যাটাগরি বি</option>
+                        <option value="C">নিম্ন মেডিকেল ক্যাটাগরি সি</option>
+                    </select>
+                </div>
+                <div class="form-group" id="medProblemGroup" style="display:none;">
+                    <label>মেডিকেল সমস্যার বিবরণ</label>
+                    <input type="text" id="medProblemText" placeholder="কী সমস্যার জন্য বি/সি">
+                </div>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
@@ -403,482 +393,401 @@
     </div>
 </div>
 
+<!-- অসুস্থতা ও ডিউটি মাফ মডাল -->
+<div class="modal" id="sickModal">
+    <div class="modal-content">
+        <h3>অসুস্থতা চিহ্নিতকরণ ও ডিউটি মাফ</h3>
+        <input type="hidden" id="sickMemberArmyNo">
+        <div class="form-group" style="margin-top:10px;">
+            <label>অসুস্থতার বিবরণ/সমস্যা</label>
+            <input type="text" id="sickProblemInput" placeholder="যেমন: জ্বর / কোমর ব্যথা">
+        </div>
+        <div class="form-group">
+            <label>যেসব পোস্টে ডিউটি মাফ থাকবে (কন্ট্রোল চেপে একাধিক সিলেক্ট করুন):</label>
+            <select id="excusedPostsSelect" multiple style="height:120px;"></select>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+            <button class="btn" onclick="closeModal('sickModal')">বাতিল</button>
+            <button class="btn btn-primary" onclick="saveSickExemption()">সেভ করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- পোস্টিং আউট মডাল -->
+<div class="modal" id="postingModal">
+    <div class="modal-content">
+        <h3>পোস্টিং আউট তথ্য</h3>
+        <input type="hidden" id="postingMemberArmyNo">
+        <div class="form-group" style="margin-top:10px;">
+            <label>কোথায় পোস্টিং যাচ্ছে (সংস্থার নাম)</label>
+            <input type="text" id="postingLocationInput" placeholder="যেমন: ডিজিএফআই / র্যাব / অন্য ইউনিট">
+        </div>
+        <div class="form-group">
+            <label>টাইপ</label>
+            <select id="postingTypeSelect">
+                <option value="পোস্টিং">পোস্টিং</option>
+                <option value="ই আর ই">ই আর ই (ERE)</option>
+                <option value="সংযুক্ত">সংযুক্ত</option>
+                <option value="ক্লাস">ক্লাস</option>
+            </select>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+            <button class="btn" onclick="closeModal('postingModal')">বাতিল</button>
+            <button class="btn btn-primary" onclick="savePostingOutInfo()">সেভ করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- নোটিশ এডিট মডাল -->
+<div class="modal" id="noticeModal">
+    <div class="modal-content">
+        <h3>নোটিশ আপডেট করুন</h3>
+        <div class="form-group" style="margin-top:10px;">
+            <textarea id="noticeInput" rows="4"></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="btn" onclick="closeModal('noticeModal')">বাতিল</button>
+            <button class="btn btn-primary" onclick="saveNotice()">পাবলিশ করুন</button>
+        </div>
+    </div>
+</div>
+
 <script>
+    // সিনিয়রিটি ক্রমানুসারে র‍্যাঙ্ক ম্যাপিং (অফিসার > জেসিও > আরসিও > সার্জেন্ট > কর্পোরাল > ল্যান্স কর্পোরাল > সৈনিক)
     const rankPriority = {
-        'WO': 1, 'ওয়ারেন্ট অফিসার': 1,
-        'SGT': 2, 'সার্জেন্ট': 2,
-        'CPL': 3, 'কর্পোরাল': 3,
-        'L/CPL': 4, 'ল্যান্স কর্পোরাল': 4,
-        'GNR': 5, 'সৈনিক': 5, 'DMT': 5
+        'OFFICER': 1, 'অফিসার': 1, 'CAPT': 1, 'MAJOR': 1,
+        'JCO': 2, 'জেসিও': 2, 'WO': 2, 'SWO': 2,
+        'RCO': 3, 'আরসিও': 3,
+        'SERGEANT': 4, 'সার্জেন্ট': 4, 'SGT': 4,
+        'CORPORAL': 5, 'কর্পোরাল': 5, 'CPL': 5,
+        'LANCE CORPORAL': 6, 'ল্যান্স কর্পোরাল': 6, 'L/CPL': 6,
+        'SOLDIER': 7, 'সৈনিক': 7, 'SNK': 7, 'GNR': 7
     };
 
-    const batteryPriority = {
-        'পাপা': 1,
-        'কিউবেক': 2,
-        'রোমিও': 3,
-        'হেঃ কোয়াঃ': 4
-    };
+    const batteryPriority = { 'পাপা': 1, 'কিউবেক': 2, 'রোমিও': 3, 'হেঃ কোয়াঃ': 4 };
 
+    // ডিফল্ট ডামি মেম্বারস
     let membersData = JSON.parse(localStorage.getItem('membersData')) || [
-        { armyNo: "1241100", rank: "SGT", name: "রফিকুল", unit: "হেঃ কোয়াঃ", isAttached: "No", courseName: "", isPostedOut: false, isSick: false },
-        { armyNo: "1241352", rank: "CPL", name: "তারেক", unit: "কিউবেক", isAttached: "No", courseName: "", isPostedOut: false, isSick: false },
-        { armyNo: "1241353", rank: "CPL", name: "কবির", unit: "পাপা", isAttached: "Yes", courseName: "Class Cadre", isPostedOut: false, isSick: false },
-        { armyNo: "1241618", rank: "Gnr", name: "জোবায়ের", unit: "কিউবেক", isAttached: "No", courseName: "", isPostedOut: false, isSick: false },
-        { armyNo: "1241619", rank: "Gnr", name: "রফিউল", unit: "রোমিও", isAttached: "No", courseName: "", isPostedOut: false, isSick: false }
+        { armyNo: "1241100", rank: "সার্জেন্ট", category: "OTHER", trade: "OCU", name: "রফিকুল ইসলাম", unit: "হেঃ কোয়াঃ", dob: "1990-05-10", doj: "2010-02-15", civilEdu: "HSC", courseList: "Class Cadre", ereDetails: "", medCat: "A", medProblem: "", isPostedOut: false, postingLoc: "", postingType: "", isSick: false, sickProblem: "", excusedPosts: [], isExempted: false },
+        { armyNo: "1241352", rank: "কর্পোরাল", category: "OTHER", trade: "OPR", name: "তারেক রহমান", unit: "কিউবেক", dob: "1993-08-20", doj: "2012-06-10", civilEdu: "SSC", courseList: "", ereDetails: "", medCat: "A", medProblem: "", isPostedOut: false, postingLoc: "", postingType: "", isSick: false, sickProblem: "", excusedPosts: [], isExempted: false },
+        { armyNo: "1241618", rank: "সৈনিক", category: "OTHER", trade: "OCU", name: "Md. Anas Mia", unit: "পাপা", dob: "1998-12-01", doj: "2018-04-01", civilEdu: "HSC", courseList: "", ereDetails: "", medCat: "A", medProblem: "", isPostedOut: false, postingLoc: "", postingType: "", isSick: false, sickProblem: "", excusedPosts: [], isExempted: false },
+        { armyNo: "1241619", rank: "সৈনিক", category: "OTHER", trade: "GNR", name: "রফিউল ইসলাম", unit: "রোমিও", dob: "1999-01-15", doj: "2019-01-01", civilEdu: "SSC", courseList: "", ereDetails: "", medCat: "A", medProblem: "", isPostedOut: false, postingLoc: "", postingType: "", isSick: false, sickProblem: "", excusedPosts: [], isExempted: false }
     ];
 
-    let dutyPosts = JSON.parse(localStorage.getItem('dutyPosts')) || [];
-    let fixedAssignments = JSON.parse(localStorage.getItem('fixedAssignments')) || {}; 
+    // ফিক্সড পোস্টসহ ডিউটি পোস্ট
+    let defaultDutyPosts = [
+        { id: "qg_fixed", name: "কোয়ার্টার গার্ড", isFixed: true, timeType: "24Hour", gcShifts: [1, 2, 0], sentryShifts: [7, 0, 0] },
+        { id: "ammo_fixed", name: "এ্যামোঃ গার্ড", isFixed: true, timeType: "24Hour", gcShifts: [3, 0, 0], sentryShifts: [6, 0, 0] }
+    ];
+    let dutyPosts = JSON.parse(localStorage.getItem('dutyPosts')) || defaultDutyPosts;
+
+    let workingParties = JSON.parse(localStorage.getItem('workingParties')) || [];
+    let dailyAssignments = JSON.parse(localStorage.getItem('dailyAssignments')) || {};
+    let noticeText = localStorage.getItem('noticeText') || "আজ বিকাল ১৬:০০ ঘটিকায় রেজিমেন্ট গ্রাউন্ডে রোল কল অনুষ্ঠিত হবে।";
+
     let selectedBattery = 'ALL';
     let selectedMemberArmyNo = null;
-    let currentProfileTab = 'duty';
-    let dailyAssignments = JSON.parse(localStorage.getItem('dailyAssignments')) || {};
-    let customRecords = JSON.parse(localStorage.getItem('customRecords')) || {}; 
+    let tempWorkingMembersList = [];
 
     window.onload = function() {
-        document.getElementById('rosterDate').value = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('rosterDate').value = today;
+        document.getElementById('homeRosterDate').value = today;
+
+        ensureFixedPostsExist();
         sortMembersData();
         updateDashboard();
         renderMemberList();
-        
-        if(membersData.length > 0) {
+        renderHomeRoster();
+        renderWorkingParties();
+        toggleRankOptions();
+
+        if (membersData.length > 0) {
             selectedMemberArmyNo = membersData[0].armyNo;
             renderProfile(membersData[0]);
         }
 
-        const savedBg = localStorage.getItem('headerBgImage');
-        if (savedBg) setHeaderBg(savedBg);
+        document.getElementById('noticeText').innerText = noticeText;
     };
+
+    function ensureFixedPostsExist() {
+        if (!dutyPosts.find(p => p.id === "qg_fixed")) dutyPosts.unshift(defaultDutyPosts[0]);
+        if (!dutyPosts.find(p => p.id === "ammo_fixed")) dutyPosts.splice(1, 0, defaultDutyPosts[1]);
+    }
 
     function sortMembersData() {
         membersData.sort((a, b) => {
             if (a.isPostedOut !== b.isPostedOut) return a.isPostedOut ? 1 : -1;
-            if (a.isSick !== b.isSick) return a.isSick ? 1 : -1;
+            
+            const rA = rankPriority[a.rank.toUpperCase()] || rankPriority[a.category] || 99;
+            const rB = rankPriority[b.rank.toUpperCase()] || rankPriority[b.category] || 99;
+            if (rA !== rB) return rA - rB;
 
             const btyA = batteryPriority[a.unit] || 99;
             const btyB = batteryPriority[b.unit] || 99;
             if (btyA !== btyB) return btyA - btyB;
 
-            const rA = rankPriority[a.rank.toUpperCase()] || 50;
-            const rB = rankPriority[b.rank.toUpperCase()] || 50;
-            if (rA !== rB) return rA - rB;
-
             return parseInt(a.armyNo) - parseInt(b.armyNo);
         });
     }
 
-    function toggleCourseInput() {
-        const val = document.getElementById('isAttached').value;
-        document.getElementById('courseGroup').style.display = (val === 'Yes') ? 'block' : 'none';
+    function toggleRankOptions() {
+        const cat = document.getElementById('personCategory').value;
+        const rankSel = document.getElementById('rank');
+        rankSel.innerHTML = '';
+
+        if (cat === 'OFFICER') {
+            rankSel.innerHTML = `<option value="অফিসার">অফিসার (Officer)</option>`;
+        } else if (cat === 'JCO') {
+            rankSel.innerHTML = `<option value="জেসিও">জেসিও (JCO)</option>`;
+        } else if (cat === 'RCO') {
+            rankSel.innerHTML = `<option value="আরসিও">আরসিও (RCO)</option>`;
+        } else {
+            rankSel.innerHTML = `
+                <option value="সার্জেন্ট">সার্জেন্ট</option>
+                <option value="কর্পোরাল">কর্পোরাল</option>
+                <option value="ল্যান্স কর্পোরাল">ল্যান্স কর্পোরাল</option>
+                <option value="সৈনিক">সৈনিক</option>
+            `;
+        }
+    }
+
+    function toggleMedProblemInput() {
+        const val = document.getElementById('medCategory').value;
+        document.getElementById('medProblemGroup').style.display = (val === 'B' || val === 'C') ? 'block' : 'none';
     }
 
     function setBatteryFilter(bty, btn) {
         selectedBattery = bty;
         document.querySelectorAll('.bty-btn').forEach(b => b.classList.remove('active'));
-        if(btn) btn.classList.add('active');
+        if (btn) btn.classList.add('active');
         renderMemberList();
     }
 
     function renderMemberList() {
         const listDiv = document.getElementById('memberList');
-        if(!listDiv) return;
+        if (!listDiv) return;
         listDiv.innerHTML = '';
 
         const searchQ = document.getElementById('searchInput').value.toLowerCase();
 
         let filtered = membersData.filter(m => {
+            if (selectedBattery === 'POSTED') return m.isPostedOut;
+            if (m.isPostedOut) return false;
             const matchesBty = (selectedBattery === 'ALL') || (m.unit === selectedBattery);
-            const matchesSearch = m.name.toLowerCase().includes(searchQ) || m.armyNo.toLowerCase().includes(searchQ);
+            const matchesSearch = m.name.toLowerCase().includes(searchQ) || m.armyNo.toLowerCase().includes(searchQ) || m.rank.toLowerCase().includes(searchQ);
             return matchesBty && matchesSearch;
         });
 
-        filtered.forEach((member) => {
+        filtered.forEach((m) => {
             const item = document.createElement('div');
-            let itemClass = `member-item ${member.armyNo === selectedMemberArmyNo ? 'active' : ''}`;
-            if(member.isPostedOut) itemClass += ' posted-out';
-            else if(member.isSick) itemClass += ' sick';
-            
+            let itemClass = `member-item ${m.armyNo === selectedMemberArmyNo ? 'active' : ''}`;
+            if (m.isPostedOut) itemClass += ' posted-out';
+            else if (m.isSick) itemClass += ' sick';
+            else if (m.isExempted) itemClass += ' exempted';
+
             item.className = itemClass;
             item.onclick = () => {
-                selectedMemberArmyNo = member.armyNo;
+                selectedMemberArmyNo = m.armyNo;
                 renderMemberList();
-                renderProfile(member);
+                renderProfile(m);
             };
 
-            let badgeHtml = '';
-            if(member.isPostedOut) {
-                badgeHtml = `<span class="badge badge-posted">পোস্টেড আউট (Posted Out)</span>`;
-            } else if(member.isSick) {
-                badgeHtml = `<span class="badge badge-sick">অসুস্থ (Unfit/Sick)</span>`;
-            } else if(member.isAttached === 'Yes') {
-                badgeHtml = `<span class="badge badge-attached">সংযুক্ত: ${member.courseName || 'কোর্স'}</span>`;
-            }
+            let badge = '';
+            if (m.isPostedOut) badge = `<span class="badge badge-posted">পোস্টিং: ${m.postingLoc} (${m.postingType})</span>`;
+            else if (m.isSick) badge = `<span class="badge badge-sick">অসুস্থ: ${m.sickProblem}</span>`;
+            else if (m.isExempted) badge = `<span class="badge badge-exempt">নিযুক্ত (Exempted)</span>`;
 
+            // সুনির্দিষ্ট ফরম্যাট: 1241618 Snk (ocu) Md. Anas Mia
+            const shortRank = getShortRank(m.rank);
             item.innerHTML = `
-                <strong>${member.rank} ${member.name}</strong><br>
-                <small>নম্বর: ${member.armyNo} | ব্যাটারি: ${member.unit}</small>
-                ${badgeHtml ? '<br>' + badgeHtml : ''}
+                <strong>${m.armyNo} ${shortRank} (${m.trade.toLowerCase()}) ${m.name}</strong><br>
+                <small>ব্যাটারি: ${m.unit} | ক্যাটাগরি: ${m.medCat}</small>
+                ${badge ? '<br>' + badge : ''}
             `;
             listDiv.appendChild(item);
         });
     }
 
-    function changeHeaderBg(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const maxWidth = 1000; 
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > maxWidth) {
-                        height = (maxWidth / width) * height;
-                        width = maxWidth;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    ctx.drawImage(img, 0, 0, width, height);
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
-                    setHeaderBg(compressedDataUrl);
-                    localStorage.setItem('headerBgImage', compressedDataUrl);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+    function getShortRank(r) {
+        if (r.includes("সার্জেন্ট")) return "Sgt";
+        if (r.includes("কর্পোরাল")) return "Cpl";
+        if (r.includes("ল্যান্স")) return "L/Cpl";
+        if (r.includes("সৈনিক")) return "Snk";
+        return r;
     }
 
-    function setHeaderBg(imgUrl) {
-        const header = document.getElementById('mainHeader');
-        if (header) header.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.45)), url('${imgUrl}')`;
-    }
+    function renderProfile(m) {
+        if (!m) return;
 
-    function removeHeaderBg() {
-        localStorage.removeItem('headerBgImage');
-        const header = document.getElementById('mainHeader');
-        if (header) header.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55))`;
-    }
-
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function saveData() {
-        sortMembersData();
-        localStorage.setItem('membersData', JSON.stringify(membersData));
-        localStorage.setItem('dutyPosts', JSON.stringify(dutyPosts));
-        localStorage.setItem('fixedAssignments', JSON.stringify(fixedAssignments));
-        localStorage.setItem('dailyAssignments', JSON.stringify(dailyAssignments));
-        localStorage.setItem('customRecords', JSON.stringify(customRecords));
-    }
-
-    function switchTab(tabId, btn) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        if(btn) btn.classList.add('active');
-
-        updateDashboard();
-        if(tabId === 'rosterTab') renderRosterFormat();
-        if(tabId === 'postTab') renderDutyPosts();
-        if(tabId === 'chitTab') generateChitView();
-    }
-
-    function updateDashboard() {
-        document.getElementById('totalMembersCount').innerText = membersData.filter(m => !m.isPostedOut && !m.isSick).length;
-        document.getElementById('totalPostsCount').innerText = dutyPosts.length;
-        
-        const today = document.getElementById('rosterDate').value || new Date().toISOString().split('T')[0];
-        const count = dailyAssignments[today] ? Object.keys(dailyAssignments[today]).length : 0;
-        document.getElementById('todayDutyCount').innerText = count;
-    }
-
-    function getMember30DaysDutyHistory(armyNo) {
-        const history = [];
-        const today = new Date();
-        const dates = [];
-        for (let i = 0; i < 30; i++) {
-            const d = new Date();
-            d.setDate(today.getDate() - i);
-            const yyyy = d.getFullYear();
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const dd = String(d.getDate()).padStart(2, '0');
-            dates.push(`${yyyy}-${mm}-${dd}`);
-        }
-
-        dates.forEach(dateStr => {
-            const dayAssignments = dailyAssignments[dateStr] || {};
-            Object.keys(dayAssignments).forEach(slotKey => {
-                const assignedVal = dayAssignments[slotKey];
-                if (assignedVal && assignedVal.includes(`(${armyNo})`)) {
-                    let postName = "ডিউটি পোস্ট";
-                    let roleName = "সদস্য";
-
-                    const parts = slotKey.split('_');
-                    if (parts.length >= 2) {
-                        const postId = parts[1];
-                        const postObj = dutyPosts.find(p => String(p.id) === String(postId));
-                        if (postObj) postName = postObj.name;
-                    }
-
-                    if (slotKey.includes('_gc')) roleName = "গার্ড কমান্ডার (GC)";
-                    else if (slotKey.includes('_sentry')) roleName = "সেন্ট্রি (Sentry)";
-
-                    history.push({ date: dateStr, post: postName, role: roleName, key: slotKey });
-                }
-            });
-        });
-
-        return history;
-    }
-
-    function setProfileTab(tabName) {
-        currentProfileTab = tabName;
-        const member = membersData.find(m => m.armyNo === selectedMemberArmyNo);
-        if(member) renderProfile(member);
-    }
-
-    function togglePostingStatus(armyNo) {
-        const member = membersData.find(m => m.armyNo === armyNo);
-        if(member) {
-            member.isPostedOut = !member.isPostedOut;
-            saveData();
-            renderMemberList();
-            renderProfile(member);
-        }
-    }
-
-    function toggleSickStatus(armyNo) {
-        const member = membersData.find(m => m.armyNo === armyNo);
-        if(member) {
-            member.isSick = !member.isSick;
-            saveData();
-            renderMemberList();
-            renderProfile(member);
-        }
-    }
-
-    function renderProfile(member) {
-        if (!member) return;
-
-        let contentHTML = '';
-
-        if (currentProfileTab === 'duty') {
-            const historyData = getMember30DaysDutyHistory(member.armyNo);
-            let rows = '';
-            if (historyData.length > 0) {
-                historyData.forEach(h => {
-                    rows += `
-                        <tr>
-                            <td><strong>${h.date}</strong></td>
-                            <td>🛡️ ${h.post}</td>
-                            <td><span style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${h.role}</span></td>
-                        </tr>`;
-                });
-            } else {
-                rows = `<tr><td colspan="3" style="text-align:center; color:#64748b;">গত ৩০ দিনে কোনো ডিউটির রেকর্ড পাওয়া যায়নি।</td></tr>`;
-            }
-
-            contentHTML = `
-                <div class="history-card">
-                    <h3>📜 গত ৩০ দিনের ডিউটি হিস্ট্রি (Total: ${historyData.length} টি)</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>তারিখ</th>
-                                <th>পোস্টের নাম</th>
-                                <th>ভূমিকা (Role)</th>
-                            </tr>
-                        </thead>
-                        <tbody>${rows}</tbody>
-                    </table>
-                </div>`;
-        } else {
-            const recType = currentProfileTab;
-            const titleMap = { firing: '🎯 ফায়ারিং রেকর্ড', ipft: '🏋️ আইপিএফটি (IPFT) রেকর্ড', speedmarch: '🏃 স্পিড মার্চ রেকর্ড' };
-            const records = (customRecords[member.armyNo] && customRecords[member.armyNo][recType]) || [];
-
-            let rows = '';
-            if (records.length > 0) {
-                records.forEach((r, idx) => {
-                    rows += `
-                        <tr>
-                            <td><strong>${r.date}</strong></td>
-                            <td><span style="background: #ecfdf5; color:#047857; padding: 3px 8px; border-radius: 4px; font-weight: bold;">${r.score}</span></td>
-                            <td>${r.remarks || '-'}</td>
-                            <td style="text-align:right;">
-                                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 11px;" onclick="editCustomRecord('${recType}', ${idx})">✏️ এডিট</button>
-                                <button class="btn btn-danger" style="padding: 2px 6px; font-size: 11px;" onclick="deleteCustomRecord('${recType}', ${idx})">🗑️ মুছুন</button>
-                            </td>
-                        </tr>`;
-                });
-            } else {
-                rows = `<tr><td colspan="4" style="text-align:center; color:#64748b;">কোনো তথ্য পাওয়া যায়নি।</td></tr>`;
-            }
-
-            contentHTML = `
-                <div class="history-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <h3>${titleMap[recType]}</h3>
-                        <button class="btn btn-primary" style="font-size:12px;" onclick="openAddRecordModal('${recType}')">+ নতুন যোগ করুন</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>তারিখ</th>
-                                <th>স্কোর/ফলাফল</th>
-                                <th>রিমার্কস</th>
-                                <th style="text-align:right;">অ্যাকশন</th>
-                            </tr>
-                        </thead>
-                        <tbody>${rows}</tbody>
-                    </table>
-                </div>`;
-        }
-
-        const postingBtnText = member.isPostedOut ? '🔄 পোস্টিং ক্যানসেল করুন' : '✈️ পোস্টিং আউট করুন';
-        const postingBtnClass = member.isPostedOut ? 'btn-edit' : 'btn-danger';
-        const sickBtnText = member.isSick ? '🩹 ফিট হিসেবে মার্ক করুন' : '🤒 অসুস্থ চিহ্নিত করুন';
-        const sickBtnClass = member.isSick ? 'btn-primary' : 'btn-warning';
-
-        let attachedText = '';
-        if(member.isAttached === 'Yes') {
-            attachedText = ` | <span style="color:#d97706; font-weight:bold;">সংযুক্ত: ${member.courseName || 'কোর্স'}</span>`;
-        }
+        let postExemptText = (m.excusedPosts && m.excusedPosts.length > 0) ? m.excusedPosts.join(', ') : 'নাই';
 
         document.getElementById('profileView').innerHTML = `
-            <div class="profile-header-card">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <div class="avatar">${member.name.charAt(0)}</div>
-                    <div>
-                        <h2>${member.rank} ${member.name}</h2>
-                        <p style="color: #64748b;">সেনা নম্বর: ${member.armyNo} | ব্যাটারি: <strong>${member.unit}</strong>${attachedText}</p>
-                    </div>
+            <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:15px;">
+                <h2>${m.armyNo} ${getShortRank(m.rank)} (${m.trade.toLowerCase()}) ${m.name}</h2>
+                <p style="color:#64748b; font-size:13px;">ব্যাটারি: <strong>${m.unit}</strong> | ক্যাটাগরি: <strong>মেডিকেল ${m.medCat}</strong></p>
+                
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+                    <button class="btn btn-warning" onclick="openSickModal('${m.armyNo}')">🤒 অসুস্থতা / মাফ</button>
+                    <button class="btn btn-danger" onclick="openPostingModal('${m.armyNo}')">✈️ পোস্টিং আউট</button>
+                    <button class="btn ${m.isExempted ? 'btn-edit' : 'btn-primary'}" onclick="toggleExempted('${m.armyNo}')">
+                        ${m.isExempted ? '🔓 ডিউটিতে যুক্ত করুন' : '🔒 নিযুক্ত করুন (Exempt)'}
+                    </button>
+                    <button class="btn btn-edit" onclick="editMemberProfile('${m.armyNo}')">✏️ এডিট</button>
+                    <button class="btn btn-danger" onclick="deleteMember('${m.armyNo}')">🗑️ মুছুন</button>
                 </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn ${sickBtnClass}" onclick="toggleSickStatus('${member.armyNo}')">${sickBtnText}</button>
-                    <button class="btn ${postingBtnClass}" onclick="togglePostingStatus('${member.armyNo}')">${postingBtnText}</button>
-                    <button class="btn btn-danger" onclick="deleteMember('${member.armyNo}')">মুছে ফেলুন</button>
-                </div>
-            </div>
-            
-            <div class="profile-tabs">
-                <button class="prof-tab-btn ${currentProfileTab === 'duty' ? 'active' : ''}" onclick="setProfileTab('duty')">📋 ডিউটি হিস্ট্রি</button>
-                <button class="prof-tab-btn ${currentProfileTab === 'firing' ? 'active' : ''}" onclick="setProfileTab('firing')">🎯 ফায়ারিং</button>
-                <button class="prof-tab-btn ${currentProfileTab === 'ipft' ? 'active' : ''}" onclick="setProfileTab('ipft')">🏋️ আইপিএফটি (IPFT)</button>
-                <button class="prof-tab-btn ${currentProfileTab === 'speedmarch' ? 'active' : ''}" onclick="setProfileTab('speedmarch')">🏃 স্পিড মার্চ</button>
             </div>
 
-            ${contentHTML}`;
+            <div class="card" style="font-size:13px; line-height:1.8;">
+                <h3 style="border-bottom:2px solid #10b981; padding-bottom:5px; margin-bottom:10px;">ব্যক্তিগত ও সার্ভিস বিবরণ</h3>
+                <p><strong>জন্ম তারিখ:</strong> ${m.dob || 'উল্লেখ নেই'}</p>
+                <p><strong>ভর্তির তারিখ:</strong> ${m.doj || 'উল্লেখ নেই'}</p>
+                <p><strong>সিভিল শিক্ষা:</strong> ${m.civilEdu || 'উল্লেখ নেই'}</p>
+                <p><strong>কোর্স/ক্যাডার:</strong> ${m.courseList || 'কোনো কোর্স নেই'}</p>
+                <p><strong>ই-আরি ও সংযুক্তির বিবরণ:</strong> ${m.ereDetails || 'নাই'}</p>
+                <p><strong>মেডিকেল সমস্যা:</strong> ${m.medProblem || 'নাই'}</p>
+                <p><strong>ডিউটি মাফ পোস্টসমূহ:</strong> <span style="color:#c2410c; font-weight:bold;">${postExemptText}</span></p>
+            </div>
+        `;
     }
 
-    function openAddRecordModal(type) {
-        document.getElementById('recordType').value = type;
-        document.getElementById('editingRecordIndex').value = "-1";
-        document.getElementById('recDate').value = new Date().toISOString().split('T')[0];
-        document.getElementById('recScore').value = '';
-        document.getElementById('recRemarks').value = '';
+    function toggleExempted(armyNo) {
+        const m = membersData.find(x => x.armyNo === armyNo);
+        if (m) {
+            m.isExempted = !m.isExempted;
+            saveData();
+            renderMemberList();
+            renderProfile(m);
+        }
+    }
+
+    function openSickModal(armyNo) {
+        document.getElementById('sickMemberArmyNo').value = armyNo;
+        const m = membersData.find(x => x.armyNo === armyNo);
+        document.getElementById('sickProblemInput').value = m.sickProblem || '';
         
-        const titles = { firing: 'ফায়ারিং তথ্য যোগ করুন', ipft: 'আইপিএফটি তথ্য যোগ করুন', speedmarch: 'স্পিড মার্চ তথ্য যোগ করুন' };
-        document.getElementById('recordModalTitle').innerText = titles[type];
-        openModal('recordModal');
+        const sel = document.getElementById('excusedPostsSelect');
+        sel.innerHTML = '';
+        dutyPosts.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.name;
+            opt.innerText = p.name;
+            if (m.excusedPosts && m.excusedPosts.includes(p.name)) opt.selected = true;
+            sel.appendChild(opt);
+        });
+
+        openModal('sickModal');
     }
 
-    function editCustomRecord(type, idx) {
-        const records = (customRecords[selectedMemberArmyNo] && customRecords[selectedMemberArmyNo][type]) || [];
-        const record = records[idx];
-        if(!record) return;
+    function saveSickExemption() {
+        const armyNo = document.getElementById('sickMemberArmyNo').value;
+        const m = membersData.find(x => x.armyNo === armyNo);
+        if (m) {
+            const prob = document.getElementById('sickProblemInput').value.trim();
+            const sel = document.getElementById('excusedPostsSelect');
+            const selected = Array.from(sel.selectedOptions).map(o => o.value);
 
-        document.getElementById('recordType').value = type;
-        document.getElementById('editingRecordIndex').value = idx;
-        document.getElementById('recDate').value = record.date;
-        document.getElementById('recScore').value = record.score;
-        document.getElementById('recRemarks').value = record.remarks || '';
-
-        const titles = { firing: 'ফায়ারিং তথ্য এডিট করুন', ipft: 'আইপিএফটি তথ্য এডিট করুন', speedmarch: 'স্পিড মার্চ তথ্য এডিট করুন' };
-        document.getElementById('recordModalTitle').innerText = titles[type];
-        openModal('recordModal');
-    }
-
-    function deleteCustomRecord(type, idx) {
-        if(confirm("রেকর্ডটি মুছে ফেলতে চান?")) {
-            if(customRecords[selectedMemberArmyNo] && customRecords[selectedMemberArmyNo][type]) {
-                customRecords[selectedMemberArmyNo][type].splice(idx, 1);
-                saveData();
-                const member = membersData.find(m => m.armyNo === selectedMemberArmyNo);
-                renderProfile(member);
-            }
+            m.sickProblem = prob;
+            m.excusedPosts = selected;
+            m.isSick = prob.length > 0;
+            saveData();
+            renderMemberList();
+            renderProfile(m);
+            closeModal('sickModal');
         }
     }
 
-    function saveCustomRecord() {
-        const member = membersData.find(m => m.armyNo === selectedMemberArmyNo);
-        if(!member) return;
-
-        const type = document.getElementById('recordType').value;
-        const editIdx = parseInt(document.getElementById('editingRecordIndex').value);
-        const date = document.getElementById('recDate').value;
-        const score = document.getElementById('recScore').value.trim();
-        const remarks = document.getElementById('recRemarks').value.trim();
-
-        if(!date || !score) { alert('তারিখ এবং স্কোর প্রদান করুন।'); return; }
-
-        if(!customRecords[member.armyNo]) customRecords[member.armyNo] = { firing: [], ipft: [], speedmarch: [] };
-        if(!customRecords[member.armyNo][type]) customRecords[member.armyNo][type] = [];
-
-        if (editIdx >= 0) {
-            customRecords[member.armyNo][type][editIdx] = { date, score, remarks };
-        } else {
-            customRecords[member.armyNo][type].unshift({ date, score, remarks });
-        }
-
-        saveData();
-        closeModal('recordModal');
-        renderProfile(member);
+    function openPostingModal(armyNo) {
+        document.getElementById('postingMemberArmyNo').value = armyNo;
+        const m = membersData.find(x => x.armyNo === armyNo);
+        document.getElementById('postingLocationInput').value = m.postingLoc || '';
+        openModal('postingModal');
     }
 
-    function filterMembers() { renderMemberList(); }
+    function savePostingOutInfo() {
+        const armyNo = document.getElementById('postingMemberArmyNo').value;
+        const m = membersData.find(x => x.armyNo === armyNo);
+        if (m) {
+            const loc = document.getElementById('postingLocationInput').value.trim();
+            const type = document.getElementById('postingTypeSelect').value;
+            m.postingLoc = loc;
+            m.postingType = type;
+            m.isPostedOut = loc.length > 0;
+            saveData();
+            renderMemberList();
+            renderProfile(m);
+            closeModal('postingModal');
+        }
+    }
 
     function saveMember(e) {
         e.preventDefault();
+        const editNo = document.getElementById('editMemberArmyNo').value;
         const armyNo = document.getElementById('armyNo').value.trim();
-        const isAttached = document.getElementById('isAttached').value;
-        const courseName = isAttached === 'Yes' ? document.getElementById('courseName').value.trim() : '';
 
-        const memberObj = {
-            armyNo: armyNo,
-            rank: document.getElementById('rank').value.trim(),
-            name: document.getElementById('name').value.trim(),
-            unit: document.getElementById('unit').value,
-            isAttached: isAttached,
-            courseName: courseName,
-            isPostedOut: false,
-            isSick: false
-        };
+        let m = editNo ? membersData.find(x => x.armyNo === editNo) : {};
 
-        membersData.push(memberObj);
+        m.category = document.getElementById('personCategory').value;
+        m.armyNo = armyNo;
+        m.rank = document.getElementById('rank').value;
+        m.trade = document.getElementById('trade').value;
+        m.name = document.getElementById('name').value.trim();
+        m.unit = document.getElementById('unit').value;
+        m.dob = document.getElementById('dob').value;
+        m.doj = document.getElementById('doj').value;
+        m.civilEdu = document.getElementById('civilEdu').value.trim();
+        m.courseList = document.getElementById('courseList').value.trim();
+        m.ereDetails = document.getElementById('ereDetails').value.trim();
+        m.medCat = document.getElementById('medCategory').value;
+        m.medProblem = document.getElementById('medProblemText').value.trim();
+
+        if (!editNo) {
+            m.isPostedOut = false;
+            m.isSick = false;
+            m.isExempted = false;
+            m.excusedPosts = [];
+            membersData.push(m);
+        }
+
         saveData();
         renderMemberList();
         closeModal('profileModal');
-        
         selectedMemberArmyNo = armyNo;
-        renderProfile(memberObj);
+        renderProfile(m);
         document.getElementById('memberForm').reset();
-        document.getElementById('courseGroup').style.display = 'none';
+    }
+
+    function editMemberProfile(armyNo) {
+        const m = membersData.find(x => x.armyNo === armyNo);
+        if (!m) return;
+
+        document.getElementById('editMemberArmyNo').value = m.armyNo;
+        document.getElementById('personCategory').value = m.category || 'OTHER';
+        toggleRankOptions();
+
+        document.getElementById('armyNo').value = m.armyNo;
+        document.getElementById('rank').value = m.rank;
+        document.getElementById('trade').value = m.trade;
+        document.getElementById('name').value = m.name;
+        document.getElementById('unit').value = m.unit;
+        document.getElementById('dob').value = m.dob || '';
+        document.getElementById('doj').value = m.doj || '';
+        document.getElementById('civilEdu').value = m.civilEdu || '';
+        document.getElementById('courseList').value = m.courseList || '';
+        document.getElementById('ereDetails').value = m.ereDetails || '';
+        document.getElementById('medCategory').value = m.medCat || 'A';
+        toggleMedProblemInput();
+        document.getElementById('medProblemText').value = m.medProblem || '';
+
+        openModal('profileModal');
     }
 
     function deleteMember(armyNo) {
-        if(confirm("মুছে ফেলতে চান?")) {
+        if (confirm("সদস্যটিকে নিশ্চিতভাবে মুছে ফেলতে চান?")) {
             membersData = membersData.filter(m => m.armyNo !== armyNo);
             saveData();
             renderMemberList();
-            if(membersData.length > 0) {
+            if (membersData.length > 0) {
                 selectedMemberArmyNo = membersData[0].armyNo;
                 renderProfile(membersData[0]);
             } else {
@@ -887,120 +796,98 @@
         }
     }
 
-    function addOrUpdateDutyPost() {
-        const name = document.getElementById('newPostName').value.trim();
-        const isFixed = document.getElementById('newPostIsFixed').value;
+    function toggleSafetyInputs() {
         const timeType = document.getElementById('newPostTimeType').value;
-        const currentRole = document.getElementById('currentStepRole').value;
-        const editingId = document.getElementById('editingPostId').value;
+        const s3Display = (timeType === 'Day') ? 'none' : 'block';
+        document.getElementById('gc_s3_group').style.display = s3Display;
+        document.getElementById('sentry_s3_group').style.display = s3Display;
+    }
 
-        const s1 = parseInt(document.getElementById('s1_count').value) || 0;
-        const s2 = parseInt(document.getElementById('s2_count').value) || 0;
-        const s3 = parseInt(document.getElementById('s3_count').value) || 0;
+    function saveDutyPost() {
+        const name = document.getElementById('newPostName').value.trim();
+        const timeType = document.getElementById('newPostTimeType').value;
+        const editId = document.getElementById('editingPostId').value;
 
-        if(!name) { alert("পোস্টের নাম লিখুন।"); return; }
+        if (!name) { alert("পোস্টের নাম প্রদান করুন।"); return; }
 
-        let post;
-        if(editingId) {
-            post = dutyPosts.find(p => String(p.id) === String(editingId));
+        const gc_s1 = parseInt(document.getElementById('gc_s1').value) || 0;
+        const gc_s2 = parseInt(document.getElementById('gc_s2').value) || 0;
+        const gc_s3 = (timeType === 'Day') ? 0 : (parseInt(document.getElementById('gc_s3').value) || 0);
+
+        const sentry_s1 = parseInt(document.getElementById('sentry_s1').value) || 0;
+        const sentry_s2 = parseInt(document.getElementById('sentry_s2').value) || 0;
+        const sentry_s3 = (timeType === 'Day') ? 0 : (parseInt(document.getElementById('sentry_s3').value) || 0);
+
+        if (editId) {
+            const p = dutyPosts.find(x => x.id === editId);
+            if (p) {
+                p.name = name;
+                p.timeType = timeType;
+                p.gcShifts = [gc_s1, gc_s2, gc_s3];
+                p.sentryShifts = [sentry_s1, sentry_s2, sentry_s3];
+            }
         } else {
-            post = dutyPosts.find(p => p.name.toLowerCase() === name.toLowerCase());
+            dutyPosts.push({
+                id: 'post_' + Date.now(),
+                name: name,
+                isFixed: false,
+                timeType: timeType,
+                gcShifts: [gc_s1, gc_s2, gc_s3],
+                sentryShifts: [sentry_s1, sentry_s2, sentry_s3]
+            });
         }
 
-        if(!post) {
-            post = { id: 'post_' + Date.now(), name: name, isFixed: isFixed, timeType: timeType, gcShifts: [0, 0, 0], sentryShifts: [0, 0, 0] };
-            dutyPosts.push(post);
-            document.getElementById('editingPostId').value = post.id;
-        }
-
-        post.name = name;
-        post.isFixed = isFixed;
-        post.timeType = timeType;
-
-        if(currentRole === 'Guard Commander') {
-            post.gcShifts = [s1, s2, s3];
-            saveData();
-            
-            document.getElementById('currentStepRole').value = 'Sentry';
-            document.getElementById('roleDisplay').innerText = 'সেন্ট্রি (Sentry)';
-            document.getElementById('roleDisplay').style.background = '#e0f2fe';
-            document.getElementById('formHeaderTitle').innerText = `"${name}" পোস্টের জন্য সেন্ট্রি নির্ধারণ করুন`;
-            
-            document.getElementById('newPostName').disabled = true;
-            document.getElementById('newPostIsFixed').disabled = true;
-            document.getElementById('newPostTimeType').disabled = true;
-
-            const sentry = post.sentryShifts || [1, 1, 1];
-            document.getElementById('s1_count').value = sentry[0];
-            document.getElementById('s2_count').value = sentry[1];
-            document.getElementById('s3_count').value = sentry[2];
-
-            document.getElementById('savePostBtn').innerText = 'সেন্ট্রি সেভ করুন';
-            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
-        } else {
-            post.sentryShifts = [s1, s2, s3];
-            saveData();
-            alert(`"${name}" পোস্টের বিস্তারিত তথ্য সেভ হয়েছে!`);
-            resetPostForm();
-        }
-
+        saveData();
+        resetPostForm();
         renderDutyPosts();
         renderRosterFormat();
         updateDashboard();
     }
 
     function editDutyPost(id) {
-        const post = dutyPosts.find(p => String(p.id) === String(id));
-        if(!post) return;
+        const p = dutyPosts.find(x => x.id === id);
+        if (!p || p.isFixed) return;
 
-        document.getElementById('editingPostId').value = post.id;
-        document.getElementById('formHeaderTitle').innerText = `ডিউটি পোস্ট এডিট করুন: ${post.name}`;
-        document.getElementById('newPostName').value = post.name;
-        document.getElementById('newPostName').disabled = false;
-        document.getElementById('newPostIsFixed').value = post.isFixed || 'No';
-        document.getElementById('newPostIsFixed').disabled = false;
-        document.getElementById('newPostTimeType').value = post.timeType;
-        document.getElementById('newPostTimeType').disabled = false;
-        
-        document.getElementById('currentStepRole').value = 'Guard Commander';
-        document.getElementById('roleDisplay').innerText = 'গার্ড কমান্ডার (Guard Commander)';
-        document.getElementById('roleDisplay').style.background = '#e2e8f0';
+        document.getElementById('editingPostId').value = p.id;
+        document.getElementById('newPostName').value = p.name;
+        document.getElementById('newPostTimeType').value = p.timeType;
+        toggleSafetyInputs();
 
-        const shifts = post.gcShifts || [0, 0, 0];
-        document.getElementById('s1_count').value = shifts[0];
-        document.getElementById('s2_count').value = shifts[1];
-        document.getElementById('s3_count').value = shifts[2];
+        document.getElementById('gc_s1').value = p.gcShifts[0] || 0;
+        document.getElementById('gc_s2').value = p.gcShifts[1] || 0;
+        document.getElementById('gc_s3').value = p.gcShifts[2] || 0;
 
+        document.getElementById('sentry_s1').value = p.sentryShifts[0] || 0;
+        document.getElementById('sentry_s2').value = p.sentryShifts[1] || 0;
+        document.getElementById('sentry_s3').value = p.sentryShifts[2] || 0;
+
+        document.getElementById('savePostBtn').innerText = 'আপডেট করুন';
         document.getElementById('cancelEditBtn').style.display = 'inline-flex';
-        document.getElementById('savePostBtn').innerText = 'পোস্ট সেভ করুন';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetPostForm() {
         document.getElementById('editingPostId').value = '';
-        document.getElementById('formHeaderTitle').innerText = 'নতুন ডিউটি পোস্ট যুক্ত করুন';
         document.getElementById('newPostName').value = '';
-        document.getElementById('newPostName').disabled = false;
-        document.getElementById('newPostIsFixed').value = 'No';
-        document.getElementById('newPostIsFixed').disabled = false;
-        document.getElementById('newPostTimeType').disabled = false;
+        document.getElementById('newPostTimeType').value = 'Night';
+        toggleSafetyInputs();
 
-        document.getElementById('currentStepRole').value = 'Guard Commander';
-        document.getElementById('roleDisplay').innerText = 'গার্ড কমান্ডার (Guard Commander)';
-        document.getElementById('roleDisplay').style.background = '#e2e8f0';
+        document.getElementById('gc_s1').value = 1;
+        document.getElementById('gc_s2').value = 1;
+        document.getElementById('gc_s3').value = 1;
 
-        document.getElementById('s1_count').value = 1;
-        document.getElementById('s2_count').value = 1;
-        document.getElementById('s3_count').value = 1;
+        document.getElementById('sentry_s1').value = 1;
+        document.getElementById('sentry_s2').value = 1;
+        document.getElementById('sentry_s3').value = 1;
 
-        document.getElementById('cancelEditBtn').style.display = 'none';
         document.getElementById('savePostBtn').innerText = 'পোস্ট সেভ করুন';
+        document.getElementById('cancelEditBtn').style.display = 'none';
     }
 
     function removeDutyPost(id) {
-        if(confirm("আপনি কি নিশ্চিত যে এই পোস্টটি মুছে ফেলতে চান?")) {
-            dutyPosts = dutyPosts.filter(p => String(p.id) !== String(id));
-            delete fixedAssignments[id];
+        const p = dutyPosts.find(x => x.id === id);
+        if (p && p.isFixed) { alert("কোয়ার্টার গার্ড এবং এ্যামোঃ গার্ড ফিক্সড পোস্ট, এটি ডিলিট করা যাবে না।"); return; }
+        if (confirm("পোস্টটি মুছে ফেলতে চান?")) {
+            dutyPosts = dutyPosts.filter(x => x.id !== id);
             saveData();
             renderDutyPosts();
             renderRosterFormat();
@@ -1010,269 +897,499 @@
 
     function renderDutyPosts() {
         const container = document.getElementById('dutyPostsContainer');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
-
-        if(dutyPosts.length === 0) {
-            container.innerHTML = `<p style="color:#64748b; text-align:center; padding:15px;">বর্তমানে কোনো ডিউটি পোস্ট যুক্ত করা নেই।</p>`;
-            return;
-        }
-
-        dutyPosts.forEach((post) => {
-            const timeText = post.timeType === 'Night' ? '🌙 রাতের ডিউটি' : '☀️ দিনের ডিউটি';
-            const fixedBadge = post.isFixed === 'Yes' ? '<span class="badge badge-fixed">📌 ফিক্সড ডিউটি</span>' : '<span class="badge" style="background:#f1f5f9; color:#475569;">🔄 ঘূর্ণায়মান</span>';
-            const gc = post.gcShifts || [0,0,0];
-            const sentry = post.sentryShifts || [0,0,0];
-            const isQG = post.name.includes("কোয়ার্টার গার্ড");
-
-            const postCard = document.createElement('div');
-            postCard.className = 'post-card';
-
-            if (isQG) {
-                const totalGC = gc.reduce((a, b) => a + b, 0);
-                const totalSentry = sentry.reduce((a, b) => a + b, 0);
-
-                postCard.innerHTML = `
-                    <div class="post-header">
-                        <div>
-                            <span class="post-title">🛡️ ${post.name}</span>
-                            <span class="post-time-badge">${timeText}</span>
-                            ${fixedBadge}
-                        </div>
-                        <div style="display:flex; gap:8px;">
-                            <button class="btn btn-edit" style="padding:4px 10px; font-size:12px;" onclick="editDutyPost('${post.id}')">✏️ এডিট</button>
-                            <button class="btn btn-danger" style="padding:4px 10px; font-size:12px;" onclick="removeDutyPost('${post.id}')">🗑️ মুছুন</button>
-                        </div>
-                    </div>
-                    <div class="post-details-qg">
-                        <div class="safety-box" style="border-left: 4px solid #3b82f6;">
-                            <strong>গার্ড কমান্ডার (তিনজন)</strong>
-                            <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #1e3a8a;">
-                                • মোট গার্ড কমান্ডার: ${toBanglaNumber(totalGC || 3)} জন
-                            </div>
-                        </div>
-                        <div class="safety-box" style="border-left: 4px solid #10b981;">
-                            <strong>সেন্ট্রি (তিনজন / সাতজন)</strong>
-                            <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #065f46;">
-                                • মোট সেন্ট্রি: ${toBanglaNumber(totalSentry || 7)} জন
-                            </div>
-                        </div>
-                    </div>`;
-            } else {
-                postCard.innerHTML = `
-                    <div class="post-header">
-                        <div>
-                            <span class="post-title">🛡️ ${post.name}</span>
-                            <span class="post-time-badge">${timeText}</span>
-                            ${fixedBadge}
-                        </div>
-                        <div style="display:flex; gap:8px;">
-                            <button class="btn btn-edit" style="padding:4px 10px; font-size:12px;" onclick="editDutyPost('${post.id}')">✏️ এডিট</button>
-                            <button class="btn btn-danger" style="padding:4px 10px; font-size:12px;" onclick="removeDutyPost('${post.id}')">🗑️ মুছুন</button>
-                        </div>
-                    </div>
-                    <div class="post-details">
-                        <div class="safety-box">
-                            <strong>১ম সেফটি:</strong><br>
-                            • গার্ড কমান্ডার: ${toBanglaNumber(gc[0])} জন<br>
-                            • সেন্ট্রি: ${toBanglaNumber(sentry[0])} জন
-                        </div>
-                        <div class="safety-box">
-                            <strong>২য় সেফটি:</strong><br>
-                            • গার্ড কমান্ডার: ${toBanglaNumber(gc[1])} জন<br>
-                            • সেন্ট্রি: ${toBanglaNumber(sentry[1])} জন
-                        </div>
-                        <div class="safety-box">
-                            <strong>৩য় সেফটি:</strong><br>
-                            • গার্ড কমান্ডার: ${toBanglaNumber(gc[2])} জন<br>
-                            • সেন্ট্রি: ${toBanglaNumber(sentry[2])} জন
-                        </div>
-                    </div>`;
-            }
-
-            container.appendChild(postCard);
-        });
-    }
-
-    function toBanglaNumber(n) {
-        if(n === undefined || n === null) return '০';
-        const bn = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-        return n.toString().split('').map(x => bn[x] || x).join('');
-    }
-
-    function createSlotRow(label, role, slotKey, selectedDate, postObj) {
-        let assignedVal = '';
-        if (postObj.isFixed === 'Yes') {
-            assignedVal = fixedAssignments[slotKey] || '';
-            if (assignedVal) {
-                if (!dailyAssignments[selectedDate]) dailyAssignments[selectedDate] = {};
-                dailyAssignments[selectedDate][slotKey] = assignedVal;
-            }
-        } else {
-            assignedVal = (dailyAssignments[selectedDate] && dailyAssignments[selectedDate][slotKey]) || '';
-        }
-
-        let optionsHTML = '<option value="">-- সদস্য নির্বাচন করুন --</option>';
-        
-        // সব সক্রিয় সদস্য ড্রপডাউনে পাওয়া যাবে
-        let eligibleMembers = membersData.filter(m => !m.isPostedOut && !m.isSick);
-
-        eligibleMembers.forEach((m) => {
-            const val = `${m.rank} ${m.name} (${m.armyNo})`;
-            const selected = assignedVal === val ? 'selected' : '';
-            optionsHTML += `<option value="${val}" ${selected}>${m.rank} ${m.name} (${m.armyNo}) - ${m.unit}</option>`;
-        });
-
-        return `
-            <tr>
-                <td><strong>${label}</strong></td>
-                <td><span style="background: #e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold;">${role}</span></td>
-                <td>
-                    <select onchange="updateAssignment('${selectedDate}', '${slotKey}', this.value, '${postObj.isFixed}')">
-                        ${optionsHTML}
-                    </select>
-                </td>
-            </tr>`;
-    }
-
-    function updateAssignment(date, slotKey, value, isFixed) {
-        if (!dailyAssignments[date]) dailyAssignments[date] = {};
-        
-        if (value) {
-            dailyAssignments[date][slotKey] = value;
-            if (isFixed === 'Yes') fixedAssignments[slotKey] = value;
-        } else {
-            delete dailyAssignments[date][slotKey];
-            if (isFixed === 'Yes') delete fixedAssignments[slotKey];
-        }
-        saveData();
-        updateDashboard();
-        renderRosterFormat();
-    }
-
-    function renderRosterFormat() {
-        const selectedDate = document.getElementById('rosterDate').value;
-        const container = document.getElementById('rosterTablesContainer');
-        if(!container) return;
-        container.innerHTML = '';
-
-        if (!dailyAssignments[selectedDate]) dailyAssignments[selectedDate] = {};
-
-        if (dutyPosts.length === 0) {
-            container.innerHTML = `<div class="card"><p style="text-align:center; color:#64748b;">কোনো ডিউটি পোস্ট পাওয়া যায়নি। প্রথমে ডিউটি পোস্ট সেটআপ করুন।</p></div>`;
-            return;
-        }
 
         dutyPosts.forEach(post => {
-            const isQG = post.name.includes("কোয়ার্টার গার্ড");
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.marginBottom = '10px';
+            card.style.padding = '12px';
+
+            let typeBadge = post.timeType === '24Hour' ? '⏳ ২৪ ঘণ্টা ডিউটি' : (post.timeType === 'Night' ? '🌙 রাতের ডিউটি' : '☀️ দিনের ডিউটি');
+            let fixedBadge = post.isFixed ? '🔒 ফিক্সড পোস্ট' : '';
+
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>🛡️ ${post.name}</strong> 
+                        <span class="badge badge-attached">${typeBadge}</span>
+                        ${fixedBadge ? `<span class="badge badge-posted">${fixedBadge}</span>` : ''}
+                    </div>
+                    <div>
+                        ${!post.isFixed ? `
+                            <button class="btn btn-edit" style="padding:2px 6px; font-size:11px;" onclick="editDutyPost('${post.id}')">✏️</button>
+                            <button class="btn btn-danger" style="padding:2px 6px; font-size:11px;" onclick="removeDutyPost('${post.id}')">🗑️</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // আপডেট ওয়ার্কিং মেম্বার সিলেক্ট অপশন
+        const wSel = document.getElementById('workingMemberSelect');
+        if (wSel) {
+            wSel.innerHTML = '<option value="">-- সদস্য সিলেক্ট করুন --</option>';
+            membersData.filter(m => !m.isPostedOut && !m.isExempted).forEach(m => {
+                wSel.innerHTML += `<option value="${m.armyNo}">${m.armyNo} ${getShortRank(m.rank)} ${m.name}</option>`;
+            });
+        }
+    }
+
+    function addMemberToWorkingTemp() {
+        const armyNo = document.getElementById('workingMemberSelect').value;
+        if (!armyNo) return;
+        if (!tempWorkingMembersList.includes(armyNo)) {
+            tempWorkingMembersList.push(armyNo);
+            renderTempWorkingChips();
+        }
+    }
+
+    function renderTempWorkingChips() {
+        const div = document.getElementById('tempWorkingMembers');
+        div.innerHTML = '';
+        tempWorkingMembersList.forEach(no => {
+            const m = membersData.find(x => x.armyNo === no);
+            if (m) {
+                div.innerHTML += `<span style="background:#e0f2fe; padding:3px 8px; border-radius:4px; font-size:12px;">
+                    ${m.armyNo} ${getShortRank(m.rank)} ${m.name} 
+                    <a href="javascript:void(0)" onclick="removeTempWorking('${no}')" style="color:red; margin-left:4px;">✕</a>
+                </span>`;
+            }
+        });
+    }
+
+    function removeTempWorking(no) {
+        tempWorkingMembersList = tempWorkingMembersList.filter(x => x !== no);
+        renderTempWorkingChips();
+    }
+
+    function saveWorkingParty() {
+        const name = document.getElementById('workingNameInput').value.trim();
+        if (!name) { alert("ওয়ার্কিং এর নাম দিন।"); return; }
+        if (tempWorkingMembersList.length === 0) { alert("অন্তত ১ জন সদস্য যোগ করুন।"); return; }
+
+        workingParties.push({
+            id: 'work_' + Date.now(),
+            name: name,
+            members: [...tempWorkingMembersList]
+        });
+
+        saveData();
+        document.getElementById('workingNameInput').value = '';
+        tempWorkingMembersList = [];
+        renderTempWorkingChips();
+        renderWorkingParties();
+    }
+
+    function renderWorkingParties() {
+        const container = document.getElementById('workingPartiesList');
+        if (!container) return;
+        container.innerHTML = '';
+
+        workingParties.forEach(w => {
+            const names = w.members.map(no => {
+                const m = membersData.find(x => x.armyNo === no);
+                return m ? `${m.armyNo} ${getShortRank(m.rank)} ${m.name}` : no;
+            }).join(', ');
+
+            container.innerHTML += `
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>🛠️ ${w.name} (${w.members.length} জন):</strong>
+                        <div style="font-size:12px; color:#475569; margin-top:2px;">${names}</div>
+                    </div>
+                    <button class="btn btn-danger" style="padding:2px 6px; font-size:11px;" onclick="deleteWorkingParty('${w.id}')">🗑️</button>
+                </div>
+            `;
+        });
+    }
+
+    function deleteWorkingParty(id) {
+        workingParties = workingParties.filter(w => w.id !== id);
+        saveData();
+        renderWorkingParties();
+    }
+
+    // স্মার্ট ডিউটি রোটেশন ও বণ্টন ফিল্টারিং
+    function renderRosterFormat() {
+        const date = document.getElementById('rosterDate').value;
+        const container = document.getElementById('rosterTablesContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (!dailyAssignments[date]) dailyAssignments[date] = {};
+
+        // ১. ফিক্সড অফিসার/জেসিও ডিউটি পোস্ট
+        let officerBlock = `
+            <div class="card" style="border-top:4px solid #0284c7;">
+                <h3>👮‍♂️ ডিউটি অফিসার, জেসিও ও জিডিও/জিডিজে সেটআপ</h3>
+                <table>
+                    <tr>
+                        <th>ডিউটির পদ</th>
+                        <th>মনোনীত কর্মকর্তা/জেসিও</th>
+                    </tr>
+                    ${createOfficerSlotRow('ডিউটি অফিসার', 'duty_officer', date, 'OFFICER')}
+                    ${createOfficerSlotRow('ডিউটি জেসিও', 'duty_jco', date, 'JCO')}
+                    ${createOfficerSlotRow('জিডিজে (GDJ)', 'gdj', date, 'JCO')}
+                    ${createOfficerSlotRow('জিডিও (GDO)', 'gdo', date, 'OFFICER')}
+                </table>
+            </div>
+        `;
+        container.innerHTML += officerBlock;
+
+        // ২. ডিউটি পোস্টসমূহ সাজানো (রাতের পোস্ট উপরে, দিনের পোস্ট নিচে)
+        let sortedPosts = [...dutyPosts].sort((a, b) => {
+            if (a.timeType === 'Night' && b.timeType === 'Day') return -1;
+            if (a.timeType === 'Day' && b.timeType === 'Night') return 1;
+            return 0;
+        });
+
+        sortedPosts.forEach(post => {
+            let isQG = post.id === "qg_fixed";
+            let isAmmo = post.id === "ammo_fixed";
 
             let tableHTML = `
                 <div class="card">
-                    <h3 style="margin-bottom: 10px; color: #10b981;">
-                        🛡️ ${post.name} (${post.timeType === 'Night' ? 'রাতের ডিউটি' : 'দিনের ডিউটি'})
-                        ${post.isFixed === 'Yes' ? '<span class="badge badge-fixed">📌 ফিক্সড ডিউটি</span>' : ''}
+                    <h3 style="color:#10b981; margin-bottom:8px;">
+                        🛡️ ${post.name} (${post.timeType === 'Night' ? 'রাতের ডিউটি' : (post.timeType === 'Day' ? 'দিনের ডিউটি' : '২৪ ঘণ্টা')})
                     </h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>ডিউটির ধাপ / সেফটি</th>
-                                <th>ভূমিকা (Role)</th>
-                                <th>মনোনীত সদস্য (পদবি, নাম, নম্বর ও ব্যাটারি)</th>
+                                <th>সেফটি / ধাপ</th>
+                                <th>ভূমিকা</th>
+                                <th>মনোনীত সদস্য</th>
                             </tr>
                         </thead>
                         <tbody>`;
 
-            let gcRowsHTML = '';
-            let sentryRowsHTML = '';
-
-            if(isQG) {
-                for(let g = 1; g <= 3; g++) {
-                    gcRowsHTML += createSlotRow(`গার্ড কমান্ডার-${toBanglaNumber(g)}`, 'Guard Commander', `post_${post.id}_gc_${g}`, selectedDate, post);
+            if (isQG) {
+                for (let g = 1; g <= 3; g++) {
+                    let reqRank = (g === 1) ? 'SERGEANT' : 'CORPORAL';
+                    tableHTML += createDutySlotRow(`গার্ড কমান্ডার-${g}`, 'Guard Commander', `post_${post.id}_gc_${g}`, date, post, reqRank);
                 }
-                for(let s = 1; s <= 7; s++) {
-                    sentryRowsHTML += createSlotRow(`সেন্ট্রি-${toBanglaNumber(s)}`, 'Sentry', `post_${post.id}_sentry_${s}`, selectedDate, post);
+                for (let s = 1; s <= 7; s++) {
+                    tableHTML += createDutySlotRow(`সেন্ট্রি-${s}`, 'Sentry', `post_${post.id}_sentry_${s}`, date, post, 'SOLDIER');
+                }
+            } else if (isAmmo) {
+                for (let g = 1; g <= 3; g++) {
+                    tableHTML += createDutySlotRow(`গার্ড কমান্ডার-${g}`, 'Guard Commander', `post_${post.id}_gc_${g}`, date, post, 'NCO');
+                }
+                for (let s = 1; s <= 6; s++) {
+                    tableHTML += createDutySlotRow(`সেন্ট্রি-${s}`, 'Sentry', `post_${post.id}_sentry_${s}`, date, post, 'SOLDIER');
                 }
             } else {
-                const gc = post.gcShifts || [0,0,0];
-                const sentry = post.sentryShifts || [0,0,0];
-                const shifts = ['১ম সেফটি', '২য় সেফটি', '৩য় সেফটি'];
+                const shiftNames = ['১ম সেফটি', '২য় সেফটি', '৩য় সেফটি'];
+                const maxShifts = post.timeType === 'Day' ? 2 : 3;
 
-                shifts.forEach((shiftLabel, shiftIdx) => {
-                    for(let g = 1; g <= gc[shiftIdx]; g++) {
-                        gcRowsHTML += createSlotRow(`${shiftLabel} (GC-${toBanglaNumber(g)})`, 'Guard Commander', `post_${post.id}_shift_${shiftIdx}_gc_${g}`, selectedDate, post);
+                for (let i = 0; i < maxShifts; i++) {
+                    let gcCount = post.gcShifts[i] || 0;
+                    let sentryCount = post.sentryShifts[i] || 0;
+
+                    for (let g = 1; g <= gcCount; g++) {
+                        tableHTML += createDutySlotRow(`${shiftNames[i]} (GC-${g})`, 'Guard Commander', `post_${post.id}_s${i+1}_gc_${g}`, date, post, 'NCO', i+1);
                     }
-                    for(let s = 1; s <= sentry[shiftIdx]; s++) {
-                        sentryRowsHTML += createSlotRow(`${shiftLabel} (Sentry-${toBanglaNumber(s)})`, 'Sentry', `post_${post.id}_shift_${shiftIdx}_sentry_${s}`, selectedDate, post);
+                    for (let s = 1; s <= sentryCount; s++) {
+                        tableHTML += createDutySlotRow(`${shiftNames[i]} (Sentry-${s})`, 'Sentry', `post_${post.id}_s${i+1}_sentry_${s}`, date, post, 'SOLDIER', i+1);
                     }
-                });
-            }
-
-            if(gcRowsHTML) {
-                tableHTML += `<tr><td colspan="3" class="section-divider">👮‍♂️ গার্ড কমান্ডারগণ (Guard Commanders)</td></tr>` + gcRowsHTML;
-            }
-
-            if(sentryRowsHTML) {
-                tableHTML += `<tr><td colspan="3" class="section-divider">💂‍♂️ সেন্ট্রিগণ (Sentries)</td></tr>` + sentryRowsHTML;
+                }
             }
 
             tableHTML += `</tbody></table></div>`;
             container.innerHTML += tableHTML;
         });
+
+        // ৩. ওয়ার্কিং লিস্ট সবার নিচে
+        let workingBlock = `<div class="card" style="border-top:4px solid #f59e0b;">
+            <h3>🛠️ ওয়ার্কিং পার্টি সমূহের তালিকা</h3>`;
+        if (workingParties.length === 0) {
+            workingBlock += `<p style="font-size:13px; color:#64748b;">কোনো সক্রিয় ওয়ার্কিং পার্টি সেটআপ করা নেই।</p>`;
+        } else {
+            workingParties.forEach(w => {
+                const membersStr = w.members.map(no => {
+                    const m = membersData.find(x => x.armyNo === no);
+                    return m ? `${m.armyNo} ${getShortRank(m.rank)} ${m.name}` : no;
+                }).join(', ');
+                workingBlock += `<div style="margin-top:8px; font-size:13px;"><strong>${w.name}:</strong> ${membersStr}</div>`;
+            });
+        }
+        workingBlock += `</div>`;
+        container.innerHTML += workingBlock;
     }
 
+    function createOfficerSlotRow(label, key, date, category) {
+        const assigned = (dailyAssignments[date] && dailyAssignments[date][key]) || '';
+        let options = '<option value="">-- নির্বাচন করুন --</option>';
+
+        membersData.filter(m => !m.isPostedOut && !m.isExempted && m.category === category).forEach(m => {
+            const val = `${m.armyNo} ${m.rank} ${m.name}`;
+            options += `<option value="${val}" ${assigned === val ? 'selected' : ''}>${val}</option>`;
+        });
+
+        return `<tr>
+            <td><strong>${label}</strong></td>
+            <td><select onchange="setRosterVal('${date}', '${key}', this.value)">${options}</select></td>
+        </tr>`;
+    }
+
+    function createDutySlotRow(label, role, key, date, post, targetRankGroup, shiftNo = 1) {
+        const assigned = (dailyAssignments[date] && dailyAssignments[date][key]) || '';
+        
+        // স্মার্ট ফিল্টারিং: নিযুক্ত (Exempted), আরসিও, অফিসার, জেসিও এবং পোস্টিং সাধারণ ডিউটিতে আসবে না
+        let eligible = membersData.filter(m => {
+            if (m.isPostedOut || m.isExempted || m.category === 'OFFICER' || m.category === 'JCO' || m.category === 'RCO') return false;
+            if (m.excusedPosts && m.excusedPosts.includes(post.name)) return false;
+            return true;
+        });
+
+        let options = '<option value="">-- সদস্য নির্বাচন করুন --</option>';
+        eligible.forEach(m => {
+            const val = `${m.armyNo} ${getShortRank(m.rank)} (${m.trade.toLowerCase()}) ${m.name}`;
+            options += `<option value="${val}" ${assigned === val ? 'selected' : ''}>${val}</option>`;
+        });
+
+        return `<tr>
+            <td><strong>${label}</strong></td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-size:11px;">${role}</span></td>
+            <td><select onchange="validateAndSetDuty('${date}', '${key}', this.value, ${shiftNo})">${options}</select></td>
+        </tr>`;
+    }
+
+    function validateAndSetDuty(date, key, value, currentShift) {
+        if (!value) {
+            setRosterVal(date, key, '');
+            return;
+        }
+
+        const currentDayAssignments = dailyAssignments[date] || {};
+
+        // ওভারল্যাপ ও রুলস চেকিং:
+        // ১. একই ব্যক্তি ইতোমধ্যে অন্য কোনো ডিউটিতে আছে কিনা
+        let existingSlot = Object.keys(currentDayAssignments).find(k => k !== key && currentDayAssignments[k] === value);
+        if (existingSlot) {
+            if (!confirm(`⚠️ সতর্কবার্তা: এই সদস্য ইতোমধ্যে সেদিন অন্য একটি ডিউটিতে (${existingSlot}) নিয়োজিত আছেন! আপনি কি তাও যুক্ত করতে চান?`)) {
+                renderRosterFormat();
+                return;
+            }
+        }
+
+        setRosterVal(date, key, value);
+    }
+
+    function setRosterVal(date, key, val) {
+        if (!dailyAssignments[date]) dailyAssignments[date] = {};
+        if (val) dailyAssignments[date][key] = val;
+        else delete dailyAssignments[date][key];
+    }
+
+    function saveRosterAssignments() {
+        saveData();
+        alert("আজকের ডিউটি রোস্টার সফলভাবে সেভ হয়েছে!");
+        renderHomeRoster();
+        updateDashboard();
+    }
+
+    function renderHomeRoster() {
+        const date = document.getElementById('homeRosterDate').value || new Date().toISOString().split('T')[0];
+        const container = document.getElementById('homeRosterDisplay');
+        if (!container) return;
+
+        const assignments = dailyAssignments[date] || {};
+        const keys = Object.keys(assignments);
+
+        if (keys.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:#64748b; padding:15px;">এই তারিখে কোনো ডিউটি রোস্টার বণ্টন করা হয়নি।</p>`;
+            return;
+        }
+
+        let html = `<table><thead><tr><th>পোস্ট / পদবি</th><th>মনোনীত সদস্য</th></tr></thead><tbody>`;
+        if (assignments['duty_officer']) html += `<tr><td><strong>ডিউটি অফিসার</strong></td><td>${assignments['duty_officer']}</td></tr>`;
+        if (assignments['duty_jco']) html += `<tr><td><strong>ডিউটি জেসিও</strong></td><td>${assignments['duty_jco']}</td></tr>`;
+        if (assignments['gdj']) html += `<tr><td><strong>জিডিজে (GDJ)</strong></td><td>${assignments['gdj']}</td></tr>`;
+        if (assignments['gdo']) html += `<tr><td><strong>জিডিও (GDO)</strong></td><td>${assignments['gdo']}</td></tr>`;
+
+        dutyPosts.forEach(post => {
+            let postAssignments = [];
+            keys.forEach(k => {
+                if (k.startsWith(`post_${post.id}_`)) {
+                    postAssignments.push(`• ${assignments[k]}`);
+                }
+            });
+
+            if (postAssignments.length > 0) {
+                html += `<tr><td><strong>🛡️ ${post.name}</strong></td><td>${postAssignments.join('<br>')}</td></tr>`;
+            }
+        });
+
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+    }
+
+    // ৫টি প্যারেড স্টেট তৈরি (রেজিমেন্টের ১টি + ৪ ব্যাটারির ৪টি)
     function generateChitView() {
-        const selectedDate = document.getElementById('rosterDate').value;
-        document.getElementById('chitDateText').innerText = `দৈনিক ডিউটি রোস্টার - তারিখ: ${selectedDate}`;
+        const area = document.getElementById('chitPrintArea');
+        if (!area) return;
+        area.innerHTML = '';
 
-        const col1 = document.getElementById('col1Content');
-        const col2 = document.getElementById('col2Content');
-        const col3 = document.getElementById('col3Content');
+        const date = document.getElementById('rosterDate').value;
+        const units = ['রেজিমেন্ট (সমন্বিত)', 'পাপা', 'কিউবেক', 'রোমিও', 'হেঃ কোয়াঃ'];
 
-        col1.innerHTML = '';
-        col2.innerHTML = '';
-        col3.innerHTML = '';
+        units.forEach(u => {
+            let activeMem = membersData.filter(m => !m.isPostedOut);
+            if (u !== 'রেজিমেন্ট (সমন্বিত)') activeMem = activeMem.filter(m => m.unit === u);
 
-        const assignments = dailyAssignments[selectedDate] || {};
+            let totalStrength = u === 'রেজিমেন্ট (সমন্বিত)' ? 534 : Math.round(534 / 4); // উদাহরণ স্ট্যান্ডার্ড ৫৩৪
+            let courseCount = activeMem.filter(m => m.courseList && m.courseList.length > 0).length;
+            let commandCount = activeMem.filter(m => m.ereDetails && m.ereDetails.length > 0).length;
+            let attachedCount = activeMem.filter(m => m.isExempted).length;
+            let lineSickCount = activeMem.filter(m => m.isSick).length;
 
-        dutyPosts.forEach((post, index) => {
-            let blockHTML = `<div class="chit-post-block"><div class="chit-post-title">🛡️ ${post.name} ${post.isFixed === 'Yes' ? '(📌 ফিক্সড)' : ''}</div>`;
-            const isQG = post.name.includes("কোয়ার্টার গার্ড");
+            let totalOut = courseCount + commandCount + attachedCount + lineSickCount;
+            let presentStrength = totalStrength - totalOut;
 
-            if(isQG) {
-                blockHTML += `<div class="chit-shift-title">গার্ড কমান্ডার:</div>`;
-                for(let g = 1; g <= 3; g++) {
-                    const val = assignments[`post_${post.id}_gc_${g}`] || 'অনির্ধারিত';
-                    blockHTML += `<div class="chit-member-item">${toBanglaNumber(g)}. ${val}</div>`;
-                }
-                blockHTML += `<div class="chit-shift-title">সেন্ট্রি:</div>`;
-                for(let s = 1; s <= 7; s++) {
-                    const val = assignments[`post_${post.id}_sentry_${s}`] || 'অনির্ধারিত';
-                    blockHTML += `<div class="chit-member-item">${toBanglaNumber(s)}. ${val}</div>`;
-                }
-            } else {
-                const gc = post.gcShifts || [0,0,0];
-                const sentry = post.sentryShifts || [0,0,0];
-                const shifts = ['১ম সেফটি', '২য় সেফটি', '৩য় সেফটি'];
+            let pageHTML = `
+                <div class="a4-container">
+                    <div class="a4-header">
+                        <h2>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h2>
+                        <h3>দৈনিক প্যারেড স্টেট - ${u}</h3>
+                        <p style="font-size:12px;">তারিখ: ${date}</p>
+                    </div>
 
-                shifts.forEach((shiftLabel, shiftIdx) => {
-                    blockHTML += `<div class="chit-shift-title">${shiftLabel}:</div>`;
-                    for(let g = 1; g <= gc[shiftIdx]; g++) {
-                        const val = assignments[`post_${post.id}_shift_${shiftIdx}_gc_${g}`] || 'অনির্ধারিত';
-                        blockHTML += `<div class="chit-member-item">• GC: ${val}</div>`;
-                    }
-                    for(let s = 1; s <= sentry[shiftIdx]; s++) {
-                        const val = assignments[`post_${post.id}_shift_${shiftIdx}_sentry_${s}`] || 'অনির্ধারিত';
-                        blockHTML += `<div class="chit-member-item">• Sentry: ${val}</div>`;
-                    }
-                });
+                    <h4 style="margin-bottom:5px; font-size:13px;">১। জনবল সামারি (প্রথমাংশ)</h4>
+                    <table class="summary-table">
+                        <tr>
+                            <th>মোট জনবল</th>
+                            <th>কোর্স</th>
+                            <th>কমান্ড</th>
+                            <th>সংযুক্ত (Attached)</th>
+                            <th>লাইন সিক</th>
+                            <th>মোট বাহির</th>
+                            <th>হাজির জনবল</th>
+                        </tr>
+                        <tr>
+                            <td><strong>${totalStrength}</strong></td>
+                            <td>${courseCount}</td>
+                            <td>${commandCount}</td>
+                            <td>${attachedCount}</td>
+                            <td>${lineSickCount}</td>
+                            <td><strong>${totalOut}</strong></td>
+                            <td><strong style="color:#047857;">${presentStrength}</strong></td>
+                        </tr>
+                    </table>
+
+                    <h4 style="margin-bottom:5px; font-size:13px;">২। প্যারেড উপস্থিতি হিসাব (দ্বিতীয়াংশ)</h4>
+                    <table class="summary-table">
+                        <tr>
+                            <th>হাজির মোট</th>
+                            <th>ডিউটি পোস্টসমূহ</th>
+                            <th>QG উঠা/নামা পার্টি</th>
+                            <th>৩য় নাইট ডিউটি পার্টি</th>
+                            <th>মোট ডিউটি/প্যারেড আউট</th>
+                            <th>প্যারেডে উপস্থিত</th>
+                        </tr>
+                        <tr>
+                            <td><strong>${presentStrength}</strong></td>
+                            <td>২৫</td>
+                            <td>১০</td>
+                            <td>৮</td>
+                            <td><strong>৪৩</strong></td>
+                            <td><strong style="color:#1e3a8a;">${presentStrength - 43}</strong></td>
+                        </tr>
+                    </table>
+
+                    <h4 style="margin-top:15px; margin-bottom:5px; font-size:13px;">৩। অনুপস্থিত/বাহির জনবলের নামীয় তালিকা (পরের পাতা)</h4>
+                    <table class="parade-table">
+                        <thead>
+                            <tr>
+                                <th>ক্রমিক</th>
+                                <th>সেনা নং, পদবি ও নাম</th>
+                                <th>ব্যাটারি</th>
+                                <th>কারণ / বর্তমান অবস্থা</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            let count = 1;
+            activeMem.filter(m => m.isSick || m.isExempted || (m.courseList && m.courseList.length > 0) || (m.ereDetails && m.ereDetails.length > 0)).forEach(m => {
+                let reason = m.isSick ? `লাইন সিক (${m.sickProblem})` : (m.isExempted ? 'নিযুক্ত (Attached)' : (m.courseList || m.ereDetails));
+                pageHTML += `<tr>
+                    <td>${count++}</td>
+                    <td>${m.armyNo} ${getShortRank(m.rank)} ${m.name}</td>
+                    <td>${m.unit}</td>
+                    <td>${reason}</td>
+                </tr>`;
+            });
+
+            if (count === 1) {
+                pageHTML += `<tr><td colspan="4">কোনো সদস্য বাহিরে নেই।</td></tr>`;
             }
 
-            blockHTML += `</div>`;
-
-            if (index % 3 === 0) col1.innerHTML += blockHTML;
-            else if (index % 3 === 1) col2.innerHTML += blockHTML;
-            else col3.innerHTML += blockHTML;
+            pageHTML += `</tbody></table></div>`;
+            area.innerHTML += pageHTML;
         });
+    }
+
+    function openNoticeModal() {
+        document.getElementById('noticeInput').value = noticeText;
+        openModal('noticeModal');
+    }
+
+    function saveNotice() {
+        noticeText = document.getElementById('noticeInput').value;
+        localStorage.setItem('noticeText', noticeText);
+        document.getElementById('noticeText').innerText = noticeText;
+        closeModal('noticeModal');
+    }
+
+    function changeHeaderBg(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('mainHeader').style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('${evt.target.result}')`;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removeHeaderBg() {
+        document.getElementById('mainHeader').style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8))`;
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(e => e.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if (btn) btn.classList.add('active');
+
+        if (id === 'rosterTab') renderRosterFormat();
+        if (id === 'postTab') renderDutyPosts();
+        if (id === 'chitTab') generateChitView();
+        if (id === 'homeTab') renderHomeRoster();
+    }
+
+    function updateDashboard() {
+        document.getElementById('totalMembersCount').innerText = membersData.filter(m => !m.isPostedOut).length;
+        document.getElementById('totalPostsCount').innerText = dutyPosts.length;
+        
+        const today = document.getElementById('rosterDate').value || new Date().toISOString().split('T')[0];
+        const count = dailyAssignments[today] ? Object.keys(dailyAssignments[today]).length : 0;
+        document.getElementById('todayDutyCount').innerText = count;
+    }
+
+    function filterMembers() { renderMemberList(); }
+
+    function saveData() {
+        sortMembersData();
+        localStorage.setItem('membersData', JSON.stringify(membersData));
+        localStorage.setItem('dutyPosts', JSON.stringify(dutyPosts));
+        localStorage.setItem('workingParties', JSON.stringify(workingParties));
+        localStorage.setItem('dailyAssignments', JSON.stringify(dailyAssignments));
     }
 </script>
 </body>
