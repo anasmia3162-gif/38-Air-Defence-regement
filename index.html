@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট - ডিউটি ম্যানেজমেন্ট সিস্টেম</title>
-    <!-- বাংলা ফন্ট সোর্স (Google Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
@@ -16,27 +15,25 @@
             padding: 0; 
             font-family: 'Noto Sans Bengali', 'Tiro Bangla', sans-serif; 
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         body { background-color: #f1f5f9; color: #0f172a; line-height: 1.5; }
         
         header { 
             background-color: #0f172a; 
             color: #fff; 
-            padding: 20px 15px 15px 15px; 
+            padding: 40px 15px 15px 15px; 
             text-align: center; 
             border-bottom: 4px solid #10b981; 
             position: relative;
             background-size: cover;
             background-position: center;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8));
         }
-        header h1 { font-size: 24px; margin-bottom: 5px; font-weight: 700; }
+        header h1 { font-size: 22px; margin-bottom: 5px; font-weight: 700; margin-top: 10px; }
         header p { font-size: 13px; opacity: 0.9; }
 
         .header-btn-group {
             position: absolute;
-            top: 10px;
+            top: 8px;
             right: 15px;
             display: flex;
             gap: 6px;
@@ -63,12 +60,8 @@
         .card { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
         .btn { padding: 6px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
         .btn-primary { background-color: #10b981; color: white; }
-        .btn-primary:hover { background-color: #059669; }
         .btn-edit { background-color: #0284c7; color: white; }
-        .btn-danger { background-color: #ef4444; color: white; }
-        .btn-warning { background-color: #f59e0b; color: white; }
         
-        /* ১. ছোট করে এক সারিতে ৩টি ড্যাশবোর্ড কার্ড */
         .dash-grid { 
             display: flex; 
             flex-direction: row;
@@ -88,7 +81,6 @@
         .dash-card h3 { font-size: 20px; color: #0f172a; font-weight: 700; margin-bottom: 2px; }
         .dash-card p { font-size: 11px; font-weight: 600; color: #475569; }
 
-        /* ৪. ডিউটি লিস্ট ৩টি লম্বালম্বি ভাগ (কলাম) */
         .three-column-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -96,9 +88,7 @@
         }
 
         @media (max-width: 768px) {
-            .three-column-grid {
-                grid-template-columns: 1fr;
-            }
+            .three-column-grid { grid-template-columns: 1fr; }
         }
 
         .section-title {
@@ -111,57 +101,10 @@
             border-radius: 4px;
         }
 
-        .profile-layout { display: flex; flex-wrap: wrap; gap: 15px; }
-        .sidebar { flex: 1 1 300px; background: #fff; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .main-profile { flex: 3 1 500px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        
-        .bty-filter-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
-        .bty-btn { flex: 1; min-width: 45px; padding: 5px 2px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 600; text-align: center; }
-        .bty-btn.active, .bty-btn:hover { background: #10b981; color: white; border-color: #10b981; }
-
-        .search-box { width: 100%; padding: 6px 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 12px; }
-        .member-item { padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 6px; cursor: pointer; font-size: 12px; }
-        .member-item:hover, .member-item.active { background-color: #ecfdf5; border-color: #10b981; }
-        .member-item.posted-out { background-color: #fef2f2; border-color: #fca5a5; }
-        .member-item.sick { background-color: #fff7ed; border-color: #fdba74; }
-        .member-item.exempted { background-color: #f3e8ff; border-color: #c084fc; }
-
-        .badge { font-size: 9px; padding: 2px 4px; border-radius: 3px; font-weight: 600; display: inline-block; margin-top: 2px; }
-        .badge-attached { background: #fef3c7; color: #92400e; }
-        .badge-posted { background: #fee2e2; color: #991b1b; }
-        .badge-sick { background: #ffedd5; color: #c2410c; }
-        .badge-exempt { background: #f3e8ff; color: #6b21a8; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
-        table th, table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
-        table th { background-color: #f8fafc; color: #334155; font-weight: 600; }
-        select, input[type="date"], input[type="text"], input[type="number"], textarea { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; font-size: 12px; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 15px; overflow-y: auto; }
-        .modal-content { background: white; padding: 15px; border-radius: 8px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 8px; }
-        .form-group label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 3px; }
-        .form-row { display: flex; gap: 8px; }
-        .form-row .form-group { flex: 1; }
-
         .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 12px; border-radius: 6px; margin-top: 15px; }
         .notice-board h3 { color: #b45309; margin-bottom: 6px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
 
-        .a4-container { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 10mm; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; page-break-after: always; }
-        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
-        .a4-header h2 { font-size: 18px; color: #0f172a; font-weight: 700; }
-
-        .summary-table, .parade-table { width: 100%; border: 1px solid #000; border-collapse: collapse; margin-bottom: 12px; }
-        .summary-table th, .summary-table td, .parade-table th, .parade-table td { border: 1px solid #000; padding: 4px 6px; font-size: 11px; text-align: center; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #chitPrintArea, #chitPrintArea * { visibility: visible; }
-            #chitPrintArea { position: absolute; left: 0; top: 0; width: 100%; }
-            .a4-container { box-shadow: none; border: none; width: 100%; padding: 0; margin: 0; }
-            .no-print { display: none !important; }
-            @page { size: A4 portrait; margin: 10mm; }
-        }
+        input[type="date"], input[type="text"] { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -185,82 +128,106 @@
 </header>
 
 <div class="container">
-    
     <!-- ১. হোম ট্যাব -->
     <div id="homeTab" class="tab-content active">
-        <!-- ১. ছোট করে এক সারিতে ৩টি সামারি কার্ড -->
         <div class="dash-grid">
             <div class="dash-card">
-                <h3 id="totalMembersCount">0</h3>
+                <h3 id="totalMembersCount">০</h3>
                 <p>মোট সক্রিয় সদস্য</p>
             </div>
             <div class="dash-card">
-                <h3 id="totalPostsCount">0</h3>
+                <h3 id="totalPostsCount">০</h3>
                 <p>মোট ডিউটি পোস্ট</p>
             </div>
             <div class="dash-card">
-                <h3 id="todayDutyCount">0</h3>
+                <h3 id="todayDutyCount">০</h3>
                 <p>আজকের ডিউটিতে নিয়োজিত</p>
             </div>
         </div>
 
-        <!-- ডিউটি ও ওয়ার্কিং লিস্ট -->
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
                 <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px; font-size: 15px;">📋 আজকের পূর্ণাঙ্গ ডিউটি ও ওয়ার্কিং রোস্টার</h3>
                 <div style="display:flex; align-items:center; gap:6px;">
                     <label style="font-weight: bold; font-size: 12px;">তারিখ:</label>
-                    <input type="date" id="homeRosterDate" style="width: 140px;" onchange="renderHomeRoster()">
+                    <input type="date" id="homeRosterDate">
                 </div>
             </div>
             
-            <!-- ৪. লম্বালম্বি ৩টি ভাগে বিভক্ত লেআউট -->
             <div class="three-column-grid">
-                <!-- কলাম ১: দিনের ডিউটি (৩) -->
                 <div>
                     <div class="section-title">☀️ দিনের ডিউটি লিস্ট</div>
-                    <div id="dayDutyDisplay"></div>
+                    <div id="dayDutyDisplay">কোনো ডিউটি নির্ধারিত নেই</div>
                 </div>
-
-                <!-- কলাম ২: রাতের ডিউটি (৩) -->
                 <div>
                     <div class="section-title">🌙 রাতের ডিউটি লিস্ট</div>
-                    <div id="nightDutyDisplay"></div>
+                    <div id="nightDutyDisplay">কোনো ডিউটি নির্ধারিত নেই</div>
                 </div>
-
-                <!-- কলাম ৩: ওয়ার্কিং লিস্ট (২) -->
                 <div>
                     <div class="section-title">🛠️ ওয়ার্কিং ও অন্যান্য লিস্ট</div>
-                    <div id="workingDutyDisplay"></div>
+                    <div id="workingDutyDisplay">কোনো তথ্য নেই</div>
                 </div>
             </div>
         </div>
 
-        <!-- নোটিশ বোর্ড -->
         <div class="notice-board">
             <h3>
                 <span>📌 নোটিশ বোর্ড (Notice Board)</span>
-                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 10px;" onclick="openNoticeModal()">✏️ নোটিশ লিখুন</button>
+                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 10px;" onclick="editNotice()">✏️ নোটিশ লিখুন</button>
             </h3>
             <p id="noticeText" style="font-size: 13px; color: #451a03; white-space: pre-line; margin-top: 4px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
         </div>
     </div>
 
-    <!-- ২. সদস্য ও প্রোফাইল ট্যাব -->
-    <div id="profileTab" class="tab-content">
-        <div class="profile-layout">
-            <div class="sidebar">
-                <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="openModal('profileModal')">+ নতুন সদস্য যুক্ত করুন</button>
-                
-                <h4 style="font-size: 12px; margin-bottom: 4px;">ব্যাটারি ও ক্যাটেগরি ফিল্টার</h4>
-                <div class="bty-filter-group">
-                    <button class="bty-btn active" onclick="setBatteryFilter('ALL', this)">সব</button>
-                    <button class="bty-btn" onclick="setBatteryFilter('পাপা', this)">পাপা</button>
-                    <button class="bty-btn" onclick="setBatteryFilter('কিউবেক', this)">কিউবেক</button>
-                    <button class="bty-btn" onclick="setBatteryFilter('রোমিও', this)">রোমিও</button>
-                    <button class="bty-btn" onclick="setBatteryFilter('হেঃ কোয়াঃ', this)">হেঃ কোয়াঃ</button>
-                    <button class="bty-btn" style="background:#fee2e2;" onclick="setBatteryFilter('POSTED', this)">পোস্টিং</button>
-                </div>
+    <!-- অন্যান্য ট্যাবগুলোর জন্য খালি সেকশন -->
+    <div id="profileTab" class="tab-content"><div class="card"><h3>👤 সদস্য ও প্রোফাইল ব্যবস্থাপনা</h3></div></div>
+    <div id="postTab" class="tab-content"><div class="card"><h3>🛡️ ডিউটি ও ওয়ার্কিং সেটআপ</h3></div></div>
+    <div id="rosterTab" class="tab-content"><div class="card"><h3>📋 দৈনিক ডিউটি বণ্টন</h3></div></div>
+    <div id="chitTab" class="tab-content"><div class="card"><h3>📜 প্যারেড স্টেট ও চিট ভিউ</h3></div></div>
+</div>
 
-                <input type="text" id="searchInput" class="search-box" placeholder="নাম, নম্বর বা র‍্যাঙ্ক দিয়ে খুঁজুন..." onkeyup="filterMembers()">
-                <div id="member
+<script>
+    // আজকের তারিখ ডিফল্ট সেট করা
+    document.getElementById('homeRosterDate').valueAsDate = new Date();
+
+    // ট্যাব সুইচ করার জাভাস্ক্রিপ্ট
+    function switchTab(tabId, btnElement) {
+        let contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+
+        let navBtns = document.querySelectorAll('nav button');
+        navBtns.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    // ব্যাকগ্রাউন্ড ছবি আপলোড
+    function changeHeaderBg(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const header = document.getElementById('mainHeader');
+            header.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('${reader.result}')`;
+        }
+        if(event.target.files[0]){
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+
+    // ব্যাকগ্রাউন্ড ছবি রিমুভ
+    function removeHeaderBg() {
+        const header = document.getElementById('mainHeader');
+        header.style.backgroundImage = 'none';
+    }
+
+    // নোটিশ পরিবর্তন
+    function editNotice() {
+        let text = prompt("নতুন নোটিশটি লিখুন:");
+        if (text) {
+            document.getElementById('noticeText').innerText = text;
+        }
+    }
+</script>
+
+</body>
+</html>
