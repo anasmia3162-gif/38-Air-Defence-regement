@@ -23,7 +23,7 @@
         header { 
             background-color: #0f172a; 
             color: #fff; 
-            padding: 25px 20px 15px 20px; 
+            padding: 20px 15px 15px 15px; 
             text-align: center; 
             border-bottom: 4px solid #10b981; 
             position: relative;
@@ -31,8 +31,8 @@
             background-position: center;
             background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8));
         }
-        header h1 { font-size: 28px; margin-bottom: 5px; font-weight: 700; }
-        header p { font-size: 14px; opacity: 0.9; }
+        header h1 { font-size: 24px; margin-bottom: 5px; font-weight: 700; }
+        header p { font-size: 13px; opacity: 0.9; }
 
         .header-btn-group {
             position: absolute;
@@ -46,74 +46,113 @@
             background: rgba(0, 0, 0, 0.7);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 5px 10px;
-            font-size: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        nav button { background: rgba(30, 41, 59, 0.9); color: #e2e8f0; border: none; padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        nav { display: flex; justify-content: center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
+        nav button { background: rgba(30, 41, 59, 0.9); color: #e2e8f0; border: none; padding: 7px 12px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; }
         nav button:hover, nav button.active { background: #10b981; color: #fff; }
         
-        .container { max-width: 1250px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 1250px; margin: 15px auto; padding: 0 10px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; }
-        .btn { padding: 8px 14px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 13px; }
+        .card { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
+        .btn { padding: 6px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
         .btn-primary { background-color: #10b981; color: white; }
         .btn-primary:hover { background-color: #059669; }
         .btn-edit { background-color: #0284c7; color: white; }
         .btn-danger { background-color: #ef4444; color: white; }
         .btn-warning { background-color: #f59e0b; color: white; }
         
-        .profile-layout { display: flex; flex-wrap: wrap; gap: 20px; }
-        .sidebar { flex: 1 1 320px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .main-profile { flex: 3 1 600px; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        /* ১. ছোট করে এক সারিতে ৩টি ড্যাশবোর্ড কার্ড */
+        .dash-grid { 
+            display: flex; 
+            flex-direction: row;
+            justify-content: space-between; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+        }
+        .dash-card { 
+            flex: 1; 
+            background: white; 
+            padding: 10px 5px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06); 
+            text-align: center; 
+            border-bottom: 3px solid #10b981; 
+        }
+        .dash-card h3 { font-size: 20px; color: #0f172a; font-weight: 700; margin-bottom: 2px; }
+        .dash-card p { font-size: 11px; font-weight: 600; color: #475569; }
+
+        /* ৪. ডিউটি লিস্ট ৩টি লম্বালম্বি ভাগ (কলাম) */
+        .three-column-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .three-column-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 10px;
+            background: #e2e8f0;
+            border-left: 4px solid #10b981;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .profile-layout { display: flex; flex-wrap: wrap; gap: 15px; }
+        .sidebar { flex: 1 1 300px; background: #fff; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .main-profile { flex: 3 1 500px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         
-        .bty-filter-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
-        .bty-btn { flex: 1; min-width: 50px; padding: 6px 2px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 600; text-align: center; }
+        .bty-filter-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+        .bty-btn { flex: 1; min-width: 45px; padding: 5px 2px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 600; text-align: center; }
         .bty-btn.active, .bty-btn:hover { background: #10b981; color: white; border-color: #10b981; }
 
-        .search-box { width: 100%; padding: 8px 10px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 13px; }
-        .member-item { padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; cursor: pointer; font-size: 13px; }
+        .search-box { width: 100%; padding: 6px 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 12px; }
+        .member-item { padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 6px; cursor: pointer; font-size: 12px; }
         .member-item:hover, .member-item.active { background-color: #ecfdf5; border-color: #10b981; }
         .member-item.posted-out { background-color: #fef2f2; border-color: #fca5a5; }
         .member-item.sick { background-color: #fff7ed; border-color: #fdba74; }
         .member-item.exempted { background-color: #f3e8ff; border-color: #c084fc; }
 
-        .badge { font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: 600; display: inline-block; margin-top: 3px; }
+        .badge { font-size: 9px; padding: 2px 4px; border-radius: 3px; font-weight: 600; display: inline-block; margin-top: 2px; }
         .badge-attached { background: #fef3c7; color: #92400e; }
         .badge-posted { background: #fee2e2; color: #991b1b; }
         .badge-sick { background: #ffedd5; color: #c2410c; }
         .badge-exempt { background: #f3e8ff; color: #6b21a8; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        table th, table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        table th, table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
         table th { background-color: #f8fafc; color: #334155; font-weight: 600; }
-        select, input[type="date"], input[type="text"], input[type="number"], textarea { padding: 7px 9px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; font-size: 13px; }
-
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .dash-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; border-bottom: 4px solid #10b981; }
-        .dash-card h3 { font-size: 28px; color: #0f172a; font-weight: 700; }
+        select, input[type="date"], input[type="text"], input[type="number"], textarea { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; font-size: 12px; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 15px; overflow-y: auto; }
-        .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-        .form-row { display: flex; gap: 10px; }
+        .modal-content { background: white; padding: 15px; border-radius: 8px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 8px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+        .form-row { display: flex; gap: 8px; }
         .form-row .form-group { flex: 1; }
 
-        .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 15px; border-radius: 6px; margin-top: 20px; }
-        .notice-board h3 { color: #b45309; margin-bottom: 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 12px; border-radius: 6px; margin-top: 15px; }
+        .notice-board h3 { color: #b45309; margin-bottom: 6px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
 
-        .a4-container { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 12mm 10mm; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; page-break-after: always; }
-        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 12px; }
+        .a4-container { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 10mm; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; page-break-after: always; }
+        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
         .a4-header h2 { font-size: 18px; color: #0f172a; font-weight: 700; }
 
-        .summary-table, .parade-table { width: 100%; border: 1px solid #000; border-collapse: collapse; margin-bottom: 15px; }
-        .summary-table th, .summary-table td, .parade-table th, .parade-table td { border: 1px solid #000; padding: 5px 8px; font-size: 12px; text-align: center; }
+        .summary-table, .parade-table { width: 100%; border: 1px solid #000; border-collapse: collapse; margin-bottom: 12px; }
+        .summary-table th, .summary-table td, .parade-table th, .parade-table td { border: 1px solid #000; padding: 4px 6px; font-size: 11px; text-align: center; }
 
         @media print {
             body * { visibility: hidden; }
@@ -147,8 +186,9 @@
 
 <div class="container">
     
-    <!-- ১. হোম ট্যাব (হোম পেজেই ডিউটি লিস্ট ও নোটিশ বোর্ড) -->
+    <!-- ১. হোম ট্যাব -->
     <div id="homeTab" class="tab-content active">
+        <!-- ১. ছোট করে এক সারিতে ৩টি সামারি কার্ড -->
         <div class="dash-grid">
             <div class="dash-card">
                 <h3 id="totalMembersCount">0</h3>
@@ -160,29 +200,49 @@
             </div>
             <div class="dash-card">
                 <h3 id="todayDutyCount">0</h3>
-                <p>আজকের ডিউটিতে নিয়োজিত</p>
+                <p>আজকের ডিউটিতে নিয়োজিত</p>
             </div>
         </div>
 
-        <!-- ডিউটি লিস্ট এখন হোম পেজে প্রদর্শিত হবে -->
+        <!-- ডিউটি ও ওয়ার্কিং লিস্ট -->
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px;">📋 আজকের পূর্ণাঙ্গ ডিউটি রোস্টার</h3>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <label style="font-weight: bold; font-size: 13px;">তারিখ:</label>
-                    <input type="date" id="homeRosterDate" style="width: 160px;" onchange="renderHomeRoster()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px; font-size: 15px;">📋 আজকের পূর্ণাঙ্গ ডিউটি ও ওয়ার্কিং রোস্টার</h3>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <label style="font-weight: bold; font-size: 12px;">তারিখ:</label>
+                    <input type="date" id="homeRosterDate" style="width: 140px;" onchange="renderHomeRoster()">
                 </div>
             </div>
-            <div id="homeRosterDisplay"></div>
+            
+            <!-- ৪. লম্বালম্বি ৩টি ভাগে বিভক্ত লেআউট -->
+            <div class="three-column-grid">
+                <!-- কলাম ১: দিনের ডিউটি (৩) -->
+                <div>
+                    <div class="section-title">☀️ দিনের ডিউটি লিস্ট</div>
+                    <div id="dayDutyDisplay"></div>
+                </div>
+
+                <!-- কলাম ২: রাতের ডিউটি (৩) -->
+                <div>
+                    <div class="section-title">🌙 রাতের ডিউটি লিস্ট</div>
+                    <div id="nightDutyDisplay"></div>
+                </div>
+
+                <!-- কলাম ৩: ওয়ার্কিং লিস্ট (২) -->
+                <div>
+                    <div class="section-title">🛠️ ওয়ার্কিং ও অন্যান্য লিস্ট</div>
+                    <div id="workingDutyDisplay"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- নোটিশ বোর্ড (হোম পেজের নিচে) -->
+        <!-- নোটিশ বোর্ড -->
         <div class="notice-board">
             <h3>
                 <span>📌 নোটিশ বোর্ড (Notice Board)</span>
-                <button class="btn btn-edit" style="padding: 2px 8px; font-size: 11px;" onclick="openNoticeModal()">✏️ নোটিশ লিখুন</button>
+                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 10px;" onclick="openNoticeModal()">✏️ নোটিশ লিখুন</button>
             </h3>
-            <p id="noticeText" style="font-size: 14px; color: #451a03; white-space: pre-line; margin-top: 5px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
+            <p id="noticeText" style="font-size: 13px; color: #451a03; white-space: pre-line; margin-top: 4px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
         </div>
     </div>
 
@@ -190,9 +250,9 @@
     <div id="profileTab" class="tab-content">
         <div class="profile-layout">
             <div class="sidebar">
-                <button class="btn btn-primary" style="width: 100%; margin-bottom: 12px;" onclick="openModal('profileModal')">+ নতুন সদস্য যুক্ত করুন</button>
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="openModal('profileModal')">+ নতুন সদস্য যুক্ত করুন</button>
                 
-                <h4 style="font-size: 13px; margin-bottom: 6px;">ব্যাটারি ও ক্যাটেগরি ফিল্টার</h4>
+                <h4 style="font-size: 12px; margin-bottom: 4px;">ব্যাটারি ও ক্যাটেগরি ফিল্টার</h4>
                 <div class="bty-filter-group">
                     <button class="bty-btn active" onclick="setBatteryFilter('ALL', this)">সব</button>
                     <button class="bty-btn" onclick="setBatteryFilter('পাপা', this)">পাপা</button>
@@ -213,22 +273,703 @@
     <!-- ৩. ডিউটি ও ওয়ার্কিং সেটআপ ট্যাব -->
     <div id="postTab" class="tab-content">
         <div class="card">
-            <h3 style="margin-bottom: 15px;" id="formHeaderTitle">নতুন ডিউটি পোস্ট যুক্ত করুন</h3>
+            <h3 style="margin-bottom: 12px; font-size:15px;" id="formHeaderTitle">নতুন ডিউটি/ওয়ার্কিং পোস্ট যুক্ত করুন</h3>
             <input type="hidden" id="editingPostId" value="">
             
             <div class="form-row">
                 <div class="form-group" style="flex:2;">
-                    <label>পোস্টের নাম</label>
-                    <input type="text" id="newPostName" placeholder="যেমন: আরপি গেট / লাইন ডিউটি">
+                    <label>পোস্ট/কাজ এর নাম</label>
+                    <input type="text" id="newPostName" placeholder="যেমন: আরপি গেট / পরিচ্ছন্নতা কাজ">
                 </div>
                 <div class="form-group">
-                    <label>ডিউটির সময়</label>
+                    <label>ক্যাটেগরি / সময় টাইপ</label>
                     <select id="newPostTimeType" onchange="toggleSafetyInputs()">
-                        <option value="Night">রাতের ডিউটি (৩টি সেফটি)</option>
-                        <option value="Day">দিনের ডিউটি (২টি সেফটি)</option>
+                        <option value="Day">দিনের ডিউটি</option>
+                        <option value="Night">রাতের ডিউটি</option>
+                        <option value="Working">ওয়ার্কিং লিস্ট</option>
                     </select>
                 </div>
             </div>
 
-            <div style="background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:12px;">
-                <label style="font-weight:bold; font-size:13px; display:block; margi
+            <div style="background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:10px;">
+                <label style="font-weight:bold; font-size:12px; display:block; margin-bottom:6px;">ডিউটি শিফট টাইম ও সেফটি নির্ধারণ</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label id="shift1Label">প্রথম শিফট / সময়</label>
+                        <input type="text" id="shift1Time" value="০৬০০-১২০০">
+                    </div>
+                    <div class="form-group" id="shift2Group">
+                        <label id="shift2Label">দ্বিতীয় শিফট / সময়</label>
+                        <input type="text" id="shift2Time" value="১২০০-১৮০০">
+                    </div>
+                    <div class="form-group" id="shift3Group" style="display:none;">
+                        <label id="shift3Label">তৃতীয় শিফট / সময়</label>
+                        <input type="text" id="shift3Time" value="০৪০০-০৬০০">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="savePost()">💾 পোস্ট সংরক্ষণ করুন</button>
+        </div>
+
+        <div class="card">
+            <h3 style="font-size:15px; margin-bottom:8px;">বর্তমান ডিউটি ও ওয়ার্কিং পোস্টসমূহ</h3>
+            <div id="postListTable"></div>
+        </div>
+    </div>
+
+    <!-- ৪. দৈনিক ডিউটি বণ্টন ট্যাব -->
+    <div id="rosterTab" class="tab-content">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                <h3 style="font-size:15px;">📋 দৈনিক ডিউটি ও ওয়ার্কিং বরাদ্দকরণ</h3>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input type="date" id="rosterDate" style="width:140px;" onchange="renderRosterAssignment()">
+                    <button class="btn btn-primary" onclick="autoAssignDuty()">✨ অটো জেনারেট</button>
+                </div>
+            </div>
+            <div id="rosterAssignmentArea"></div>
+        </div>
+    </div>
+
+    <!-- ৫. প্যারেড স্টেট ও চিট ভিউ ট্যাব -->
+    <div id="chitTab" class="tab-content">
+        <div class="card no-print">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <h3 style="font-size:15px;">📜 প্যারেড স্টেট ও প্রিন্ট চিট</h3>
+                <div style="display:flex; gap:8px;">
+                    <input type="date" id="chitDate" style="width:140px;" onchange="renderChitView()">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="chitPrintArea">
+            <div class="a4-container">
+                <div class="a4-header">
+                    <h2>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h2>
+                    <p style="font-size: 13px; font-weight: 600;">দৈনিক প্যারেড স্টেট ও ডিউটি চিট</p>
+                    <p style="font-size: 11px;" id="chitDisplayDate"></p>
+                </div>
+
+                <div id="chitSummaryArea"></div>
+                <div id="chitDetailArea"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- সদস্য যোগ/এডিটের মোডাল -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-bottom:12px; font-size:15px;" id="profileModalTitle">নতুন সদস্যের তথ্য</h3>
+        <input type="hidden" id="editMemberId">
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>আর্মি নম্বর</label>
+                <input type="text" id="mNo" placeholder="যেমন: No-12345">
+            </div>
+            <div class="form-group">
+                <label>র‍্যাঙ্ক</label>
+                <input type="text" id="mRank" placeholder="যেমন: গানার / সাইন">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>নাম</label>
+            <input type="text" id="mName" placeholder="পূর্ণ নাম">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>ব্যাটারি</label>
+                <select id="mBty">
+                    <option value="পাপা">পাপা</option>
+                    <option value="কিউবেক">কিউবেক</option>
+                    <option value="রোমিও">রোমিও</option>
+                    <option value="হেঃ কোয়াঃ">হেঃ কোয়াঃ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>অবস্থা (Status)</label>
+                <select id="mStatus">
+                    <option value="Present">উপস্থিত (Present)</option>
+                    <option value="Sick">অসুস্থ (Sick/Hospital)</option>
+                    <option value="Exempted">ডিউটি মুক্ত (Exempted)</option>
+                    <option value="PostedOut">পোস্টেড আউট (Posted Out)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>সংযুক্তকরণ (Attachment / ডিটেইলস)</label>
+            <input type="text" id="mAttached" placeholder="যেমন: বিএমএ ডিটেইলস">
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+            <button class="btn btn-danger" onclick="closeModal('profileModal')">বাতিল</button>
+            <button class="btn btn-primary" onclick="saveMember()">সংরক্ষণ করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- নোটিশ এডিট মোডাল -->
+<div id="noticeModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-bottom:12px; font-size:15px;">নোটিশ পরিবর্তন করুন</h3>
+        <div class="form-group">
+            <label>নোটিশের বিষয়বস্তু</label>
+            <textarea id="noticeInput" rows="4" placeholder="এখানে নোটিশটি লিখুন..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+            <button class="btn btn-danger" onclick="closeModal('noticeModal')">বাতিল</button>
+            <button class="btn btn-primary" onclick="saveNotice()">পাবলিশ করুন</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let members = JSON.parse(localStorage.getItem('38ad_members')) || [];
+    let posts = JSON.parse(localStorage.getItem('38ad_posts')) || [];
+    let rosters = JSON.parse(localStorage.getItem('38ad_rosters')) || {};
+    let notice = localStorage.getItem('38ad_notice') || "বর্তমানে কোনো বিশেষ নোটিশ নেই।";
+    
+    let activeFilter = 'ALL';
+    let selectedMemberId = null;
+
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('homeRosterDate').value = today;
+        document.getElementById('rosterDate').value = today;
+        document.getElementById('chitDate').value = today;
+
+        loadHeaderBg();
+        renderDashboard();
+        renderHomeRoster();
+        renderMemberList();
+        renderPostTable();
+        renderRosterAssignment();
+        renderChitView();
+        document.getElementById('noticeText').innerText = notice;
+    };
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function changeHeaderBg(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const bgUrl = evt.target.result;
+                document.getElementById('mainHeader').style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('${bgUrl}')`;
+                localStorage.setItem('38ad_header_bg', bgUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removeHeaderBg() {
+        document.getElementById('mainHeader').style.backgroundImage = 'linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8))';
+        localStorage.removeItem('38ad_header_bg');
+    }
+
+    function loadHeaderBg() {
+        const savedBg = localStorage.getItem('38ad_header_bg');
+        if (savedBg) {
+            document.getElementById('mainHeader').style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('${savedBg}')`;
+        }
+    }
+
+    function renderDashboard() {
+        const activeMembers = members.filter(m => m.status !== 'PostedOut').length;
+        document.getElementById('totalMembersCount').innerText = activeMembers;
+        document.getElementById('totalPostsCount').innerText = posts.length;
+
+        const today = document.getElementById('homeRosterDate').value;
+        const todayRoster = rosters[today] || {};
+        let assignedCount = 0;
+        Object.values(todayRoster).forEach(p => {
+            if (p.shift1) assignedCount++;
+            if (p.shift2) assignedCount++;
+            if (p.shift3) assignedCount++;
+        });
+        document.getElementById('todayDutyCount').innerText = assignedCount;
+    }
+
+    function openNoticeModal() {
+        document.getElementById('noticeInput').value = notice;
+        openModal('noticeModal');
+    }
+
+    function saveNotice() {
+        notice = document.getElementById('noticeInput').value;
+        localStorage.setItem('38ad_notice', notice);
+        document.getElementById('noticeText').innerText = notice;
+        closeModal('noticeModal');
+    }
+
+    function setBatteryFilter(bty, btn) {
+        activeFilter = bty;
+        document.querySelectorAll('.bty-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderMemberList();
+    }
+
+    function filterMembers() {
+        renderMemberList();
+    }
+
+    function renderMemberList() {
+        const listContainer = document.getElementById('memberList');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        
+        let filtered = members.filter(m => {
+            const matchesSearch = m.name.toLowerCase().includes(search) || m.no.toLowerCase().includes(search) || m.rank.toLowerCase().includes(search);
+            if (activeFilter === 'ALL') return matchesSearch && m.status !== 'PostedOut';
+            if (activeFilter === 'POSTED') return matchesSearch && m.status === 'PostedOut';
+            return matchesSearch && m.bty === activeFilter && m.status !== 'PostedOut';
+        });
+
+        listContainer.innerHTML = '';
+        filtered.forEach(m => {
+            let statusClass = '';
+            let badgeHtml = '';
+            
+            if (m.status === 'PostedOut') { statusClass = 'posted-out'; badgeHtml = '<span class="badge badge-posted">পোস্টেড আউট</span>'; }
+            else if (m.status === 'Sick') { statusClass = 'sick'; badgeHtml = '<span class="badge badge-sick">অসুস্থ</span>'; }
+            else if (m.status === 'Exempted') { statusClass = 'exempted'; badgeHtml = '<span class="badge badge-exempt">ছাড়প্রাপ্ত</span>'; }
+            
+            if (m.attached) { badgeHtml += ` <span class="badge badge-attached">${m.attached}</span>`; }
+
+            const div = document.createElement('div');
+            div.className = `member-item ${statusClass} ${m.id === selectedMemberId ? 'active' : ''}`;
+            div.onclick = () => selectMember(m.id);
+            div.innerHTML = `
+                <div style="font-weight:bold;">${m.rank} ${m.name} (${m.no})</div>
+                <div style="font-size:10px; color:#64748b;">ব্যাটারি: ${m.bty} ${badgeHtml}</div>
+            `;
+            listContainer.appendChild(div);
+        });
+    }
+
+    function selectMember(id) {
+        selectedMemberId = id;
+        renderMemberList();
+        const member = members.find(m => m.id === id);
+        if (!member) return;
+
+        const view = document.getElementById('profileView');
+        view.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:12px;">
+                <h3>${member.rank} ${member.name}</h3>
+                <div>
+                    <button class="btn btn-edit" onclick="editMember('${member.id}')">✏️ এডিট</button>
+                    <button class="btn btn-danger" onclick="deleteMember('${member.id}')">🗑️ মুছুন</button>
+                </div>
+            </div>
+            <p style="font-size:13px; margin-bottom:4px;"><strong>আর্মি নম্বর:</strong> ${member.no}</p>
+            <p style="font-size:13px; margin-bottom:4px;"><strong>ব্যাটারি:</strong> ${member.bty}</p>
+            <p style="font-size:13px; margin-bottom:4px;"><strong>স্ট্যাটাস:</strong> ${member.status}</p>
+            <p style="font-size:13px;"><strong>সংযুক্তকরণ/ডিটেইলস:</strong> ${member.attached || 'নাই'}</p>
+        `;
+    }
+
+    function saveMember() {
+        const id = document.getElementById('editMemberId').value || 'm_' + Date.now();
+        const no = document.getElementById('mNo').value;
+        const rank = document.getElementById('mRank').value;
+        const name = document.getElementById('mName').value;
+        const bty = document.getElementById('mBty').value;
+        const status = document.getElementById('mStatus').value;
+        const attached = document.getElementById('mAttached').value;
+
+        if (!no || !name) { alert('নম্বর এবং নাম দেওয়া বাধ্যতামূলক!'); return; }
+
+        const existingIndex = members.findIndex(m => m.id === id);
+        const memberData = { id, no, rank, name, bty, status, attached };
+
+        if (existingIndex > -1) {
+            members[existingIndex] = memberData;
+        } else {
+            members.push(memberData);
+        }
+
+        localStorage.setItem('38ad_members', JSON.stringify(members));
+        closeModal('profileModal');
+        clearMemberForm();
+        renderMemberList();
+        renderDashboard();
+    }
+
+    function editMember(id) {
+        const m = members.find(x => x.id === id);
+        if (!m) return;
+        document.getElementById('editMemberId').value = m.id;
+        document.getElementById('mNo').value = m.no;
+        document.getElementById('mRank').value = m.rank;
+        document.getElementById('mName').value = m.name;
+        document.getElementById('mBty').value = m.bty;
+        document.getElementById('mStatus').value = m.status;
+        document.getElementById('mAttached').value = m.attached || '';
+        document.getElementById('profileModalTitle').innerText = 'সদস্যের তথ্য এডিট করুন';
+        openModal('profileModal');
+    }
+
+    function deleteMember(id) {
+        if (confirm('আপনি কি নিশ্চিতভাবে এই সদস্যকে মুছে ফেলতে চান?')) {
+            members = members.filter(m => m.id !== id);
+            localStorage.setItem('38ad_members', JSON.stringify(members));
+            document.getElementById('profileView').innerHTML = '';
+            renderMemberList();
+            renderDashboard();
+        }
+    }
+
+    function clearMemberForm() {
+        document.getElementById('editMemberId').value = '';
+        document.getElementById('mNo').value = '';
+        document.getElementById('mRank').value = '';
+        document.getElementById('mName').value = '';
+        document.getElementById('mAttached').value = '';
+        document.getElementById('profileModalTitle').innerText = 'নতুন সদস্যের তথ্য';
+    }
+
+    // পোস্ট ও টাইপ ম্যানেজমেন্ট
+    function toggleSafetyInputs() {
+        const type = document.getElementById('newPostTimeType').value;
+        const shift2Group = document.getElementById('shift2Group');
+        const shift3Group = document.getElementById('shift3Group');
+        
+        if (type === 'Day') {
+            shift2Group.style.display = 'block';
+            shift3Group.style.display = 'none';
+            document.getElementById('shift1Time').value = '০৬০০-১২০০';
+            document.getElementById('shift2Time').value = '১২০০-১৮০০';
+        } else if (type === 'Night') {
+            shift2Group.style.display = 'block';
+            shift3Group.style.display = 'block';
+            document.getElementById('shift1Time').value = '২২০০-০০০১';
+            document.getElementById('shift2Time').value = '০০০১-০৪০০';
+            document.getElementById('shift3Time').value = '০৪০০-০৬০০';
+        } else { // Working
+            shift2Group.style.display = 'none';
+            shift3Group.style.display = 'none';
+            document.getElementById('shift1Time').value = '০৮০০-১৩০০';
+        }
+    }
+
+    function savePost() {
+        const name = document.getElementById('newPostName').value;
+        const type = document.getElementById('newPostTimeType').value;
+        const shift1 = document.getElementById('shift1Time').value;
+        const shift2 = type !== 'Working' ? document.getElementById('shift2Time').value : '';
+        const shift3 = type === 'Night' ? document.getElementById('shift3Time').value : '';
+        const editId = document.getElementById('editingPostId').value;
+
+        if (!name) { alert('পোস্টের নাম লিখুন!'); return; }
+
+        const postId = editId || 'p_' + Date.now();
+        const postData = { id: postId, name, type, shift1, shift2, shift3 };
+
+        const index = posts.findIndex(p => p.id === postId);
+        if (index > -1) posts[index] = postData;
+        else posts.push(postData);
+
+        localStorage.setItem('38ad_posts', JSON.stringify(posts));
+        document.getElementById('newPostName').value = '';
+        document.getElementById('editingPostId').value = '';
+        document.getElementById('formHeaderTitle').innerText = 'নতুন ডিউটি/ওয়ার্কিং পোস্ট যুক্ত করুন';
+        renderPostTable();
+        renderDashboard();
+        renderHomeRoster();
+    }
+
+    function renderPostTable() {
+        const container = document.getElementById('postListTable');
+        if (posts.length === 0) {
+            container.innerHTML = '<p style="color:#64748b; font-size:12px;">কোনো পোস্ট যোগ করা হয়নি।</p>';
+            return;
+        }
+
+        let html = `<table><thead><tr><th>পোস্টের নাম</th><th>টাইপ</th><th>শিফট ১</th><th>শিফট ২</th><th>শিফট ৩</th><th>অ্যাকশন</th></tr></thead><tbody>`;
+        posts.forEach(p => {
+            let typeLabel = p.type === 'Night' ? 'রাতের ডিউটি' : (p.type === 'Day' ? 'দিনের ডিউটি' : 'ওয়ার্কিং লিস্ট');
+            html += `<tr>
+                <td><strong>${p.name}</strong></td>
+                <td>${typeLabel}</td>
+                <td>${p.shift1}</td>
+                <td>${p.shift2 || '-'}</td>
+                <td>${p.shift3 || '-'}</td>
+                <td>
+                    <button class="btn btn-edit" style="padding:2px 5px; font-size:10px;" onclick="editPost('${p.id}')">✏️</button>
+                    <button class="btn btn-danger" style="padding:2px 5px; font-size:10px;" onclick="deletePost('${p.id}')">🗑️</button>
+                </td>
+            </tr>`;
+        });
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+    }
+
+    function editPost(id) {
+        const p = posts.find(x => x.id === id);
+        if (!p) return;
+        document.getElementById('editingPostId').value = p.id;
+        document.getElementById('newPostName').value = p.name;
+        document.getElementById('newPostTimeType').value = p.type || 'Day';
+        toggleSafetyInputs();
+        document.getElementById('shift1Time').value = p.shift1;
+        if (p.shift2) document.getElementById('shift2Time').value = p.shift2;
+        if (p.shift3) document.getElementById('shift3Time').value = p.shift3;
+        document.getElementById('formHeaderTitle').innerText = 'ডিউটি/ওয়ার্কিং পোস্ট এডিট করুন';
+    }
+
+    function deletePost(id) {
+        if (confirm('আপনি কি এই পোস্টটি মুছে ফেলতে চান?')) {
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem('38ad_posts', JSON.stringify(posts));
+            renderPostTable();
+            renderDashboard();
+            renderHomeRoster();
+        }
+    }
+
+    // ডিউটি রোস্টার
+    function renderRosterAssignment() {
+        const date = document.getElementById('rosterDate').value;
+        const container = document.getElementById('rosterAssignmentArea');
+        if (!rosters[date]) rosters[date] = {};
+
+        const activeMembers = members.filter(m => m.status === 'Present');
+
+        let html = '';
+        posts.forEach(p => {
+            const currentRoster = rosters[date][p.id] || {};
+            let typeLabel = p.type === 'Night' ? 'রাতের ডিউটি' : (p.type === 'Day' ? 'দিনের ডিউটি' : 'ওয়ার্কিং লিস্ট');
+            
+            html += `<div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:10px; margin-bottom:10px;">
+                <h4 style="color:#0f172a; margin-bottom:6px; font-size:13px;">🛡️ ${p.name} (${typeLabel})</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>${p.shift1} (১ম শিফট)</label>
+                        <select onchange="updateRosterAssignment('${date}', '${p.id}', 'shift1', this.value)">
+                            <option value="">-- নির্বাচন করুন --</option>
+                            ${activeMembers.map(m => `<option value="${m.id}" ${currentRoster.shift1 === m.id ? 'selected' : ''}>${m.rank} ${m.name} (${m.bty})</option>`).join('')}
+                        </select>
+                    </div>
+                    ${p.type !== 'Working' ? `
+                    <div class="form-group">
+                        <label>${p.shift2} (২য় শিফট)</label>
+                        <select onchange="updateRosterAssignment('${date}', '${p.id}', 'shift2', this.value)">
+                            <option value="">-- নির্বাচন করুন --</option>
+                            ${activeMembers.map(m => `<option value="${m.id}" ${currentRoster.shift2 === m.id ? 'selected' : ''}>${m.rank} ${m.name} (${m.bty})</option>`).join('')}
+                        </select>
+                    </div>` : ''}
+                    ${p.type === 'Night' ? `
+                    <div class="form-group">
+                        <label>${p.shift3} (৩য় শিফট)</label>
+                        <select onchange="updateRosterAssignment('${date}', '${p.id}', 'shift3', this.value)">
+                            <option value="">-- নির্বাচন করুন --</option>
+                            ${activeMembers.map(m => `<option value="${m.id}" ${currentRoster.shift3 === m.id ? 'selected' : ''}>${m.rank} ${m.name} (${m.bty})</option>`).join('')}
+                        </select>
+                    </div>` : ''}
+                </div>
+            </div>`;
+        });
+
+        container.innerHTML = html || '<p style="color:#64748b; font-size:12px;">কোনো পোস্ট পাওয়া যায়নি।</p>';
+    }
+
+    function updateRosterAssignment(date, postId, shift, memberId) {
+        if (!rosters[date]) rosters[date] = {};
+        if (!rosters[date][postId]) rosters[date][postId] = {};
+        rosters[date][postId][shift] = memberId;
+        localStorage.setItem('38ad_rosters', JSON.stringify(rosters));
+        renderHomeRoster();
+        renderDashboard();
+    }
+
+    function autoAssignDuty() {
+        const date = document.getElementById('rosterDate').value;
+        const activeMembers = members.filter(m => m.status === 'Present');
+        
+        if (activeMembers.length === 0) { alert('কোনো উপস্থিত সদস্য নেই!'); return; }
+
+        let available = [...activeMembers].sort(() => Math.random() - 0.5);
+        if (!rosters[date]) rosters[date] = {};
+
+        let index = 0;
+        posts.forEach(p => {
+            rosters[date][p.id] = {
+                shift1: available[index % available.length]?.id || '',
+                shift2: p.type !== 'Working' ? (available[(index + 1) % available.length]?.id || '') : '',
+                shift3: p.type === 'Night' ? (available[(index + 2) % available.length]?.id || '') : ''
+            };
+            index += p.type === 'Night' ? 3 : (p.type === 'Day' ? 2 : 1);
+        });
+
+        localStorage.setItem('38ad_rosters', JSON.stringify(rosters));
+        renderRosterAssignment();
+        renderHomeRoster();
+        renderDashboard();
+        alert('অটো ডিউটি সফলভাবে জেনারেট হয়েছে!');
+    }
+
+    // ৩ ও ৪. হোম পেজে ৩টি লম্বালম্বি কলামে ৩ ধরনের ডিউটি ফিল্টারিং ও রেন্ডারিং
+    function renderHomeRoster() {
+        const date = document.getElementById('homeRosterDate').value;
+        const dayRoster = rosters[date] || {};
+
+        const dayContainer = document.getElementById('dayDutyDisplay');
+        const nightContainer = document.getElementById('nightDutyDisplay');
+        const workingContainer = document.getElementById('workingDutyDisplay');
+
+        const dayPosts = posts.filter(p => p.type === 'Day');
+        const nightPosts = posts.filter(p => p.type === 'Night');
+        const workingPosts = posts.filter(p => p.type === 'Working');
+
+        dayContainer.innerHTML = buildColumnTable(dayPosts, dayRoster);
+        nightContainer.innerHTML = buildColumnTable(nightPosts, dayRoster);
+        workingContainer.innerHTML = buildColumnTable(workingPosts, dayRoster);
+    }
+
+    function buildColumnTable(postGroup, dayRoster) {
+        if (postGroup.length === 0) {
+            return '<p style="color:#94a3b8; font-size:12px; text-align:center;">কোনো ডাটা নেই</p>';
+        }
+
+        let html = '<table><thead><tr><th>পোস্ট</th><th>শিফট</th><th>সদস্য</th></tr></thead><tbody>';
+        postGroup.forEach(p => {
+            const r = dayRoster[p.id] || {};
+            const m1 = members.find(m => m.id === r.shift1);
+            const m2 = members.find(m => m.id === r.shift2);
+            const m3 = members.find(m => m.id === r.shift3);
+
+            let rowCount = p.type === 'Night' ? 3 : (p.type === 'Day' ? 2 : 1);
+
+            html += `<tr>
+                <td rowspan="${rowCount}"><strong>${p.name}</strong></td>
+                <td>১ম</td>
+                <td>${m1 ? `${m1.rank} ${m1.name} (${m1.bty})` : '<span style="color:#cbd5e1;">-</span>'}</td>
+            </tr>`;
+
+            if (p.type !== 'Working') {
+                html += `<tr>
+                    <td>২য়</td>
+                    <td>${m2 ? `${m2.rank} ${m2.name} (${m2.bty})` : '<span style="color:#cbd5e1;">-</span>'}</td>
+                </tr>`;
+            }
+
+            if (p.type === 'Night') {
+                html += `<tr>
+                    <td>৩য়</td>
+                    <td>${m3 ? `${m3.rank} ${m3.name} (${m3.bty})` : '<span style="color:#cbd5e1;">-</span>'}</td>
+                </tr>`;
+            }
+        });
+        html += '</tbody></table>';
+        return html;
+    }
+
+    // ৫. ডিউটি চিট - শুধু পদবী, নাম এবং ব্যাটারি
+    function renderChitView() {
+        const date = document.getElementById('chitDate').value;
+        document.getElementById('chitDisplayDate').innerText = 'তারিখ: ' + date;
+
+        const summaryArea = document.getElementById('chitSummaryArea');
+        const detailArea = document.getElementById('chitDetailArea');
+
+        const btys = ['পাপা', 'কিউবেক', 'রোমিও', 'হেঃ কোয়াঃ'];
+        let summaryHtml = `<table class="summary-table">
+            <thead>
+                <tr>
+                    <th>ব্যাটারি</th>
+                    <th>মোট</th>
+                    <th>উপস্থিত</th>
+                    <th>অসুস্থ</th>
+                    <th>ছাড়প্রাপ্ত</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        btys.forEach(b => {
+            const bMembers = members.filter(m => m.bty === b && m.status !== 'PostedOut');
+            summaryHtml += `<tr>
+                <td><strong>${b}</strong></td>
+                <td>${bMembers.length}</td>
+                <td>${bMembers.filter(m => m.status === 'Present').length}</td>
+                <td>${bMembers.filter(m => m.status === 'Sick').length}</td>
+                <td>${bMembers.filter(m => m.status === 'Exempted').length}</td>
+            </tr>`;
+        });
+
+        summaryHtml += `</tbody></table>`;
+        summaryArea.innerHTML = summaryHtml;
+
+        // ডিউটি চিট ডিটেইলস (শুধুমাত্র পদবী, নাম এবং ব্যাটারি)
+        const dayRoster = rosters[date] || {};
+        let detailHtml = `<h4 style="margin:10px 0 5px 0; text-align:center; font-size:13px;">আজকের ডিউটি ও ওয়ার্কিং চিট</h4>
+        <table class="parade-table">
+            <thead>
+                <tr>
+                    <th>পোস্টের নাম</th>
+                    <th>শিফট / সময়</th>
+                    <th>পদবী (Rank)</th>
+                    <th>নাম (Name)</th>
+                    <th>ব্যাটারি (Bty)</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        posts.forEach(p => {
+            const r = dayRoster[p.id] || {};
+            const m1 = members.find(m => m.id === r.shift1);
+            const m2 = members.find(m => m.id === r.shift2);
+            const m3 = members.find(m => m.id === r.shift3);
+
+            let rowSpan = p.type === 'Night' ? 3 : (p.type === 'Day' ? 2 : 1);
+
+            detailHtml += `
+                <tr>
+                    <td rowspan="${rowSpan}"><strong>${p.name}</strong></td>
+                    <td>${p.shift1}</td>
+                    <td>${m1 ? m1.rank : '-'}</td>
+                    <td>${m1 ? m1.name : '-'}</td>
+                    <td>${m1 ? m1.bty : '-'}</td>
+                </tr>`;
+
+            if (p.type !== 'Working') {
+                detailHtml += `<tr>
+                    <td>${p.shift2}</td>
+                    <td>${m2 ? m2.rank : '-'}</td>
+                    <td>${m2 ? m2.name : '-'}</td>
+                    <td>${m2 ? m2.bty : '-'}</td>
+                </tr>`;
+            }
+
+            if (p.type === 'Night') {
+                detailHtml += `<tr>
+                    <td>${p.shift3}</td>
+                    <td>${m3 ? m3.rank : '-'}</td>
+                    <td>${m3 ? m3.name : '-'}</td>
+                    <td>${m3 ? m3.bty : '-'}</td>
+                </tr>`;
+            }
+        });
+
+        detailHtml += `</tbody></table>`;
+        detailArea.innerHTML = detailHtml;
+    }
+</script>
+
+</body>
+</html>
