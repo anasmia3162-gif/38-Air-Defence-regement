@@ -3,117 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট - সদস্য ব্যবস্থাপনা</title>
+    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        
-        .card { background: #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+        body { background-color: #0f172a; color: #f8fafc; margin: 0; padding: 15px; }
+        .container { max-width: 700px; margin: 0 auto; background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155; }
         h2, h3 { color: #38bdf8; text-align: center; margin-top: 0; }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-group { margin-bottom: 10px; }
-        .form-group.full-width { grid-column: span 2; }
+        .nav-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .nav-bar button { flex: 1 1 30%; padding: 10px; background: #334155; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .nav-bar button.active { background: #0284c7; }
         
-        label { display: block; margin-bottom: 5px; color: #cbd5e1; font-size: 14px; }
-        input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 5px; color: #fff; font-size: 14px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .full-width { grid-column: span 2; }
+        .form-group { margin-bottom: 8px; }
+        label { display: block; margin-bottom: 4px; color: #cbd5e1; font-size: 13px; }
+        input, select, textarea { width: 100%; padding: 9px; background: #0f172a; border: 1px solid #475569; border-radius: 5px; color: #fff; font-size: 13px; }
         input:focus, select:focus { border-color: #38bdf8; outline: none; }
         
-        .btn { width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn { width: 100%; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 10px; }
         .btn:hover { background: #059669; }
+        .btn-admin { background: #e11d48; }
+        .btn-sec { background: #475569; margin-top: 15px; }
+        
+        .hidden { display: none; }
+        .profile-card { text-align: center; padding: 15px; background: #0f172a; border-radius: 8px; margin-bottom: 15px; }
+        .profile-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; }
         
         /* টেবিল স্টাইল */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #334155; padding: 10px; text-align: center; font-size: 14px; }
+        .table-responsive { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #334155; padding: 8px 5px; text-align: center; }
         th { background: #0f172a; color: #38bdf8; }
-        .member-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
-        .hidden { display: none; }
+        .t-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .toggle-link { text-align: center; margin-top: 12px; color: #38bdf8; cursor: pointer; font-size: 13px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card">
-        <h2>+ নতুন সদস্য যুক্ত করুন</h2>
-        <form id="memberForm" onsubmit="addMember(event)">
-            <div class="form-grid">
-                <!-- ১. ছবি -->
-                <div class="form-group full-width">
-                    <label>প্রোফাইল ছবি:</label>
-                    <input type="file" id="memberPhoto" accept="image/*" onchange="previewImage(event)" required>
+
+    <!-- ১. সদস্য রেজিস্ট্রেশন / অ্যাকাউন্ট তৈরি -->
+    <div id="register-screen">
+        <h2>সদস্য রেজিস্ট্রেশন</h2>
+        <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+                <label>সেনা নম্বর (Army No):</label>
+                <input type="text" id="regArmyNo" placeholder="যেমন: BA-10234" required>
+            </div>
+            <div class="form-group">
+                <label>নাম:</label>
+                <input type="text" id="regName" placeholder="আপনার নাম" required>
+            </div>
+            <div class="form-group">
+                <label>পাসওয়ার্ড:</label>
+                <input type="password" id="regPassword" required>
+            </div>
+            <div class="form-group">
+                <label>প্রোফাইল ছবি:</label>
+                <input type="file" id="regPhoto" accept="image/*" onchange="previewImage(event, 'regPreview')" required>
+                <img id="regPreview" class="profile-img hidden" style="margin: 10px auto 0;" alt="Preview">
+            </div>
+            <button type="submit" class="btn">অ্যাকাউন্ট তৈরি করুন</button>
+        </form>
+        <div class="toggle-link" onclick="showScreen('login-screen')">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</div>
+    </div>
+
+    <!-- ২. লগইন স্ক্রিন -->
+    <div id="login-screen" class="hidden">
+        <h2>পোর্টালে লগইন</h2>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>সেনা নম্বর (Army No):</label>
+                <input type="text" id="loginArmyNo" required>
+            </div>
+            <div class="form-group">
+                <label>পাসওয়ার্ড:</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <div class="form-group">
+                <label>লগইন রোল:</label>
+                <select id="loginRole">
+                    <option value="member">সাধারণ সদস্য (Member)</option>
+                    <option value="admin">এডমিন (Admin)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">লগইন</button>
+        </form>
+        <div class="toggle-link" onclick="showScreen('register-screen')">নতুন অ্যাকাউন্ট তৈরি করতে রেজিস্ট্রেশন করুন</div>
+    </div>
+
+    <!-- ৩. মেম্বার ড্যাশবোর্ড -->
+    <div id="member-dashboard" class="hidden">
+        <div class="profile-card">
+            <img id="userImg" class="profile-img" src="" alt="Profile">
+            <h3 id="userNameDisplay" style="margin: 5px 0;"></h3>
+            <span style="color:#38bdf8;">সেনা নং: <span id="userArmyNoDisplay"></span></span>
+        </div>
+
+        <h3>রেজিমেন্টাল আপডেট</h3>
+        <div class="nav-bar">
+            <button onclick="viewCategory('IPFT')">IPFT</button>
+            <button onclick="viewCategory('RET')">RET</button>
+            <button onclick="viewCategory('SpeedMarch')">স্পিডমার্চ</button>
+            <button onclick="viewCategory('DutySheet')">ডিউটি চিট</button>
+        </div>
+
+        <div style="background:#0f172a; padding:15px; border-left:4px solid #38bdf8; border-radius:4px;" id="displayArea">
+            <p style="margin:0; color:#94a3b8;">তথ্য দেখতে উপরের বাটনে ক্লিক করুন।</p>
+        </div>
+
+        <button onclick="logout()" class="btn btn-sec">লগআউট</button>
+    </div>
+
+    <!-- ৪. এডমিন প্যানেল (আপডেট করা সদস্য যোগ পেজ সহ) -->
+    <div id="admin-dashboard" class="hidden">
+        <h2>এডমিন প্যানেল</h2>
+        
+        <!-- নেভিগেশন ট্যাব -->
+        <div class="nav-bar">
+            <button id="tab1" class="active" onclick="switchAdminTab('add-member')">+ নতুন সদস্য যোগ</button>
+            <button id="tab2" onclick="switchAdminTab('post-notice')">নোটিশ / আপডেট পোস্ট</button>
+        </div>
+
+        <!-- ট্যাব ১: নতুন সদস্য যুক্তকরণ (আপডেটেড শর্তাবলী সহ) -->
+        <div id="add-member-section">
+            <form onsubmit="addMemberByAdmin(event)">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>১. ছবি আপলোড করুন:</label>
+                        <input type="file" id="mPhoto" accept="image/*" onchange="previewImage(event, 'mPreview')" required>
+                        <img id="mPreview" class="profile-img hidden" style="margin: 5px auto 0;" alt="Preview">
+                    </div>
+
+                    <div class="form-group">
+                        <label>সেনা নম্বর (Army No):</label>
+                        <input type="text" id="mArmyNo" placeholder="যেমন: BA-10234" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>নাম:</label>
+                        <input type="text" id="mName" placeholder="সদস্যের নাম" required>
+                    </div>
+
+                    <!-- ২. ক্যাটাগরি -->
+                    <div class="form-group full-width">
+                        <label>২. ক্যাটাগরি:</label>
+                        <select id="mCategory" onchange="updateDropdowns()" required>
+                            <option value="">-- নির্বাচন করুন --</option>
+                            <option value="officer">অফিসার</option>
+                            <option value="jco">জেসিও</option>
+                            <option value="others">অন্যান্য</option>
+                        </select>
+                    </div>
+
+                    <!-- ৩. র‍্যাঙ্ক (ডায়নামিক) -->
+                    <div class="form-group">
+                        <label>৩. র‍্যাঙ্ক:</label>
+                        <select id="mRank" required disabled>
+                            <option value="">-- আগে ক্যাটাগরি বাছুন --</option>
+                        </select>
+                    </div>
+
+                    <!-- পেশা (ডায়নামিক) -->
+                    <div class="form-group">
+                        <label>পেশা (Trade):</label>
+                        <select id="mTrade" disabled>
+                            <option value="-">-- প্রযোজ্য নয় --</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- মূল তথ্য -->
-                <div class="form-group">
-                    <label>সেনা নম্বর (Army No):</label>
-                    <input type="text" id="armyNo" placeholder="যেমন: BA-10234" required>
-                </div>
-                <div class="form-group">
-                    <label>নাম:</label>
-                    <input type="text" id="memberName" placeholder="সদস্যের নাম" required>
-                </div>
+                <button type="submit" class="btn btn-admin">সদস্য যুক্ত করুন</button>
+            </form>
 
-                <!-- ২. ক্যাটাগরি ড্রপডাউন -->
+            <!-- সব সেনাসদস্যদের তালিকা (ক্রমিক নম্বরসহ) -->
+            <h3 style="margin-top:25px; text-align:left;">রেজিমেন্ট সদস্য তালিকা</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ক্রমিক নং</th>
+                            <th>ছবি</th>
+                            <th>সেনা নম্বর</th>
+                            <th>নাম</th>
+                            <th>ক্যাটাগরি</th>
+                            <th>র‍্যাঙ্ক</th>
+                            <th>পেশা</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberTableBody">
+                        <!-- তথ্য ডায়নামিকভাবে বসবে -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ট্যাব ২: নোটিশ পোস্ট -->
+        <div id="post-notice-section" class="hidden">
+            <form onsubmit="handleAdminPost(event)">
                 <div class="form-group">
                     <label>ক্যাটাগরি:</label>
-                    <select id="category" onchange="updateDropdowns()" required>
-                        <option value="">-- নির্বাচন করুন --</option>
-                        <option value="officer">অফিসার</option>
-                        <option value="jco">জেসিও</option>
-                        <option value="others">অন্যান্য</option>
+                    <select id="postCategory" required>
+                        <option value="IPFT">IPFT</option>
+                        <option value="RET">RET</option>
+                        <option value="SpeedMarch">স্পিডমার্চ</option>
+                        <option value="DutySheet">ডিউটি চিট</option>
                     </select>
                 </div>
-
-                <!-- ৩. র‍্যাঙ্ক ড্রপডাউন (ডায়নামিক) -->
                 <div class="form-group">
-                    <label>র‍্যাঙ্ক:</label>
-                    <select id="rank" required disabled>
-                        <option value="">-- আগে ক্যাটাগরি নির্বাচন করুন --</option>
-                    </select>
+                    <label>বিস্তারিত নোটিশ:</label>
+                    <textarea id="postContent" rows="4" required></textarea>
                 </div>
+                <button type="submit" class="btn btn-admin">পাবলিশ করুন</button>
+            </form>
+        </div>
 
-                <!-- পেশা ড্রপডাউন (ডায়নামিক) -->
-                <div class="form-group full-width" id="tradeGroup">
-                    <label>পেশা (Trade):</label>
-                    <select id="trade" disabled>
-                        <option value="">-- প্রযোজ্য নয় --</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="submit" class="btn" style="margin-top: 15px;">সদস্য সেভ করুন</button>
-        </form>
+        <button onclick="logout()" class="btn btn-sec">লগআউট</button>
     </div>
 
-    <!-- সদস্যদের তালিকা -->
-    <div class="card">
-        <h3>রেজিমেন্ট সদস্য তালিকা</h3>
-        <table id="memberTable">
-            <thead>
-                <tr>
-                    <th>ক্রমিক নং</th>
-                    <th>ছবি</th>
-                    <th>সেনা নম্বর</th>
-                    <th>নাম</th>
-                    <th>ক্যাটাগরি</th>
-                    <th>র‍্যাঙ্ক</th>
-                    <th>পেশা</th>
-                </tr>
-            </thead>
-            <tbody id="memberTableBody">
-                <!-- ডাটা ডায়নামিকভাবে আসবে -->
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <script>
-    // র‍্যাঙ্ক এবং পেশার ডাটা সেট
-    const optionsData = {
+    // ড্রপডাউনের জন্য শর্তভিত্তিক ডেটা সেট
+    const dropdownData = {
         officer: {
             ranks: ['লেফটেন্যান্ট', 'ক্যাপ্টেন', 'মেজর', 'লেঃ কর্নেল'],
-            trades: [] // অফিসারদের পেশা ড্রপডাউন নেই
+            trades: [] // অফিসারদের জন্য পেশা নেই
         },
         jco: {
             ranks: ['আরসিও', 'ওয়াঃ অফিঃ', 'সিনিঃ ওয়াঃ অফিঃ', 'মাস্টার ওয়াঃ অফিঃ', 'অনারারি লেঃ', 'অনারারি ক্যাপ্টেন'],
@@ -125,42 +241,57 @@
         }
     };
 
-    let selectedPhotoBase64 = "";
+    let tempImageBase64 = "";
+    let currentUser = null;
     let memberList = [];
 
-    // ছবি প্রিভিউ
-    function previewImage(event) {
+    const systemData = {
+        'IPFT': 'আইপিএফটি নোটিশ: ২৫ তারিখ শারীরিক পরীক্ষা নেওয়া হবে।',
+        'RET': 'আরইটি নোটিশ: নতুন শিডিউল দেওয়া হয়েছে।',
+        'SpeedMarch': 'স্পিডমার্চ নোটিশ: আগামী শুক্রবারে ১০ কিমি স্পিডমার্চ।',
+        'DutySheet': 'ডিউটি চিট: আজকের গার্ড তালিকা প্রকাশিত হয়েছে।'
+    };
+
+    function showScreen(screenId) {
+        ['register-screen', 'login-screen', 'member-dashboard', 'admin-dashboard'].forEach(id => {
+            document.getElementById(id).classList.add('hidden');
+        });
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    function previewImage(event, previewId) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                selectedPhotoBase64 = e.result;
+                tempImageBase64 = e.target.result;
+                const imgNode = document.getElementById(previewId);
+                imgNode.src = tempImageBase64;
+                imgNode.classList.remove('hidden');
             };
             reader.readAsDataURL(file);
         }
     }
 
-    // ক্যাটাগরি অনুযায়ী র‍্যাঙ্ক ও পেশার ড্রপডাউন আপডেট করার ফাংশন
+    // ড্রপডাউন পরিবর্তন লজিক
     function updateDropdowns() {
-        const category = document.getElementById('category').value;
-        const rankSelect = document.getElementById('rank');
-        const tradeSelect = document.getElementById('trade');
+        const category = document.getElementById('mCategory').value;
+        const rankSelect = document.getElementById('mRank');
+        const tradeSelect = document.getElementById('mTrade');
 
         rankSelect.innerHTML = '<option value="">-- র‍্যাঙ্ক নির্বাচন করুন --</option>';
-        tradeSelect.innerHTML = '<option value="">-- পেশা নির্বাচন করুন --</option>';
+        tradeSelect.innerHTML = '<option value="-">-- পেশা নির্বাচন করুন --</option>';
 
-        if (category && optionsData[category]) {
-            // র‍্যাঙ্ক পপুলেট
+        if (category && dropdownData[category]) {
             rankSelect.disabled = false;
-            optionsData[category].ranks.forEach(rank => {
-                rankSelect.innerHTML += `<option value="${rank}">${rank}</option>`;
+            dropdownData[category].ranks.forEach(r => {
+                rankSelect.innerHTML += `<option value="${r}">${r}</option>`;
             });
 
-            // পেশা পপুলেট (যদি থাকে)
-            if (optionsData[category].trades.length > 0) {
+            if (dropdownData[category].trades.length > 0) {
                 tradeSelect.disabled = false;
-                optionsData[category].trades.forEach(trade => {
-                    tradeSelect.innerHTML += `<option value="${trade}">${trade}</option>`;
+                dropdownData[category].trades.forEach(t => {
+                    tradeSelect.innerHTML += `<option value="${t}">${t}</option>`;
                 });
             } else {
                 tradeSelect.disabled = true;
@@ -172,48 +303,110 @@
         }
     }
 
-    // নতুন সদস্য যুক্ত করা
-    function addMember(e) {
+    function addMemberByAdmin(e) {
         e.preventDefault();
+        const catSelect = document.getElementById('mCategory');
 
-        const member = {
-            armyNo: document.getElementById('armyNo').value,
-            name: document.getElementById('memberName').value,
-            category: document.getElementById('category').options[document.getElementById('category').selectedIndex].text,
-            rank: document.getElementById('rank').value,
-            trade: document.getElementById('trade').value || '-',
-            photo: selectedPhotoBase64 || 'https://via.placeholder.com/45'
+        const newMember = {
+            armyNo: document.getElementById('mArmyNo').value,
+            name: document.getElementById('mName').value,
+            category: catSelect.options[catSelect.selectedIndex].text,
+            rank: document.getElementById('mRank').value,
+            trade: document.getElementById('mTrade').value,
+            photo: tempImageBase64 || 'https://via.placeholder.com/35'
         };
 
-        memberList.push(member);
-        renderTable();
+        memberList.push(newMember);
+        renderMemberTable();
 
-        // ফর্ম রিসেট
-        document.getElementById('memberForm').reset();
-        document.getElementById('rank').disabled = true;
-        document.getElementById('trade').disabled = true;
-        selectedPhotoBase64 = "";
+        alert('সদস্য সফলভাবে যুক্ত হয়েছে!');
+        e.target.reset();
+        document.getElementById('mRank').disabled = true;
+        document.getElementById('mTrade').disabled = true;
+        document.getElementById('mPreview').classList.add('hidden');
+        tempImageBase64 = "";
     }
 
-    // টেবিল রেন্ডার এবং ক্রমিক নম্বর দেওয়া
-    function renderTable() {
-        const tableBody = document.getElementById('memberTableBody');
-        tableBody.innerHTML = "";
+    function renderMemberTable() {
+        const tbody = document.getElementById('memberTableBody');
+        tbody.innerHTML = "";
 
-        memberList.forEach((member, index) => {
-            const row = `
+        memberList.forEach((m, index) => {
+            tbody.innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
-                    <td><img src="${member.photo}" class="member-img" alt="Photo"></td>
-                    <td>${member.armyNo}</td>
-                    <td>${member.name}</td>
-                    <td>${member.category}</td>
-                    <td>${member.rank}</td>
-                    <td>${member.trade}</td>
+                    <td><img src="${m.photo}" class="t-img"></td>
+                    <td>${m.armyNo}</td>
+                    <td>${m.name}</td>
+                    <td>${m.category}</td>
+                    <td>${m.rank}</td>
+                    <td>${m.trade}</td>
                 </tr>
             `;
-            tableBody.innerHTML += row;
         });
+    }
+
+    function switchAdminTab(tab) {
+        if(tab === 'add-member') {
+            document.getElementById('add-member-section').classList.remove('hidden');
+            document.getElementById('post-notice-section').classList.add('hidden');
+            document.getElementById('tab1').classList.add('active');
+            document.getElementById('tab2').classList.remove('active');
+        } else {
+            document.getElementById('add-member-section').classList.add('hidden');
+            document.getElementById('post-notice-section').classList.remove('hidden');
+            document.getElementById('tab2').classList.add('active');
+            document.getElementById('tab1').classList.remove('active');
+        }
+    }
+
+    function handleRegister(e) {
+        e.preventDefault();
+        currentUser = {
+            armyNo: document.getElementById('regArmyNo').value,
+            name: document.getElementById('regName').value,
+            photo: tempImageBase64 || 'https://via.placeholder.com/90'
+        };
+        loadMemberDashboard();
+        tempImageBase64 = "";
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const role = document.getElementById('loginRole').value;
+        if (role === 'admin') {
+            showScreen('admin-dashboard');
+        } else {
+            currentUser = {
+                armyNo: document.getElementById('loginArmyNo').value,
+                name: 'সদস্য',
+                photo: 'https://via.placeholder.com/90'
+            };
+            loadMemberDashboard();
+        }
+    }
+
+    function loadMemberDashboard() {
+        document.getElementById('userNameDisplay').innerText = currentUser.name;
+        document.getElementById('userArmyNoDisplay').innerText = currentUser.armyNo;
+        document.getElementById('userImg').src = currentUser.photo;
+        showScreen('member-dashboard');
+    }
+
+    function viewCategory(cat) {
+        document.getElementById('displayArea').innerHTML = `<strong>${cat} নোটিশ:</strong><p style="margin-top:5px; margin-bottom:0;">${systemData[cat]}</p>`;
+    }
+
+    function handleAdminPost(e) {
+        e.preventDefault();
+        const cat = document.getElementById('postCategory').value;
+        systemData[cat] = document.getElementById('postContent').value;
+        alert(`${cat} সেকশনের নোটিশ পোস্ট হয়েছে!`);
+        document.getElementById('postContent').value = '';
+    }
+
+    function logout() {
+        showScreen('login-screen');
     }
 </script>
 
