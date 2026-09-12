@@ -3,412 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</title>
+    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট - ডিউটি ম্যানেজমেন্ট সিস্টেম</title>
+    <!-- বাংলা ফন্ট সোর্স (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; margin: 0; padding: 15px; }
-        .container { max-width: 700px; margin: 0 auto; background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155; }
-        h2, h3 { color: #38bdf8; text-align: center; margin-top: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Noto Sans Bengali', 'Tiro Bangla', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body { background-color: #f1f5f9; color: #0f172a; line-height: 1.5; }
         
-        .nav-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-        .nav-bar button { flex: 1 1 30%; padding: 10px; background: #334155; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 13px; }
-        .nav-bar button.active { background: #0284c7; }
+        header { 
+            background-color: #0f172a; 
+            color: #fff; 
+            padding: 20px 15px 15px 15px; 
+            text-align: center; 
+            border-bottom: 4px solid #10b981; 
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8));
+        }
+        header h1 { font-size: 24px; margin-bottom: 5px; font-weight: 700; }
+        header p { font-size: 13px; opacity: 0.9; }
+
+        .header-btn-group {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .bg-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        nav { display: flex; justify-content: center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
+        nav button { background: rgba(30, 41, 59, 0.9); color: #e2e8f0; border: none; padding: 7px 12px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; }
+        nav button:hover, nav button.active { background: #10b981; color: #fff; }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .full-width { grid-column: span 2; }
+        .container { max-width: 1250px; margin: 15px auto; padding: 0 10px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .card { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
+        .btn { padding: 6px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+        .btn-primary { background-color: #10b981; color: white; }
+        .btn-primary:hover { background-color: #059669; }
+        .btn-edit { background-color: #0284c7; color: white; }
+        .btn-danger { background-color: #ef4444; color: white; }
+        .btn-warning { background-color: #f59e0b; color: white; }
+        
+        /* ১. ছোট করে এক সারিতে ৩টি ড্যাশবোর্ড কার্ড */
+        .dash-grid { 
+            display: flex; 
+            flex-direction: row;
+            justify-content: space-between; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+        }
+        .dash-card { 
+            flex: 1; 
+            background: white; 
+            padding: 10px 5px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06); 
+            text-align: center; 
+            border-bottom: 3px solid #10b981; 
+        }
+        .dash-card h3 { font-size: 20px; color: #0f172a; font-weight: 700; margin-bottom: 2px; }
+        .dash-card p { font-size: 11px; font-weight: 600; color: #475569; }
+
+        /* ৪. ডিউটি লিস্ট ৩টি লম্বালম্বি ভাগ (কলাম) */
+        .three-column-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .three-column-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 10px;
+            background: #e2e8f0;
+            border-left: 4px solid #10b981;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .profile-layout { display: flex; flex-wrap: wrap; gap: 15px; }
+        .sidebar { flex: 1 1 300px; background: #fff; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .main-profile { flex: 3 1 500px; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        
+        .bty-filter-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+        .bty-btn { flex: 1; min-width: 45px; padding: 5px 2px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 600; text-align: center; }
+        .bty-btn.active, .bty-btn:hover { background: #10b981; color: white; border-color: #10b981; }
+
+        .search-box { width: 100%; padding: 6px 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 12px; }
+        .member-item { padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 6px; cursor: pointer; font-size: 12px; }
+        .member-item:hover, .member-item.active { background-color: #ecfdf5; border-color: #10b981; }
+        .member-item.posted-out { background-color: #fef2f2; border-color: #fca5a5; }
+        .member-item.sick { background-color: #fff7ed; border-color: #fdba74; }
+        .member-item.exempted { background-color: #f3e8ff; border-color: #c084fc; }
+
+        .badge { font-size: 9px; padding: 2px 4px; border-radius: 3px; font-weight: 600; display: inline-block; margin-top: 2px; }
+        .badge-attached { background: #fef3c7; color: #92400e; }
+        .badge-posted { background: #fee2e2; color: #991b1b; }
+        .badge-sick { background: #ffedd5; color: #c2410c; }
+        .badge-exempt { background: #f3e8ff; color: #6b21a8; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        table th, table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
+        table th { background-color: #f8fafc; color: #334155; font-weight: 600; }
+        select, input[type="date"], input[type="text"], input[type="number"], textarea { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; width: 100%; font-size: 12px; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 15px; overflow-y: auto; }
+        .modal-content { background: white; padding: 15px; border-radius: 8px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
         .form-group { margin-bottom: 8px; }
-        label { display: block; margin-bottom: 4px; color: #cbd5e1; font-size: 13px; }
-        input, select, textarea { width: 100%; padding: 9px; background: #0f172a; border: 1px solid #475569; border-radius: 5px; color: #fff; font-size: 13px; }
-        input:focus, select:focus { border-color: #38bdf8; outline: none; }
-        
-        .btn { width: 100%; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 10px; }
-        .btn:hover { background: #059669; }
-        .btn-admin { background: #e11d48; }
-        .btn-sec { background: #475569; margin-top: 15px; }
-        
-        .hidden { display: none; }
-        .profile-card { text-align: center; padding: 15px; background: #0f172a; border-radius: 8px; margin-bottom: 15px; }
-        .profile-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; }
-        
-        /* টেবিল স্টাইল */
-        .table-responsive { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th, td { border: 1px solid #334155; padding: 8px 5px; text-align: center; }
-        th { background: #0f172a; color: #38bdf8; }
-        .t-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
-        .toggle-link { text-align: center; margin-top: 12px; color: #38bdf8; cursor: pointer; font-size: 13px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+        .form-row { display: flex; gap: 8px; }
+        .form-row .form-group { flex: 1; }
+
+        .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 12px; border-radius: 6px; margin-top: 15px; }
+        .notice-board h3 { color: #b45309; margin-bottom: 6px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+
+        .a4-container { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 10mm; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; page-break-after: always; }
+        .a4-header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
+        .a4-header h2 { font-size: 18px; color: #0f172a; font-weight: 700; }
+
+        .summary-table, .parade-table { width: 100%; border: 1px solid #000; border-collapse: collapse; margin-bottom: 12px; }
+        .summary-table th, .summary-table td, .parade-table th, .parade-table td { border: 1px solid #000; padding: 4px 6px; font-size: 11px; text-align: center; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #chitPrintArea, #chitPrintArea * { visibility: visible; }
+            #chitPrintArea { position: absolute; left: 0; top: 0; width: 100%; }
+            .a4-container { box-shadow: none; border: none; width: 100%; padding: 0; margin: 0; }
+            .no-print { display: none !important; }
+            @page { size: A4 portrait; margin: 10mm; }
+        }
     </style>
 </head>
 <body>
 
+<header id="mainHeader">
+    <input type="file" id="bgImageInput" accept="image/*" style="display: none;" onchange="changeHeaderBg(event)">
+    <div class="header-btn-group">
+        <button class="bg-btn" onclick="document.getElementById('bgImageInput').click()">🖼️ ছবি আপলোড</button>
+        <button class="bg-btn" style="background:#ef4444;" onclick="removeHeaderBg()">❌ সরান</button>
+    </div>
+
+    <h1>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h1>
+    <p>স্মার্ট ডিউটি ও অটো রোটেশন ম্যানেজমেন্ট সিস্টেম</p>
+    <nav>
+        <button class="nav-link active" onclick="switchTab('homeTab', this)">🏠 হোম ও ডিউটি লিস্ট</button>
+        <button class="nav-link" onclick="switchTab('profileTab', this)">👤 সদস্য ও প্রোফাইল</button>
+        <button class="nav-link" onclick="switchTab('postTab', this)">🛡️ ডিউটি ও ওয়ার্কিং সেটআপ</button>
+        <button class="nav-link" onclick="switchTab('rosterTab', this)">📋 দৈনিক ডিউটি বণ্টন</button>
+        <button class="nav-link" onclick="switchTab('chitTab', this)">📜 প্যারেড স্টেট ও চিট ভিউ</button>
+    </nav>
+</header>
+
 <div class="container">
-
-    <!-- ১. সদস্য রেজিস্ট্রেশন / অ্যাকাউন্ট তৈরি -->
-    <div id="register-screen">
-        <h2>সদস্য রেজিস্ট্রেশন</h2>
-        <form onsubmit="handleRegister(event)">
-            <div class="form-group">
-                <label>সেনা নম্বর (Army No):</label>
-                <input type="text" id="regArmyNo" placeholder="যেমন: BA-10234" required>
+    
+    <!-- ১. হোম ট্যাব -->
+    <div id="homeTab" class="tab-content active">
+        <!-- ১. ছোট করে এক সারিতে ৩টি সামারি কার্ড -->
+        <div class="dash-grid">
+            <div class="dash-card">
+                <h3 id="totalMembersCount">0</h3>
+                <p>মোট সক্রিয় সদস্য</p>
             </div>
-            <div class="form-group">
-                <label>নাম:</label>
-                <input type="text" id="regName" placeholder="আপনার নাম" required>
+            <div class="dash-card">
+                <h3 id="totalPostsCount">0</h3>
+                <p>মোট ডিউটি পোস্ট</p>
             </div>
-            <div class="form-group">
-                <label>পাসওয়ার্ড:</label>
-                <input type="password" id="regPassword" required>
+            <div class="dash-card">
+                <h3 id="todayDutyCount">0</h3>
+                <p>আজকের ডিউটিতে নিয়োজিত</p>
             </div>
-            <div class="form-group">
-                <label>প্রোফাইল ছবি:</label>
-                <input type="file" id="regPhoto" accept="image/*" onchange="previewImage(event, 'regPreview')" required>
-                <img id="regPreview" class="profile-img hidden" style="margin: 10px auto 0;" alt="Preview">
-            </div>
-            <button type="submit" class="btn">অ্যাকাউন্ট তৈরি করুন</button>
-        </form>
-        <div class="toggle-link" onclick="showScreen('login-screen')">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</div>
-    </div>
-
-    <!-- ২. লগইন স্ক্রিন -->
-    <div id="login-screen" class="hidden">
-        <h2>পোর্টালে লগইন</h2>
-        <form onsubmit="handleLogin(event)">
-            <div class="form-group">
-                <label>সেনা নম্বর (Army No):</label>
-                <input type="text" id="loginArmyNo" required>
-            </div>
-            <div class="form-group">
-                <label>পাসওয়ার্ড:</label>
-                <input type="password" id="loginPassword" required>
-            </div>
-            <div class="form-group">
-                <label>লগইন রোল:</label>
-                <select id="loginRole">
-                    <option value="member">সাধারণ সদস্য (Member)</option>
-                    <option value="admin">এডমিন (Admin)</option>
-                </select>
-            </div>
-            <button type="submit" class="btn">লগইন</button>
-        </form>
-        <div class="toggle-link" onclick="showScreen('register-screen')">নতুন অ্যাকাউন্ট তৈরি করতে রেজিস্ট্রেশন করুন</div>
-    </div>
-
-    <!-- ৩. মেম্বার ড্যাশবোর্ড -->
-    <div id="member-dashboard" class="hidden">
-        <div class="profile-card">
-            <img id="userImg" class="profile-img" src="" alt="Profile">
-            <h3 id="userNameDisplay" style="margin: 5px 0;"></h3>
-            <span style="color:#38bdf8;">সেনা নং: <span id="userArmyNoDisplay"></span></span>
         </div>
 
-        <h3>রেজিমেন্টাল আপডেট</h3>
-        <div class="nav-bar">
-            <button onclick="viewCategory('IPFT')">IPFT</button>
-            <button onclick="viewCategory('RET')">RET</button>
-            <button onclick="viewCategory('SpeedMarch')">স্পিডমার্চ</button>
-            <button onclick="viewCategory('DutySheet')">ডিউটি চিট</button>
-        </div>
-
-        <div style="background:#0f172a; padding:15px; border-left:4px solid #38bdf8; border-radius:4px;" id="displayArea">
-            <p style="margin:0; color:#94a3b8;">তথ্য দেখতে উপরের বাটনে ক্লিক করুন।</p>
-        </div>
-
-        <button onclick="logout()" class="btn btn-sec">লগআউট</button>
-    </div>
-
-    <!-- ৪. এডমিন প্যানেল (আপডেট করা সদস্য যোগ পেজ সহ) -->
-    <div id="admin-dashboard" class="hidden">
-        <h2>এডমিন প্যানেল</h2>
-        
-        <!-- নেভিগেশন ট্যাব -->
-        <div class="nav-bar">
-            <button id="tab1" class="active" onclick="switchAdminTab('add-member')">+ নতুন সদস্য যোগ</button>
-            <button id="tab2" onclick="switchAdminTab('post-notice')">নোটিশ / আপডেট পোস্ট</button>
-        </div>
-
-        <!-- ট্যাব ১: নতুন সদস্য যুক্তকরণ (আপডেটেড শর্তাবলী সহ) -->
-        <div id="add-member-section">
-            <form onsubmit="addMemberByAdmin(event)">
-                <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label>১. ছবি আপলোড করুন:</label>
-                        <input type="file" id="mPhoto" accept="image/*" onchange="previewImage(event, 'mPreview')" required>
-                        <img id="mPreview" class="profile-img hidden" style="margin: 5px auto 0;" alt="Preview">
-                    </div>
-
-                    <div class="form-group">
-                        <label>সেনা নম্বর (Army No):</label>
-                        <input type="text" id="mArmyNo" placeholder="যেমন: BA-10234" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>নাম:</label>
-                        <input type="text" id="mName" placeholder="সদস্যের নাম" required>
-                    </div>
-
-                    <!-- ২. ক্যাটাগরি -->
-                    <div class="form-group full-width">
-                        <label>২. ক্যাটাগরি:</label>
-                        <select id="mCategory" onchange="updateDropdowns()" required>
-                            <option value="">-- নির্বাচন করুন --</option>
-                            <option value="officer">অফিসার</option>
-                            <option value="jco">জেসিও</option>
-                            <option value="others">অন্যান্য</option>
-                        </select>
-                    </div>
-
-                    <!-- ৩. র‍্যাঙ্ক (ডায়নামিক) -->
-                    <div class="form-group">
-                        <label>৩. র‍্যাঙ্ক:</label>
-                        <select id="mRank" required disabled>
-                            <option value="">-- আগে ক্যাটাগরি বাছুন --</option>
-                        </select>
-                    </div>
-
-                    <!-- পেশা (ডায়নামিক) -->
-                    <div class="form-group">
-                        <label>পেশা (Trade):</label>
-                        <select id="mTrade" disabled>
-                            <option value="-">-- প্রযোজ্য নয় --</option>
-                        </select>
-                    </div>
+        <!-- ডিউটি ও ওয়ার্কিং লিস্ট -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px; font-size: 15px;">📋 আজকের পূর্ণাঙ্গ ডিউটি ও ওয়ার্কিং রোস্টার</h3>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <label style="font-weight: bold; font-size: 12px;">তারিখ:</label>
+                    <input type="date" id="homeRosterDate" style="width: 140px;" onchange="renderHomeRoster()">
+                </div>
+            </div>
+            
+            <!-- ৪. লম্বালম্বি ৩টি ভাগে বিভক্ত লেআউট -->
+            <div class="three-column-grid">
+                <!-- কলাম ১: দিনের ডিউটি (৩) -->
+                <div>
+                    <div class="section-title">☀️ দিনের ডিউটি লিস্ট</div>
+                    <div id="dayDutyDisplay"></div>
                 </div>
 
-                <button type="submit" class="btn btn-admin">সদস্য যুক্ত করুন</button>
-            </form>
+                <!-- কলাম ২: রাতের ডিউটি (৩) -->
+                <div>
+                    <div class="section-title">🌙 রাতের ডিউটি লিস্ট</div>
+                    <div id="nightDutyDisplay"></div>
+                </div>
 
-            <!-- সব সেনাসদস্যদের তালিকা (ক্রমিক নম্বরসহ) -->
-            <h3 style="margin-top:25px; text-align:left;">রেজিমেন্ট সদস্য তালিকা</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ক্রমিক নং</th>
-                            <th>ছবি</th>
-                            <th>সেনা নম্বর</th>
-                            <th>নাম</th>
-                            <th>ক্যাটাগরি</th>
-                            <th>র‍্যাঙ্ক</th>
-                            <th>পেশা</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memberTableBody">
-                        <!-- তথ্য ডায়নামিকভাবে বসবে -->
-                    </tbody>
-                </table>
+                <!-- কলাম ৩: ওয়ার্কিং লিস্ট (২) -->
+                <div>
+                    <div class="section-title">🛠️ ওয়ার্কিং ও অন্যান্য লিস্ট</div>
+                    <div id="workingDutyDisplay"></div>
+                </div>
             </div>
         </div>
 
-        <!-- ট্যাব ২: নোটিশ পোস্ট -->
-        <div id="post-notice-section" class="hidden">
-            <form onsubmit="handleAdminPost(event)">
-                <div class="form-group">
-                    <label>ক্যাটাগরি:</label>
-                    <select id="postCategory" required>
-                        <option value="IPFT">IPFT</option>
-                        <option value="RET">RET</option>
-                        <option value="SpeedMarch">স্পিডমার্চ</option>
-                        <option value="DutySheet">ডিউটি চিট</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>বিস্তারিত নোটিশ:</label>
-                    <textarea id="postContent" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-admin">পাবলিশ করুন</button>
-            </form>
+        <!-- নোটিশ বোর্ড -->
+        <div class="notice-board">
+            <h3>
+                <span>📌 নোটিশ বোর্ড (Notice Board)</span>
+                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 10px;" onclick="openNoticeModal()">✏️ নোটিশ লিখুন</button>
+            </h3>
+            <p id="noticeText" style="font-size: 13px; color: #451a03; white-space: pre-line; margin-top: 4px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
         </div>
-
-        <button onclick="logout()" class="btn btn-sec">লগআউট</button>
     </div>
 
-</div>
+    <!-- ২. সদস্য ও প্রোফাইল ট্যাব -->
+    <div id="profileTab" class="tab-content">
+        <div class="profile-layout">
+            <div class="sidebar">
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="openModal('profileModal')">+ নতুন সদস্য যুক্ত করুন</button>
+                
+                <h4 style="font-size: 12px; margin-bottom: 4px;">ব্যাটারি ও ক্যাটেগরি ফিল্টার</h4>
+                <div class="bty-filter-group">
+                    <button class="bty-btn active" onclick="setBatteryFilter('ALL', this)">সব</button>
+                    <button class="bty-btn" onclick="setBatteryFilter('পাপা', this)">পাপা</button>
+                    <button class="bty-btn" onclick="setBatteryFilter('কিউবেক', this)">কিউবেক</button>
+                    <button class="bty-btn" onclick="setBatteryFilter('রোমিও', this)">রোমিও</button>
+                    <button class="bty-btn" onclick="setBatteryFilter('হেঃ কোয়াঃ', this)">হেঃ কোয়াঃ</button>
+                    <button class="bty-btn" style="background:#fee2e2;" onclick="setBatteryFilter('POSTED', this)">পোস্টিং</button>
+                </div>
 
-<script>
-    // ড্রপডাউনের জন্য শর্তভিত্তিক ডেটা সেট
-    const dropdownData = {
-        officer: {
-            ranks: ['লেফটেন্যান্ট', 'ক্যাপ্টেন', 'মেজর', 'লেঃ কর্নেল'],
-            trades: [] // অফিসারদের জন্য পেশা নেই
-        },
-        jco: {
-            ranks: ['আরসিও', 'ওয়াঃ অফিঃ', 'সিনিঃ ওয়াঃ অফিঃ', 'মাস্টার ওয়াঃ অফিঃ', 'অনারারি লেঃ', 'অনারারি ক্যাপ্টেন'],
-            trades: ['ওপি আর', 'ওসিইউ', 'ডিএমটি', 'গানার', 'করণিক', 'কুক']
-        },
-        others: {
-            ranks: ['সৈনিক', 'ল্যাঃ কর্পোরাল', 'কর্পোরাল', 'সার্জেন্ট'],
-            trades: ['ওপি আর', 'ওসিইউ', 'ডিএমটি', 'গানার', 'করণিক', 'কুক ইউ', 'কুক মেস', 'এনসি ইউ', 'এনসি মেস', 'মেস ওয়েটার', 'মসালচি']
-        }
-    };
-
-    let tempImageBase64 = "";
-    let currentUser = null;
-    let memberList = [];
-
-    const systemData = {
-        'IPFT': 'আইপিএফটি নোটিশ: ২৫ তারিখ শারীরিক পরীক্ষা নেওয়া হবে।',
-        'RET': 'আরইটি নোটিশ: নতুন শিডিউল দেওয়া হয়েছে।',
-        'SpeedMarch': 'স্পিডমার্চ নোটিশ: আগামী শুক্রবারে ১০ কিমি স্পিডমার্চ।',
-        'DutySheet': 'ডিউটি চিট: আজকের গার্ড তালিকা প্রকাশিত হয়েছে।'
-    };
-
-    function showScreen(screenId) {
-        ['register-screen', 'login-screen', 'member-dashboard', 'admin-dashboard'].forEach(id => {
-            document.getElementById(id).classList.add('hidden');
-        });
-        document.getElementById(screenId).classList.remove('hidden');
-    }
-
-    function previewImage(event, previewId) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                tempImageBase64 = e.target.result;
-                const imgNode = document.getElementById(previewId);
-                imgNode.src = tempImageBase64;
-                imgNode.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // ড্রপডাউন পরিবর্তন লজিক
-    function updateDropdowns() {
-        const category = document.getElementById('mCategory').value;
-        const rankSelect = document.getElementById('mRank');
-        const tradeSelect = document.getElementById('mTrade');
-
-        rankSelect.innerHTML = '<option value="">-- র‍্যাঙ্ক নির্বাচন করুন --</option>';
-        tradeSelect.innerHTML = '<option value="-">-- পেশা নির্বাচন করুন --</option>';
-
-        if (category && dropdownData[category]) {
-            rankSelect.disabled = false;
-            dropdownData[category].ranks.forEach(r => {
-                rankSelect.innerHTML += `<option value="${r}">${r}</option>`;
-            });
-
-            if (dropdownData[category].trades.length > 0) {
-                tradeSelect.disabled = false;
-                dropdownData[category].trades.forEach(t => {
-                    tradeSelect.innerHTML += `<option value="${t}">${t}</option>`;
-                });
-            } else {
-                tradeSelect.disabled = true;
-                tradeSelect.innerHTML = '<option value="-">প্রযোজ্য নয়</option>';
-            }
-        } else {
-            rankSelect.disabled = true;
-            tradeSelect.disabled = true;
-        }
-    }
-
-    function addMemberByAdmin(e) {
-        e.preventDefault();
-        const catSelect = document.getElementById('mCategory');
-
-        const newMember = {
-            armyNo: document.getElementById('mArmyNo').value,
-            name: document.getElementById('mName').value,
-            category: catSelect.options[catSelect.selectedIndex].text,
-            rank: document.getElementById('mRank').value,
-            trade: document.getElementById('mTrade').value,
-            photo: tempImageBase64 || 'https://via.placeholder.com/35'
-        };
-
-        memberList.push(newMember);
-        renderMemberTable();
-
-        alert('সদস্য সফলভাবে যুক্ত হয়েছে!');
-        e.target.reset();
-        document.getElementById('mRank').disabled = true;
-        document.getElementById('mTrade').disabled = true;
-        document.getElementById('mPreview').classList.add('hidden');
-        tempImageBase64 = "";
-    }
-
-    function renderMemberTable() {
-        const tbody = document.getElementById('memberTableBody');
-        tbody.innerHTML = "";
-
-        memberList.forEach((m, index) => {
-            tbody.innerHTML += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td><img src="${m.photo}" class="t-img"></td>
-                    <td>${m.armyNo}</td>
-                    <td>${m.name}</td>
-                    <td>${m.category}</td>
-                    <td>${m.rank}</td>
-                    <td>${m.trade}</td>
-                </tr>
-            `;
-        });
-    }
-
-    function switchAdminTab(tab) {
-        if(tab === 'add-member') {
-            document.getElementById('add-member-section').classList.remove('hidden');
-            document.getElementById('post-notice-section').classList.add('hidden');
-            document.getElementById('tab1').classList.add('active');
-            document.getElementById('tab2').classList.remove('active');
-        } else {
-            document.getElementById('add-member-section').classList.add('hidden');
-            document.getElementById('post-notice-section').classList.remove('hidden');
-            document.getElementById('tab2').classList.add('active');
-            document.getElementById('tab1').classList.remove('active');
-        }
-    }
-
-    function handleRegister(e) {
-        e.preventDefault();
-        currentUser = {
-            armyNo: document.getElementById('regArmyNo').value,
-            name: document.getElementById('regName').value,
-            photo: tempImageBase64 || 'https://via.placeholder.com/90'
-        };
-        loadMemberDashboard();
-        tempImageBase64 = "";
-    }
-
-    function handleLogin(e) {
-        e.preventDefault();
-        const role = document.getElementById('loginRole').value;
-        if (role === 'admin') {
-            showScreen('admin-dashboard');
-        } else {
-            currentUser = {
-                armyNo: document.getElementById('loginArmyNo').value,
-                name: 'সদস্য',
-                photo: 'https://via.placeholder.com/90'
-            };
-            loadMemberDashboard();
-        }
-    }
-
-    function loadMemberDashboard() {
-        document.getElementById('userNameDisplay').innerText = currentUser.name;
-        document.getElementById('userArmyNoDisplay').innerText = currentUser.armyNo;
-        document.getElementById('userImg').src = currentUser.photo;
-        showScreen('member-dashboard');
-    }
-
-    function viewCategory(cat) {
-        document.getElementById('displayArea').innerHTML = `<strong>${cat} নোটিশ:</strong><p style="margin-top:5px; margin-bottom:0;">${systemData[cat]}</p>`;
-    }
-
-    function handleAdminPost(e) {
-        e.preventDefault();
-        const cat = document.getElementById('postCategory').value;
-        systemData[cat] = document.getElementById('postContent').value;
-        alert(`${cat} সেকশনের নোটিশ পোস্ট হয়েছে!`);
-        document.getElementById('postContent').value = '';
-    }
-
-    function logout() {
-        showScreen('login-screen');
-    }
-</script>
-
-</body>
-</html>
+                <input type="text" id="searchInput" class="search-box" placeholder="নাম, নম্বর বা র‍্যাঙ্ক দিয়ে খুঁজুন..." onkeyup="filterMembers()">
+                <div id="member
