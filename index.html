@@ -141,7 +141,7 @@
       <button class="nav-btn" onclick="window.scrollTo(0,0)"><span class="icon">🏠</span><span>Home</span></button>
       <button class="nav-btn"><span class="icon">💬</span><span>Messages</span><span class="badge">3</span></button>
       <button class="nav-btn" onclick="toggleCart()"><span class="icon">🛒</span><span>Cart</span><span class="badge" id="cartBadge">0</span></button>
-      <button class="nav-btn" onclick="openCustomerOrders()"><span class="icon">👤</span><span>Account</span></button>
+      <button class="nav-btn" onclick="openAccountModal()"><span class="icon">👤</span><span>Account</span></button>
     </div>
   </div>
 
@@ -276,12 +276,11 @@
     </div>
   </div>
 
-  <!-- CUSTOMER ORDER HISTORY MODAL -->
-  <div class="modal" id="orderHistoryModal">
+  <!-- ACCOUNT & ORDER HISTORY MODAL -->
+  <div class="modal" id="accountModal">
     <div class="modal-box">
-      <h3 style="margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:6px;">📦 আমার অর্ডার ও ট্র্যাকিং হিস্ট্রি</h3>
-      <div id="customerOrderList"></div>
-      <button onclick="closeCustomerOrders()" style="width:100%; background:var(--primary-color); color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer; font-weight:bold;">বন্ধ করুন</button>
+      <div id="accountContent"></div>
+      <button onclick="closeAccountModal()" style="width:100%; background:#666; color:white; border:none; padding:8px; border-radius:4px; margin-top:12px; cursor:pointer; font-weight:bold;">বন্ধ করুন</button>
     </div>
   </div>
 
@@ -293,6 +292,8 @@
       { id: 2, name: 'E-Bike Remote Lock', price: 499, stock: 5, category: 'Electronics', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300', isTop: true }
     ];
     let orders = JSON.parse(localStorage.getItem('bazari_orders')) || [];
+    let accounts = JSON.parse(localStorage.getItem('bazari_accounts')) || [];
+    let currentCustomerPhone = localStorage.getItem('bazari_logged_phone') || null;
     let cart = [];
 
     function checkRoute() {
@@ -404,6 +405,19 @@
       if (!name || !phone || !address) { alert('অনুগ্রহ করে নাম, ফোন ও ঠিকানা পূরণ করুন!'); return; }
       if (cart.length === 0) { alert('আপনার কার্ট খালি!'); return; }
 
+      // 1. AUTOMATIC ACCOUNT CREATION / UPDATE
+      let accountObj = accounts.find(a => a.phone === phone);
+      if (!accountObj) {
+        accountObj = { phone, name, address, createdAt: new Date().toLocaleDateString() };
+        accounts.push(accountObj);
+        localStorage.setItem('bazari_accounts', JSON.stringify(accounts));
+      }
+      
+      // Auto login this customer
+      currentCustomerPhone = phone;
+      localStorage.setItem('bazari_logged_phone', phone);
+
+      // 2. STOCK DECREMENT
       cart.forEach(cartItem => {
         const prod = products.find(p => p.id === cartItem.id);
         if (prod && prod.stock > 0) {
@@ -412,6 +426,7 @@
       });
       localStorage.setItem('bazari_prods', JSON.stringify(products));
 
+      // 3. ORDER CREATION
       const newOrder = {
         id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
         customer: { name, phone, address },
@@ -428,45 +443,86 @@
       toggleCart();
 
       renderCustomerUI();
-      alert('আপনার অর্ডারটি সফলভাবে প্লেস হয়েছে! Account সেকশন থেকে ট্র্যাক করতে পারবেন।');
-      openCustomerOrders();
+      alert(`ধন্যবাদ ${name}! ${phone} নম্বরে আপনার একটি অ্যাকাউন্ট তৈরি হয়েছে এবং অর্ডার প্লেস হয়েছে।`);
+      openAccountModal();
     }
 
-    // CUSTOMER ORDER HISTORY ENGINE
-    function openCustomerOrders() {
-      const modal = document.getElementById('orderHistoryModal');
-      const listContainer = document.getElementById('customerOrderList');
+    // ACCOUNT & TRACKING ENGINE
+    function openAccountModal() {
+      const modal = document.getElementById('accountModal');
+      const content = document.getElementById('accountContent');
       modal.style.display = 'flex';
 
-      if(orders.length === 0) {
-        listContainer.innerHTML = `<p style="text-align:center; font-size:13px; color:#666; padding:20px 0;">আপনার কোনো পূর্ববর্তী অর্ডার নেই।</p>`;
-        return;
+      if (!currentCustomerPhone) {
+        // Show Login View if not logged in
+        content.innerHTML = `
+          <h3 style="margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:6px;">👤 কাস্টমার অ্যাকাউন্ট</h3>
+          <p style="font-size:12px; color:#666; margin-bottom:10px;">আপনার মোবাইল নম্বর দিয়ে লগইন করে আগের অর্ডারের হিস্ট্রি ও ট্র্যাকিং দেখুন:</p>
+          <input type="text" id="loginPhoneInput" placeholder="মোবাইল নম্বর লিখুন" style="width:100%; padding:8px; margin-bottom:10px; font-size:12px;">
+          <button onclick="loginCustomer()" style="width:100%; background:var(--primary-color); color:white; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">লগইন করুন / ট্র্যাকিং দেখুন</button>
+        `;
+      } else {
+        // Show Account Details & Order History if logged in
+        const userOrders = orders.filter(o => o.customer.phone === currentCustomerPhone).reverse();
+        const accountInfo = accounts.find(a => a.phone === currentCustomerPhone);
+
+        const statusIcons = {
+          'Pending': '⏳ পেন্ডিং',
+          'Processing': '📦 প্রসেসিং চলছে',
+          'Shipped': '🚚 ডেলিভারির জন্য বের হয়েছে',
+          'Delivered': '✔️ সফলভাবে পাওয়া গেছে'
+        };
+
+        let ordersHTML = userOrders.map(o => `
+          <div style="border:1px solid #eee; border-radius:6px; padding:10px; margin-bottom:10px; background:#fafafa;">
+            <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold; margin-bottom:4px;">
+              <span>${o.id}</span>
+              <span class="status-${o.status}" style="padding:2px 6px; border-radius:4px; font-size:11px;">${statusIcons[o.status] || o.status}</span>
+            </div>
+            <div style="font-size:12px; color:#444;">${o.items.map(i => i.name).join(', ')}</div>
+            <div style="font-size:12px; margin-top:4px; display:flex; justify-content:space-between;">
+              <span>তারিখ: ${o.date}</span>
+              <b style="color:var(--primary-color);">৳${o.total}</b>
+            </div>
+          </div>
+        `).join('');
+
+        if (userOrders.length === 0) {
+          ordersHTML = `<p style="text-align:center; font-size:12px; color:#666; padding:15px 0;">আপনার এই নম্বরে কোনো অর্ডার হিস্ট্রি পাওয়া যায়নি।</p>`;
+        }
+
+        content.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:10px;">
+            <h3>👤 প্রোফাইল ও অর্ডার হিস্ট্রি</h3>
+            <button onclick="logoutCustomer()" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">লগআউট</button>
+          </div>
+          <div style="font-size:12px; background:#FAF0EC; padding:8px; border-radius:6px; margin-bottom:12px;">
+            <b>মোবাইল:</b> ${currentCustomerPhone}<br>
+            ${accountInfo ? `<b>নাম:</b> ${accountInfo.name}` : ''}
+          </div>
+          <h4 style="font-size:13px; margin-bottom:8px;">📦 অর্ডার ট্র্যাকিং ও হিস্ট্রি:</h4>
+          <div style="max-height:250px; overflow-y:auto;">${ordersHTML}</div>
+        `;
       }
-
-      const statusIcons = {
-        'Pending': '⏳ পেন্ডিং',
-        'Processing': '📦 প্রসেসিং চলছে',
-        'Shipped': '🚚 ডেলিভারির জন্য বের হয়েছে',
-        'Delivered': '✔️ সফলভাবে পাওয়া গেছে'
-      };
-
-      listContainer.innerHTML = orders.slice().reverse().map(o => `
-        <div style="border:1px solid #eee; border-radius:6px; padding:10px; margin-bottom:10px; background:#fafafa;">
-          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold; margin-bottom:4px;">
-            <span>${o.id}</span>
-            <span class="status-${o.status}" style="padding:2px 6px; border-radius:4px; font-size:11px;">${statusIcons[o.status] || o.status}</span>
-          </div>
-          <div style="font-size:12px; color:#444;">${o.items.map(i => i.name).join(', ')}</div>
-          <div style="font-size:12px; margin-top:4px; display:flex; justify-content:space-between;">
-            <span>তারিখ: ${o.date}</span>
-            <b style="color:var(--primary-color);">৳${o.total}</b>
-          </div>
-        </div>
-      `).join('');
     }
 
-    function closeCustomerOrders() {
-      document.getElementById('orderHistoryModal').style.display = 'none';
+    function loginCustomer() {
+      const phone = document.getElementById('loginPhoneInput').value.trim();
+      if (!phone) { alert('অনুগ্রহ করে মোবাইল নম্বর লিখুন!'); return; }
+      
+      currentCustomerPhone = phone;
+      localStorage.setItem('bazari_logged_phone', phone);
+      openAccountModal();
+    }
+
+    function logoutCustomer() {
+      currentCustomerPhone = null;
+      localStorage.removeItem('bazari_logged_phone');
+      openAccountModal();
+    }
+
+    function closeAccountModal() {
+      document.getElementById('accountModal').style.display = 'none';
     }
 
     // ADMIN ENGINE
