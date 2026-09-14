@@ -1,233 +1,160 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>৩৮ এয়ার ডিফেন্স রেজিমেন্ট - ডিউটি ম্যানেজমেন্ট সিস্টেম</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bazari - আপনার সব প্রয়োজনের এক ঠিকানা</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
 
-    <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Noto Sans Bengali', 'Tiro Bangla', sans-serif; 
-            -webkit-font-smoothing: antialiased;
-        }
-        body { background-color: #f1f5f9; color: #0f172a; line-height: 1.5; }
-        
-        header { 
-            background-color: #0f172a; 
-            color: #fff; 
-            padding: 40px 15px 15px 15px; 
-            text-align: center; 
-            border-bottom: 4px solid #10b981; 
-            position: relative;
-            background-size: cover;
-            background-position: center;
-        }
-        header h1 { font-size: 22px; margin-bottom: 5px; font-weight: 700; margin-top: 10px; }
-        header p { font-size: 13px; opacity: 0.9; }
+    /* Header & Navigation */
+    header { background-color: #1a252f; color: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 28px; font-weight: bold; color: #2ecc71; text-decoration: none; }
+    .search-box input { padding: 8px 12px; width: 250px; border: none; border-radius: 4px; outline: none; }
+    .cart-btn { background: #2ecc71; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        .header-btn-group {
-            position: absolute;
-            top: 8px;
-            right: 15px;
-            display: flex;
-            gap: 6px;
-            z-index: 10;
-        }
-        .bg-btn {
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 4px 8px;
-            font-size: 11px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    /* Categories Bar */
+    .categories-bar { background: #2c3e50; padding: 10px 5%; display: flex; gap: 10px; overflow-x: auto; }
+    .cat-btn { background: transparent; color: #ecf0f1; border: 1px solid #34495e; padding: 6px 14px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+    .cat-btn:hover, .cat-btn.active { background: #2ecc71; color: white; border-color: #2ecc71; }
 
-        nav { display: flex; justify-content: center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
-        nav button { background: rgba(30, 41, 59, 0.9); color: #e2e8f0; border: none; padding: 7px 12px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; }
-        nav button:hover, nav button.active { background: #10b981; color: #fff; }
-        
-        .container { max-width: 1250px; margin: 15px auto; padding: 0 10px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+    /* Main Products Section */
+    .container { padding: 30px 5%; }
+    .section-title { margin-bottom: 20px; font-size: 22px; color: #2c3e50; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    
+    .product-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
+    .product-img { width: 100%; height: 140px; background-color: #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #718096; margin-bottom: 12px; }
+    .product-title { font-size: 16px; margin-bottom: 6px; font-weight: 600; }
+    .product-category { font-size: 12px; color: #7f8c8d; text-transform: uppercase; margin-bottom: 10px; }
+    .product-price { font-size: 18px; color: #e74c3c; font-weight: bold; margin-bottom: 12px; }
+    .add-to-cart { background: #3498db; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .add-to-cart:hover { background: #2980b9; }
 
-        .card { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
-        .btn { padding: 6px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
-        .btn-primary { background-color: #10b981; color: white; }
-        .btn-edit { background-color: #0284c7; color: white; }
-        
-        .dash-grid { 
-            display: flex; 
-            flex-direction: row;
-            justify-content: space-between; 
-            gap: 10px; 
-            margin-bottom: 15px; 
-        }
-        .dash-card { 
-            flex: 1; 
-            background: white; 
-            padding: 10px 5px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06); 
-            text-align: center; 
-            border-bottom: 3px solid #10b981; 
-        }
-        .dash-card h3 { font-size: 20px; color: #0f172a; font-weight: 700; margin-bottom: 2px; }
-        .dash-card p { font-size: 11px; font-weight: 600; color: #475569; }
-
-        .three-column-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .three-column-grid { grid-template-columns: 1fr; }
-        }
-
-        .section-title {
-            font-size: 14px;
-            font-weight: 700;
-            padding: 6px 10px;
-            background: #e2e8f0;
-            border-left: 4px solid #10b981;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-
-        .notice-board { background: #fffbebf8; border: 1px solid #fef08a; border-left: 5px solid #f59e0b; padding: 12px; border-radius: 6px; margin-top: 15px; }
-        .notice-board h3 { color: #b45309; margin-bottom: 6px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
-
-        input[type="date"], input[type="text"] { padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; font-size: 12px; }
-    </style>
+    /* Cart Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 200; }
+    .modal-content { background: white; width: 90%; max-width: 500px; padding: 25px; border-radius: 8px; max-height: 80vh; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+    .checkout-btn { background: #2ecc71; color: white; width: 100%; padding: 12px; border: none; border-radius: 4px; font-size: 16px; margin-top: 15px; cursor: pointer; }
+    .close-btn { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; float: right; cursor: pointer; }
+  </style>
 </head>
 <body>
 
-<header id="mainHeader">
-    <input type="file" id="bgImageInput" accept="image/*" style="display: none;" onchange="changeHeaderBg(event)">
-    <div class="header-btn-group">
-        <button class="bg-btn" onclick="document.getElementById('bgImageInput').click()">🖼️ ছবি আপলোড</button>
-        <button class="bg-btn" style="background:#ef4444;" onclick="removeHeaderBg()">❌ সরান</button>
+  <!-- Header -->
+  <header>
+    <a href="#" class="logo">Bazari</a>
+    <div class="search-box">
+      <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="পণ্য খুঁজুন...">
     </div>
+    <button class="cart-btn" onclick="toggleCart()">কার্ট (<span id="cartCount">0</span>)</button>
+  </header>
 
-    <h1>৩৮ এয়ার ডিফেন্স রেজিমেন্ট</h1>
-    <p>স্মার্ট ডিউটি ও অটো রোটেশন ম্যানেজমেন্ট সিস্টেম</p>
-    <nav>
-        <button class="nav-link active" onclick="switchTab('homeTab', this)">🏠 হোম ও ডিউটি লিস্ট</button>
-        <button class="nav-link" onclick="switchTab('profileTab', this)">👤 সদস্য ও প্রোফাইল</button>
-        <button class="nav-link" onclick="switchTab('postTab', this)">🛡️ ডিউটি ও ওয়ার্কিং সেটআপ</button>
-        <button class="nav-link" onclick="switchTab('rosterTab', this)">📋 দৈনিক ডিউটি বণ্টন</button>
-        <button class="nav-link" onclick="switchTab('chitTab', this)">📜 প্যারেড স্টেট ও চিট ভিউ</button>
-    </nav>
-</header>
+  <!-- Category Nav -->
+  <div class="categories-bar">
+    <button class="cat-btn active" onclick="filterCategory('all')">সব পণ্য</button>
+    <button class="cat-btn" onclick="filterCategory('grocery')">গ্রোসারি (Grocery)</button>
+    <button class="cat-btn" onclick="filterCategory('electronics')">ইলেকট্রনিক্স</button>
+    <button class="cat-btn" onclick="filterCategory('electrical')">ইলেকট্রিকেল</button>
+    <button class="cat-btn" onclick="filterCategory('gadgets')">গ্যাজেটস</button>
+    <button class="cat-btn" onclick="filterCategory('drugs')">ওষুধ (Drugs)</button>
+  </div>
 
-<div class="container">
-    <!-- ১. হোম ট্যাব -->
-    <div id="homeTab" class="tab-content active">
-        <div class="dash-grid">
-            <div class="dash-card">
-                <h3 id="totalMembersCount">০</h3>
-                <p>মোট সক্রিয় সদস্য</p>
-            </div>
-            <div class="dash-card">
-                <h3 id="totalPostsCount">০</h3>
-                <p>মোট ডিউটি পোস্ট</p>
-            </div>
-            <div class="dash-card">
-                <h3 id="todayDutyCount">০</h3>
-                <p>আজকের ডিউটিতে নিয়োজিত</p>
-            </div>
-        </div>
+  <!-- Products Container -->
+  <div class="container">
+    <h2 class="section-title">পণ্য তালিকা</h2>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
 
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                <h3 style="color: #0f172a; border-left: 4px solid #10b981; padding-left: 8px; font-size: 15px;">📋 আজকের পূর্ণাঙ্গ ডিউটি ও ওয়ার্কিং রোস্টার</h3>
-                <div style="display:flex; align-items:center; gap:6px;">
-                    <label style="font-weight: bold; font-size: 12px;">তারিখ:</label>
-                    <input type="date" id="homeRosterDate">
-                </div>
-            </div>
-            
-            <div class="three-column-grid">
-                <div>
-                    <div class="section-title">☀️ দিনের ডিউটি লিস্ট</div>
-                    <div id="dayDutyDisplay">কোনো ডিউটি নির্ধারিত নেই</div>
-                </div>
-                <div>
-                    <div class="section-title">🌙 রাতের ডিউটি লিস্ট</div>
-                    <div id="nightDutyDisplay">কোনো ডিউটি নির্ধারিত নেই</div>
-                </div>
-                <div>
-                    <div class="section-title">🛠️ ওয়ার্কিং ও অন্যান্য লিস্ট</div>
-                    <div id="workingDutyDisplay">কোনো তথ্য নেই</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="notice-board">
-            <h3>
-                <span>📌 নোটিশ বোর্ড (Notice Board)</span>
-                <button class="btn btn-edit" style="padding: 2px 6px; font-size: 10px;" onclick="editNotice()">✏️ নোটিশ লিখুন</button>
-            </h3>
-            <p id="noticeText" style="font-size: 13px; color: #451a03; white-space: pre-line; margin-top: 4px;">বর্তমানে কোনো বিশেষ নোটিশ নেই।</p>
-        </div>
+  <!-- Cart Modal -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="toggleCart()">X</button>
+      <h2>আপনার শপিং কার্ট</h2>
+      <div id="cartItems" style="margin-top: 15px;"></div>
+      <h3 style="margin-top: 15px;">মোট: ৳<span id="cartTotal">0</span></h3>
+      <button class="checkout-btn" onclick="alert('Bazari তে অর্ডার করার জন্য ধন্যবাদ! ব্যাকএন্ড কানেক্ট করলে অর্ডার সাবমিট হবে।')">অর্ডার সম্পন্ন করুন</button>
     </div>
+  </div>
 
-    <!-- অন্যান্য ট্যাবগুলোর জন্য খালি সেকশন -->
-    <div id="profileTab" class="tab-content"><div class="card"><h3>👤 সদস্য ও প্রোফাইল ব্যবস্থাপনা</h3></div></div>
-    <div id="postTab" class="tab-content"><div class="card"><h3>🛡️ ডিউটি ও ওয়ার্কিং সেটআপ</h3></div></div>
-    <div id="rosterTab" class="tab-content"><div class="card"><h3>📋 দৈনিক ডিউটি বণ্টন</h3></div></div>
-    <div id="chitTab" class="tab-content"><div class="card"><h3>📜 প্যারেড স্টেট ও চিট ভিউ</h3></div></div>
-</div>
+  <script>
+    // Sample Data
+    const products = [
+      { id: 1, name: 'মিনিকেট চাল (৫ কেজি)', category: 'grocery', price: 350 },
+      { id: 2, name: 'স্মার্ট টিভি ৪৩ ইঞ্চি', category: 'electronics', price: 32000 },
+      { id: 3, name: 'এলইডি বাল্ব ১২ ওয়াট', category: 'electrical', price: 150 },
+      { id: 4, name: 'ওয়্যারলেস ইয়ারবাডস', category: 'gadgets', price: 1200 },
+      { id: 5, name: 'প্যারাসিটামল ৫০০ মিগ্রা', category: 'drugs', price: 15 },
+      { id: 6, name: 'সোয়াবিন তেল (২ লিটার)', category: 'grocery', price: 330 },
+      { id: 7, name: 'স্মার্টওয়াচ Series 8', category: 'gadgets', price: 2500 },
+      { id: 8, name: 'মুলটিপ্লাগ ৫ পোর্ট', category: 'electrical', price: 450 }
+    ];
 
-<script>
-    // আজকের তারিখ ডিফল্ট সেট করা
-    document.getElementById('homeRosterDate').valueAsDate = new Date();
+    let cart = [];
 
-    // ট্যাব সুইচ করার জাভাস্ক্রিপ্ট
-    function switchTab(tabId, btnElement) {
-        let contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => content.classList.remove('active'));
-
-        let navBtns = document.querySelectorAll('nav button');
-        navBtns.forEach(btn => btn.classList.remove('active'));
-
-        document.getElementById(tabId).classList.add('active');
-        btnElement.classList.add('active');
+    // Render Products
+    function displayProducts(items) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = items.map(p => `
+        <div class="product-card">
+          <div class="product-img">${p.category}</div>
+          <div class="product-title">${p.name}</div>
+          <div class="product-category">${p.category}</div>
+          <div class="product-price">৳${p.price}</div>
+          <button class="add-to-cart" onclick="addToCart(${p.id})">কার্টে রাখুন</button>
+        </div>
+      `).join('');
     }
 
-    // ব্যাকগ্রাউন্ড ছবি আপলোড
-    function changeHeaderBg(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const header = document.getElementById('mainHeader');
-            header.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('${reader.result}')`;
-        }
-        if(event.target.files[0]){
-            reader.readAsDataURL(event.target.files[0]);
-        }
+    // Filter by Category
+    function filterCategory(cat) {
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (cat === 'all') {
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === cat);
+        displayProducts(filtered);
+      }
     }
 
-    // ব্যাকগ্রাউন্ড ছবি রিমুভ
-    function removeHeaderBg() {
-        const header = document.getElementById('mainHeader');
-        header.style.backgroundImage = 'none';
+    // Search Filter
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      displayProducts(filtered);
     }
 
-    // নোটিশ পরিবর্তন
-    function editNotice() {
-        let text = prompt("নতুন নোটিশটি লিখুন:");
-        if (text) {
-            document.getElementById('noticeText').innerText = text;
-        }
+    // Cart Handlers
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      cart.push(product);
+      updateCart();
     }
-</script>
 
+    function updateCart() {
+      document.getElementById('cartCount').innerText = cart.length;
+      const cartItemsDiv = document.getElementById('cartItems');
+      cartItemsDiv.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <span>${item.name}</span>
+          <span>৳${item.price}</span>
+        </div>
+      `).join('');
+      
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cartTotal').innerText = total;
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Initial Load
+    displayProducts(products);
+  </script>
 </body>
 </html>
