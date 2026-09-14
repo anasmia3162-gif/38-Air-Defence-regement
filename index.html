@@ -3,344 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bazari - ই-কমার্স</title>
+  <title>Bazari - অনলাইন শপিং</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-    body { background-color: #f4f7f6; color: #333; padding-bottom: 50px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f4f4f4; color: #212121; padding-bottom: 70px; }
 
-    /* Top Navigation Header */
-    header { background-color: #0f172a; color: white; padding: 12px 4%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .logo { font-size: 24px; font-weight: bold; color: #10b981; text-decoration: none; }
-    .top-actions { display: flex; gap: 10px; align-items: center; }
-    .btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-size: 14px; }
-    .btn-cart { background: #10b981; color: white; }
-    .btn-admin { background: #3b82f6; color: white; }
+    /* Top Search Header */
+    header { background: #fff; padding: 10px 12px; display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .search-container { flex: 1; display: flex; align-items: center; border: 2px solid #ff007f; border-radius: 20px; padding: 2px 4px 2px 12px; background: #fff; }
+    .search-input { border: none; outline: none; width: 100%; font-size: 13px; color: #333; }
+    .search-btn { background: #ff007f; color: white; border: none; padding: 6px 14px; border-radius: 16px; font-weight: bold; font-size: 12px; cursor: pointer; }
 
-    /* Category Dropdown Navigation Bar */
-    .cat-nav-bar { background: #1e293b; padding: 10px 4%; display: flex; align-items: center; gap: 15px; }
-    .dropdown-container { position: relative; display: inline-block; }
-    .dropdown-btn { background: #10b981; color: white; padding: 10px 16px; font-weight: bold; border-radius: 6px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 200px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 99; border-radius: 6px; overflow: hidden; margin-top: 5px; }
-    .dropdown-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; font-weight: 500; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
-    .dropdown-content a:hover { background-color: #f1f5f9; color: #10b981; }
-    .dropdown-container:hover .dropdown-content { display: block; }
+    /* Top Ranking Carousel Section */
+    .top-ranking-section { background: white; padding: 12px; margin-top: 6px; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .section-header h3 { font-size: 16px; font-weight: bold; color: #111; display: flex; align-items: center; gap: 4px; }
+    .section-header h3 span { color: #ff5000; }
+    .discover-more { font-size: 12px; color: #666; text-decoration: none; }
 
-    /* Layout Container */
-    .container { padding: 15px 4%; max-width: 1200px; margin: 0 auto; }
-    .section-title { font-size: 20px; font-weight: bold; margin: 20px 0 10px 0; color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
-    .section-title span { font-size: 14px; color: #10b981; cursor: pointer; }
+    .ranking-grid { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+    .ranking-grid::-webkit-scrollbar { display: none; }
+    .ranking-card { min-width: 110px; width: 110px; background: #fff6f0; border-radius: 8px; padding: 8px; text-align: center; position: relative; border: 1px solid #ffe8d6; }
+    .rank-badge { position: absolute; top: -5px; left: 8px; background: #ff5000; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+    .ranking-img { width: 100%; height: 75px; object-fit: cover; border-radius: 4px; margin-top: 5px; }
+    .ranking-title { font-size: 11px; margin-top: 6px; font-weight: bold; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* Top Offers / Featured Section */
-    .offers-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
-    .offer-card { min-width: 240px; background: linear-gradient(135deg, #10b981, #059669); color: white; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
-    .offer-badge { background: #ef4444; color: white; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 10px; align-self: flex-start; margin-bottom: 8px; text-transform: uppercase; }
-    .offer-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
-    .offer-price { font-size: 18px; font-weight: 800; }
+    /* Tab Filters Bar */
+    .nav-tabs { display: flex; background: white; margin-top: 6px; padding: 10px 12px; overflow-x: auto; gap: 15px; scrollbar-width: none; border-bottom: 1px solid #eee; }
+    .tab-item { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: bold; color: #666; cursor: pointer; white-space: nowrap; }
+    .tab-item.active { color: #ff5000; }
 
-    /* 2 Columns Product Grid */
-    .product-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    @media (min-width: 768px) {
-      .product-grid-2 { grid-template-columns: repeat(4, 1fr); gap: 20px; } /* ল্যাপটপে সহজে দেখার সুবিধার্থে ৪ সারি করা হলেও মোবাইলে ২ সারিতে থাকবে */
-    }
+    /* Product Grid - 2 Columns Layout */
+    .products-container { padding: 8px; }
+    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 
-    .product-card { background: white; border-radius: 10px; padding: 12px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .product-img { width: 100%; height: 120px; background-color: #f1f5f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #64748b; font-weight: bold; margin-bottom: 8px; }
-    .product-name { font-size: 14px; font-weight: 600; color: #1e293b; line-height: 1.3; margin-bottom: 4px; }
-    .product-cat-tag { font-size: 11px; color: #64748b; margin-bottom: 8px; text-transform: capitalize; }
-    .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; }
-    .product-price { font-size: 16px; font-weight: bold; color: #ef4444; }
-    .add-btn { background: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
+    .product-card { background: white; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .product-img-wrapper { position: relative; width: 100%; height: 160px; background: #f9f9f9; }
+    .product-img { width: 100%; height: 100%; object-fit: cover; }
+    .tag-free-delivery { position: absolute; bottom: 4px; left: 4px; background: #00b894; color: white; font-size: 9px; padding: 2px 4px; border-radius: 2px; font-weight: bold; }
 
-    /* Modal Overlay (Cart / Admin) */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 200; }
-    .modal-box { background: white; width: 92%; max-width: 550px; padding: 20px; border-radius: 10px; max-height: 85vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-    .close-modal { background: none; border: none; font-size: 20px; cursor: pointer; color: #ef4444; font-weight: bold; }
+    .product-info { padding: 8px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-title { font-size: 12px; font-weight: 500; color: #212121; line-height: 1.4; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 6px; }
+    .price-row { display: flex; align-items: baseline; gap: 4px; }
+    .current-price { color: #ff5000; font-size: 16px; font-weight: bold; }
+    .discount-tag { color: #ff5000; font-size: 10px; background: #fff0e6; padding: 1px 3px; border-radius: 2px; }
+    .rating-row { font-size: 10px; color: #888; margin-top: 4px; display: flex; align-items: center; gap: 2px; }
+    .star { color: #ffc107; }
 
-    /* Admin Form Styling */
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #475569; }
-    .form-group input, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
-    .admin-list { margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px; }
-    .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-    .btn-edit { background: #f59e0b; color: white; padding: 2px 8px; font-size: 12px; border-radius: 4px; border: none; cursor: pointer; }
+    /* Bottom Navigation Bar */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 6px 0; z-index: 999; }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #666; font-size: 10px; border: none; background: none; cursor: pointer; position: relative; }
+    .nav-btn .icon { font-size: 18px; margin-bottom: 2px; }
+    .nav-btn .badge { position: absolute; top: -2px; right: 12px; background: #ff007f; color: white; font-size: 9px; padding: 1px 5px; border-radius: 10px; }
+    .shop-now-btn { background: linear-gradient(45deg, #ff5000, #ff007f); color: white; font-weight: bold; font-size: 11px; padding: 6px 12px; border-radius: 15px; border: none; margin-top: -5px; }
+
+    /* Admin Overlay */
+    .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; }
+    .modal-box { background:white; width:90%; max-width:400px; padding:20px; border-radius:8px; max-height:80vh; overflow-y:auto; }
+    .form-group { margin-bottom:10px; }
+    .form-group label { font-size:12px; font-weight:bold; display:block; margin-bottom:3px; }
+    .form-group input, .form-group select { width:100%; padding:6px; font-size:12px; border:1px solid #ccc; border-radius:4px; }
   </style>
 </head>
 <body>
 
-  <!-- Top Bar Header -->
+  <!-- Top Search Bar -->
   <header>
-    <a href="#" class="logo">Bazari</a>
-    <div class="top-actions">
-      <button class="btn btn-cart" onclick="toggleModal('cartModal')">🛒 কার্ট (<span id="cartCount">0</span>)</button>
-      <button class="btn btn-admin" onclick="toggleModal('adminModal')">⚙️ অ্যাডমিন প্যানেল</button>
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="পণ্য বা ক্যাটাগরি খুঁজুন..." onkeyup="filterProducts()">
+      <button class="search-btn">Search</button>
     </div>
   </header>
 
-  <!-- Category Dropdown Bar -->
-  <div class="cat-nav-bar">
-    <div class="dropdown-container">
-      <button class="dropdown-btn">☰ সব ক্যাটাগরি ▼</button>
-      <div class="dropdown-content" id="dropdownCategoryList">
-        <!-- Categories will load dynamically -->
-      </div>
+  <!-- Top Ranking Carousel -->
+  <div class="top-ranking-section">
+    <div class="section-header">
+      <h3>Top <span>Ranking</span></h3>
+      <a href="#" class="discover-more">Discover More Rankings &gt;</a>
     </div>
-    <span id="selectedCategoryLabel" style="color: white; font-size: 14px; font-weight: 500;">সব পণ্য দেখানো হচ্ছে</span>
+    <div class="ranking-grid" id="topRankingGrid">
+      <!-- Top Ranking Products -->
+    </div>
   </div>
 
-  <!-- Main Content Area -->
-  <div class="container">
-    
-    <!-- Top Offers / Featured Products -->
-    <div class="section-title">
-      🔥 অফার ও টপ পণ্যসমূহ
-    </div>
-    <div class="offers-scroll" id="offersGrid">
-      <!-- Offers will load dynamically -->
-    </div>
-
-    <!-- Main Products (2 Columns Layout) -->
-    <div class="section-title">
-      🛍️ পণ্যসমূহ
-    </div>
-    <div class="product-grid-2" id="mainProductGrid">
-      <!-- 2-Column Products will load dynamically -->
-    </div>
-
+  <!-- Category Nav Tabs -->
+  <div class="nav-tabs" id="categoryTabs">
+    <!-- Categories Tabs Load Dynamically -->
   </div>
 
-  <!-- CART MODAL -->
-  <div class="modal" id="cartModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>আপনার কার্ট</h3>
-        <button class="close-modal" onclick="toggleModal('cartModal')">✕</button>
-      </div>
-      <div id="cartItemsList"></div>
-      <h4 style="margin-top: 15px; text-align: right;">মোট: ৳<span id="cartTotal">0</span></h4>
-      <button class="btn btn-cart" style="width: 100%; margin-top: 15px; padding: 10px;" onclick="alert('অর্ডার সাবমিট হয়েছে!')">অর্ডার নিশ্চিত করুন</button>
+  <!-- Main 2-Column Product Grid -->
+  <div class="products-container">
+    <div class="product-grid" id="mainProductGrid">
+      <!-- Products Load Dynamically -->
     </div>
+  </div>
+
+  <!-- Bottom Navigation Menu -->
+  <div class="bottom-nav">
+    <button class="shop-now-btn" onclick="toggleModal('adminModal')">⚙️ Admin</button>
+    <button class="nav-btn">
+      <span class="icon">💬</span>
+      <span>Messages</span>
+      <span class="badge">13</span>
+    </button>
+    <button class="nav-btn" onclick="toggleModal('cartModal')">
+      <span class="icon">🛒</span>
+      <span>Cart</span>
+      <span class="badge" id="cartBadge">0</span>
+    </button>
+    <button class="nav-btn">
+      <span class="icon">👤</span>
+      <span>Account</span>
+    </button>
   </div>
 
   <!-- ADMIN PANEL MODAL -->
   <div class="modal" id="adminModal">
     <div class="modal-box">
-      <div class="modal-header">
-        <h3>অ্যাডমিন ম্যানেজমেন্ট</h3>
-        <button class="close-modal" onclick="toggleModal('adminModal')">✕</button>
+      <h3 style="margin-bottom:12px; font-size:16px;">অ্যাডমিন প্যানেল (Bazari)</h3>
+      
+      <!-- Add Category -->
+      <div class="form-group">
+        <label>নতুন ক্যাটাগরি যোগ করুন</label>
+        <div style="display:flex; gap:5px;">
+          <input type="text" id="newCatInput" placeholder="ক্যাটাগরির নাম">
+          <button onclick="addCategory()" style="background:#ff5000; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">সেভ</button>
+        </div>
       </div>
-
-      <!-- Add/Edit Category -->
-      <h4 style="margin-bottom: 8px; color: #1e293b;">১. ক্যাটাগরি অ্যাড / এডিট</h4>
-      <div class="form-group" style="display: flex; gap: 8px;">
-        <input type="text" id="catInput" placeholder="নতুন ক্যাটাগরির নাম...">
-        <button class="btn btn-admin" onclick="addCategory()">সেভ</button>
-      </div>
-      <div class="admin-list" id="adminCatList"></div>
-
+      <hr style="margin:10px 0;">
+      
       <!-- Add Product -->
-      <h4 style="margin: 20px 0 8px 0; color: #1e293b;">২. নতুন প্রোডাক্ট যোগ করুন</h4>
+      <h4 style="margin-bottom:8px; font-size:14px;">নতুন প্রোডাক্ট যোগ করুন</h4>
       <div class="form-group">
         <label>পণ্যের নাম</label>
-        <input type="text" id="prodName">
+        <input type="text" id="pName">
       </div>
       <div class="form-group">
         <label>দাম (৳)</label>
-        <input type="number" id="prodPrice">
+        <input type="number" id="pPrice">
+      </div>
+      <div class="form-group">
+        <label>ইমেজ লিংক (URL)</label>
+        <input type="text" id="pImg" placeholder="https://via.placeholder.com/150">
       </div>
       <div class="form-group">
         <label>ক্যাটাগরি</label>
-        <select id="prodCategory"></select>
+        <select id="pCategory"></select>
       </div>
-      <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
-        <input type="checkbox" id="prodIsOffer" style="width: auto;">
-        <label for="prodIsOffer" style="margin: 0;">ইহা কি 'অফার/টপ পণ্য' হিসেবে দেখাবে?</label>
+      <div class="form-group">
+        <label><input type="checkbox" id="pIsTop" style="width:auto;"> Top Ranking-এ দেখাবে?</label>
       </div>
-      <button class="btn btn-cart" style="width: 100%; padding: 10px;" onclick="addProduct()">পণ্য সেভ করুন</button>
-
+      <button onclick="addProduct()" style="width:100%; background:#00b894; color:white; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">প্রোডাক্ট যোগ করুন</button>
+      <button onclick="toggleModal('adminModal')" style="width:100%; background:#999; color:white; border:none; padding:6px; border-radius:4px; margin-top:6px; cursor:pointer;">বন্ধ করুন</button>
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- CART MODAL -->
+  <div class="modal" id="cartModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom:12px;">আপনার শপিং কার্ট</h3>
+      <div id="cartItems"></div>
+      <h4 style="margin-top:10px; text-align:right;">মোট: ৳<span id="cartTotal">0</span></h4>
+      <button onclick="toggleModal('cartModal')" style="width:100%; background:#ff5000; color:white; border:none; padding:8px; border-radius:4px; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
+    </div>
+  </div>
+
   <script>
-    // Initial Data Setup (Local Storage Sync)
-    let categories = JSON.parse(localStorage.getItem('bazari_categories')) || ['Grocery', 'Electronics', 'Electrical', 'Gadgets', 'Drugs'];
-    let products = JSON.parse(localStorage.getItem('bazari_products')) || [
-      { id: 1, name: 'মিনিকেট চাল (৫ কেজি)', category: 'Grocery', price: 360, isOffer: true },
-      { id: 2, name: 'স্মার্ট ওয়াচ V8', category: 'Gadgets', price: 1450, isOffer: true },
-      { id: 3, name: 'প্যারাসিটামল ট্যাবলেট', category: 'Drugs', price: 15, isOffer: false },
-      { id: 4, name: '১২-ওয়াট এলইডি লাইট', category: 'Electrical', price: 180, isOffer: false },
-      { id: 5, name: 'ব্লুটুথ স্পিকার', category: 'Electronics', price: 850, isOffer: true },
-      { id: 6, name: 'সরিষার তেল ১ লিটার', category: 'Grocery', price: 220, isOffer: false }
+    // Data Handlers (Saved in LocalStorage)
+    let categories = JSON.parse(localStorage.getItem('bazari_cats')) || ['For You', 'Mega Deals', 'Gadgets', 'Electronics', 'Grocery', 'Drugs'];
+    let products = JSON.parse(localStorage.getItem('bazari_prods')) || [
+      { id: 1, name: 'NIANZHEN Titanium Glasses', price: 2835, discount: '', category: 'Gadgets', img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300', isTop: false, rating: 4.8 },
+      { id: 2, name: 'E-Bike Remote Lock 24v-72v Electric Bike', price: 499, discount: '-34%', category: 'Electronics', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300', isTop: false, rating: 5.0 },
+      { id: 3, name: 'CASIFY USB 3.0 To SATA Adapter Cable', price: 350, discount: '-20%', category: 'Electronics', img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300', isTop: true, rating: 4.9 },
+      { id: 4, name: 'External Hard Drive 1TB', price: 4500, discount: '-15%', category: 'Electronics', img: 'https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=300', isTop: true, rating: 4.7 }
     ];
     let cart = [];
 
-    // Save Data Function
-    function saveData() {
-      localStorage.setItem('bazari_categories', JSON.stringify(categories));
-      localStorage.setItem('bazari_products', JSON.stringify(products));
-      renderUI();
-    }
-
-    // Modal Control
     function toggleModal(id) {
       const el = document.getElementById(id);
       el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    // Render Everything
     function renderUI() {
-      renderCategories();
-      renderOffers();
+      renderTopRanking();
+      renderTabs();
       renderProducts(products);
-      renderAdminCategoryList();
+      renderAdminCategoryOptions();
     }
 
-    // Render Categories in Dropdown & Admin Dropdown
-    function renderCategories() {
-      const dropContainer = document.getElementById('dropdownCategoryList');
-      const adminCatSelect = document.getElementById('prodCategory');
-      
-      let dropHTML = `<a href="#" onclick="filterByCat('all')">সব ক্যাটাগরি</a>`;
-      let selectHTML = '';
-
-      categories.forEach(cat => {
-        dropHTML += `<a href="#" onclick="filterByCat('${cat}')">${cat}</a>`;
-        selectHTML += `<option value="${cat}">${cat}</option>`;
-      });
-
-      dropContainer.innerHTML = dropHTML;
-      adminCatSelect.innerHTML = selectHTML;
-    }
-
-    // Filter Products by Category Click
-    function filterByCat(catName) {
-      const label = document.getElementById('selectedCategoryLabel');
-      if(catName === 'all') {
-        label.innerText = 'সব পণ্য দেখানো হচ্ছে';
-        renderProducts(products);
-      } else {
-        label.innerText = `ক্যাটাগরি: ${catName}`;
-        const filtered = products.filter(p => p.category === catName);
-        renderProducts(filtered);
-      }
-    }
-
-    // Render Top Offers (Horizontal Carousel Area)
-    function renderOffers() {
-      const offersDiv = document.getElementById('offersGrid');
-      const topItems = products.filter(p => p.isOffer);
-
-      offersDiv.innerHTML = topItems.map(item => `
-        <div class="offer-card">
-          <div>
-            <span class="offer-badge">স্পেশাল অফার</span>
-            <div class="offer-title">${item.name}</div>
-            <div style="font-size: 12px; opacity: 0.9;">${item.category}</div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-            <span class="offer-price">৳${item.price}</span>
-            <button class="add-btn" style="background: white; color: #059669;" onclick="addToCart(${item.id})">+ কার্ট</button>
-          </div>
+    // Render Top Ranking Slider
+    function renderTopRanking() {
+      const rankingDiv = document.getElementById('topRankingGrid');
+      const topItems = products.filter(p => p.isTop);
+      rankingDiv.innerHTML = topItems.map((item, index) => `
+        <div class="ranking-card">
+          <div class="rank-badge">${index + 1}</div>
+          <img src="${item.img}" class="ranking-img" alt="">
+          <div class="ranking-title">${item.name}</div>
         </div>
       `).join('');
     }
 
-    // Render Products (Strictly 2 Columns Grid Layout)
+    // Render Dynamic Tabs
+    function renderTabs() {
+      const tabsDiv = document.getElementById('categoryTabs');
+      tabsDiv.innerHTML = categories.map((cat, i) => `
+        <div class="tab-item ${i === 0 ? 'active' : ''}" onclick="filterTab('${cat}', this)">
+          ${cat}
+        </div>
+      `).join('');
+    }
+
+    function filterTab(cat, el) {
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      if (cat === 'For You' || cat === 'Mega Deals') {
+        renderProducts(products);
+      } else {
+        renderProducts(products.filter(p => p.category === cat));
+      }
+    }
+
+    // Render 2 Columns Products Grid
     function renderProducts(items) {
       const grid = document.getElementById('mainProductGrid');
       grid.innerHTML = items.map(p => `
         <div class="product-card">
-          <div class="product-img">${p.category}</div>
-          <div class="product-name">${p.name}</div>
-          <div class="product-cat-tag">${p.category}</div>
-          <div class="product-bottom">
-            <span class="product-price">৳${p.price}</span>
-            <button class="add-btn" onclick="addToCart(${p.id})">+ যোগ করুন</button>
+          <div class="product-img-wrapper">
+            <img src="${p.img}" class="product-img" alt="${p.name}">
+            <span class="tag-free-delivery">FREE DELIVERY</span>
+          </div>
+          <div class="product-info">
+            <div class="product-title">${p.name}</div>
+            <div>
+              <div class="price-row">
+                <span class="current-price">৳${p.price}</span>
+                ${p.discount ? `<span class="discount-tag">${p.discount}</span>` : ''}
+              </div>
+              <div class="rating-row">
+                <span class="star">★</span> ${p.rating || '5.0'} (1)
+              </div>
+            </div>
+            <button onclick="addToCart(${p.id})" style="margin-top:6px; background:#ff007f; color:white; border:none; padding:4px; border-radius:4px; font-size:11px; cursor:pointer;">+ কার্টে রাখুন</button>
           </div>
         </div>
       `).join('');
     }
 
-    // Admin: Add Category
+    // Search Filter
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      renderProducts(products.filter(p => p.name.toLowerCase().includes(query)));
+    }
+
+    // Admin Operations
     function addCategory() {
-      const input = document.getElementById('catInput');
-      const name = input.value.trim();
-      if(name && !categories.includes(name)) {
-        categories.push(name);
-        input.value = '';
-        saveData();
+      const val = document.getElementById('newCatInput').value.trim();
+      if(val && !categories.includes(val)) {
+        categories.push(val);
+        localStorage.setItem('bazari_cats', JSON.stringify(categories));
+        document.getElementById('newCatInput').value = '';
+        renderUI();
       }
     }
 
-    // Admin: Edit Category Name
-    function editCategory(index) {
-      const updated = prompt("ক্যাটাগরির নতুন নাম লিখুন:", categories[index]);
-      if(updated && updated.trim() !== "") {
-        const oldCat = categories[index];
-        categories[index] = updated.trim();
-        // Update product categories too
-        products.forEach(p => { if(p.category === oldCat) p.category = updated.trim(); });
-        saveData();
-      }
+    function renderAdminCategoryOptions() {
+      const sel = document.getElementById('pCategory');
+      sel.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
     }
 
-    // Admin: List Categories for Editing
-    function renderAdminCategoryList() {
-      const listDiv = document.getElementById('adminCatList');
-      listDiv.innerHTML = categories.map((cat, idx) => `
-        <div class="admin-item">
-          <span>${cat}</span>
-          <button class="btn-edit" onclick="editCategory(${idx})">এডিট</button>
-        </div>
-      `).join('');
-    }
-
-    // Admin: Add New Product
     function addProduct() {
-      const name = document.getElementById('prodName').value.trim();
-      const price = parseFloat(document.getElementById('prodPrice').value);
-      const category = document.getElementById('prodCategory').value;
-      const isOffer = document.getElementById('prodIsOffer').checked;
+      const name = document.getElementById('pName').value;
+      const price = parseFloat(document.getElementById('pPrice').value);
+      const img = document.getElementById('pImg').value || 'https://via.placeholder.com/150';
+      const category = document.getElementById('pCategory').value;
+      const isTop = document.getElementById('pIsTop').checked;
 
       if(name && price) {
-        products.push({
-          id: Date.now(),
-          name,
-          price,
-          category,
-          isOffer
-        });
-        document.getElementById('prodName').value = '';
-        document.getElementById('prodPrice').value = '';
-        saveData();
-        alert('পণ্য যোগ করা হয়েছে!');
-      } else {
-        alert('দয়া করে সঠিক তথ্য দিন');
+        products.push({ id: Date.now(), name, price, img, category, isTop, rating: 5.0 });
+        localStorage.setItem('bazari_prods', JSON.stringify(products));
+        renderUI();
+        toggleModal('adminModal');
       }
     }
 
-    // Cart Logic
+    // Cart Handlers
     function addToCart(id) {
       const item = products.find(p => p.id === id);
       cart.push(item);
+      document.getElementById('cartBadge').innerText = cart.length;
       updateCartUI();
     }
 
     function updateCartUI() {
-      document.getElementById('cartCount').innerText = cart.length;
-      const list = document.getElementById('cartItemsList');
-      list.innerHTML = cart.map((c, i) => `
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;">
-          <span>${c.name}</span>
-          <b>৳${c.price}</b>
-        </div>
-      `).join('');
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-      document.getElementById('cartTotal').innerText = total;
+      const cartDiv = document.getElementById('cartItems');
+      cartDiv.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:12px;"><span>${i.name}</span><b>৳${i.price}</b></div>`).join('');
+      document.getElementById('cartTotal').innerText = cart.reduce((sum, item) => sum + item.price, 0);
     }
 
-    // Initial Execution
+    // Initialize Page
     renderUI();
   </script>
 </body>
