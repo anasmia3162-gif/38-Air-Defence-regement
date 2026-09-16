@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মাল্টি-ফার্ম ERP - সমন্বিত খামার ব্যবস্থাপনা</title>
+    <title>স্মার্ট ফার্মিং ERP - মাল্টি-ক্যাটাগরি</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
     <div class="md:hidden bg-emerald-900 text-white flex justify-between items-center p-4 no-print">
         <div class="text-xl font-bold flex items-center gap-2">
             <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-            <span>আদর্শ অল-ইন-ওয়ান খামার</span>
+            <span>স্মার্ট ফার্ম ERP</span>
         </div>
         <button onclick="toggleSidebar()" class="text-2xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -32,20 +32,21 @@
             <div>
                 <div class="hidden md:flex p-5 text-xl font-bold border-b border-emerald-800 items-center gap-2">
                     <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-                    <span>আদর্শ অল-ইন-ওয়ান খামার</span>
+                    <span>স্মার্ট ফার্ম ERP</span>
                 </div>
-                <nav class="p-4 space-y-1 text-sm">
-                    <button onclick="switchTab('dashboard')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
-                    <button onclick="openCategoryTab('গরু')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cow"></i> গরু মডিউল</button>
-                    <button onclick="openCategoryTab('ছাগল')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cloud-sun"></i> ছাগল/ভেড়া মডিউল</button>
-                    <button onclick="openCategoryTab('হাঁস-মুরগি')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-egg"></i> হাঁস-মুরগি মডিউল</button>
-                    <button onclick="openCategoryTab('পাখি')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-crow"></i> পাখি মডিউল</button>
-                    <button onclick="openCategoryTab('মাছ')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-fish"></i> মৎস্য মডিউল</button>
-                    <button onclick="switchTab('reports')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 border-t border-emerald-800 mt-2"><i class="fa-solid fa-print"></i> বার্ষিক হিসাব ও রিসেট</button>
+                <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-100px)]">
+                    <button onclick="switchTab('dashboard')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
+                    <button onclick="openCategoryTab('গরু')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cow"></i> গরু মডিউল</button>
+                    <button onclick="openCategoryTab('ছাগল')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cloud-sun"></i> ছাগল মডিউল</button>
+                    <button onclick="openCategoryTab('হাঁস')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-feather"></i> হাঁস মডিউল</button>
+                    <button onclick="openCategoryTab('মুরগি')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-egg"></i> মুরগি মডিউল</button>
+                    <button onclick="openCategoryTab('পাখি')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-crow"></i> পাখি মডিউল</button>
+                    <button onclick="openCategoryTab('মাছ')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-fish"></i> মৎস্য মডিউল</button>
+                    <button onclick="switchTab('reports')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3 border-t border-emerald-800 mt-2"><i class="fa-solid fa-print"></i> বার্ষিক হিসাব ও রিসেট</button>
                 </nav>
             </div>
-            <div class="p-4 text-xs text-center border-t border-emerald-800 text-emerald-300">
-                ভার্সন ৪.০ (অল-ইন-ওয়ান খামার)
+            <div class="p-3 text-xs text-center border-t border-emerald-800 text-emerald-300">
+                ভার্সন ৫.০ (কাস্টমাইজড ERP)
             </div>
         </aside>
 
@@ -54,7 +55,7 @@
             
             <!-- Dashboard -->
             <div id="dashboard" class="tab-content">
-                <h1 class="text-2xl font-bold mb-6">পুরো খামারের সার্বিক অবস্থা</h1>
+                <h1 class="text-2xl font-bold mb-6">খামারের সার্বিক অবস্থা</h1>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-emerald-500">
                         <p class="text-sm text-slate-500">মোট সক্রিয় প্রোফাইল/ব্যাচ</p>
@@ -62,15 +63,15 @@
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-red-500">
                         <p class="text-sm text-slate-500">মোট খরচ (ক্রয়+খাবার+চিকিৎসা)</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-cost">৳ ০০০</h2>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-cost">৳ ০</h2>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-blue-500">
-                        <p class="text-sm text-slate-500">মোট আয় (দুধ+ডিম+মাছ+বিক্রি)</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-income">৳ ০০০</h2>
+                        <p class="text-sm text-slate-500">মোট আয় (উৎপাদন+বিক্রি+বাচ্চা)</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-income">৳ ০</h2>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-purple-500">
-                        <p class="text-sm text-slate-500">খামারের মোট নিট লাভ/ক্ষতি</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-net-profit">৳ ০০০</h2>
+                        <p class="text-sm text-slate-500">মোট নিট লাভ/ক্ষতি</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-net-profit">৳ ০</h2>
                     </div>
                 </div>
             </div>
@@ -79,11 +80,9 @@
             <div id="categoryView" class="tab-content hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-bold" id="catTitle">ক্যাটাগরি তালিকা</h1>
-                    <button onclick="openAddModal()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন প্রোফাইল / ব্যাচ এন্ট্রি</button>
+                    <button onclick="openAddModal()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন প্রোফাইল / ব্যাচ</button>
                 </div>
-                <div id="categoryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Cards will be dynamically inserted here -->
-                </div>
+                <div id="categoryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
             <!-- Detailed Profile View -->
@@ -93,7 +92,7 @@
                     <div class="flex justify-between items-start border-b pb-4 mb-4">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-800" id="prof-tag">TAG-001</h2>
-                            <p class="text-sm text-slate-500" id="prof-type-breed">টাইপ: গরু | জাত: ফ্রিজিয়ান</p>
+                            <p class="text-sm text-slate-500" id="prof-type-breed">ক্যাটাগরি</p>
                         </div>
                         <span id="prof-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">সক্রিয়</span>
                     </div>
@@ -101,7 +100,7 @@
                     <!-- Summary Cards -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                         <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                            <p class="text-xs text-red-600 font-semibold">ক্রয় / প্রারম্ভিক মূল:</p>
+                            <p class="text-xs text-red-600 font-semibold">ক্রয় মূল / প্রারম্ভিক খরচ:</p>
                             <p class="text-lg font-bold text-red-700" id="prof-buy-price">৳ ০</p>
                         </div>
                         <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
@@ -109,40 +108,32 @@
                             <p class="text-lg font-bold text-orange-700" id="prof-other-expense">৳ ০</p>
                         </div>
                         <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
-                            <p class="text-xs text-emerald-600 font-semibold">মোট আয় (উৎপাদন+বিক্রি):</p>
+                            <p class="text-xs text-emerald-600 font-semibold">মোট আয় (উৎপাদন+বাচ্চা+বিক্রি):</p>
                             <p class="text-lg font-bold text-emerald-700" id="prof-total-income">৳ ০</p>
                         </div>
                         <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                            <p class="text-xs text-blue-600 font-semibold">এই পশুর/ব্যাচের লাভ/ক্ষতি:</p>
+                            <p class="text-xs text-blue-600 font-semibold">লাভ / ক্ষতি:</p>
                             <p class="text-xl font-bold text-blue-800" id="prof-net-profit">৳ ০</p>
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="flex flex-wrap gap-2 mb-6 no-print">
-                        <button onclick="openTxModal('feed')" class="bg-amber-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-utensils"></i> খাবার ব্যয়</button>
-                        <button onclick="openTxModal('med')" class="bg-red-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-stethoscope"></i> চিকিৎসা/ঔষধ</button>
-                        <button onclick="openTxModal('prod')" class="bg-blue-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-basket-shopping"></i> দুধ/ডিম/মাছ বিক্রি</button>
-                        <button onclick="openTxModal('offspring')" class="bg-purple-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-baby"></i> বাচ্চা/পোনা যোগ</button>
-                        <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> সেল / বিক্রি করুন</button>
-                    </div>
+                    <!-- Dynamic Action Buttons -->
+                    <div class="flex flex-wrap gap-2 mb-6 no-print" id="prof-action-buttons"></div>
 
                     <!-- History Table -->
-                    <h3 class="font-bold text-lg mb-3 border-b pb-2">দৈনিক ট্র্যাকিং ও হিস্ট্রি রেকর্ড</h3>
+                    <h3 class="font-bold text-lg mb-3 border-b pb-2">ট্র্যাকিং ও হিস্ট্রি রেকর্ড</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead class="bg-slate-100">
                                 <tr>
                                     <th class="p-3 border-b">তারিখ</th>
                                     <th class="p-3 border-b">ক্যাটাগরি</th>
-                                    <th class="p-3 border-b">বিবরণ / পরিমাণ</th>
+                                    <th class="p-3 border-b">বিবরণ</th>
                                     <th class="p-3 border-b">ব্যয় (৳)</th>
                                     <th class="p-3 border-b">আয় (৳)</th>
                                 </tr>
                             </thead>
-                            <tbody id="prof-history-table" class="divide-y">
-                                <!-- History rows -->
-                            </tbody>
+                            <tbody id="prof-history-table" class="divide-y"></tbody>
                         </table>
                     </div>
                 </div>
@@ -153,46 +144,44 @@
                 <div class="flex justify-between items-center mb-6 no-print">
                     <h1 class="text-2xl font-bold">বার্ষিক আর্থিক রিপোর্ট ও রিসেট</h1>
                     <div class="flex gap-2">
-                        <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded font-semibold"><i class="fa-solid fa-print"></i> রিপোর্ট প্রিন্ট করুন</button>
-                        <button onclick="resetYearlyData()" class="bg-red-600 text-white px-4 py-2 rounded font-semibold"><i class="fa-solid fa-rotate-left"></i> নতুন বছরে রিসেট করুন</button>
+                        <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded font-semibold"><i class="fa-solid fa-print"></i> প্রিন্ট</button>
+                        <button onclick="resetYearlyData()" class="bg-red-600 text-white px-4 py-2 rounded font-semibold"><i class="fa-solid fa-rotate-left"></i> ১ বছরের রিসেট</button>
                     </div>
                 </div>
 
                 <div class="bg-white p-8 rounded-xl shadow" id="printableReport">
                     <div class="text-center border-b pb-4 mb-6">
-                        <h2 class="text-3xl font-bold">আদর্শ অল-ইন-ওয়ান খামার - বার্ষিক হিসাব</h2>
+                        <h2 class="text-3xl font-bold">খামারের বার্ষিক আর্থিক রিপোর্ট</h2>
                         <p class="text-slate-500 text-sm">তারিখ: <span id="reportDate"></span></p>
                     </div>
 
                     <div class="grid grid-cols-3 gap-4 mb-6 text-center">
                         <div class="border p-4 rounded">
-                            <p class="text-sm font-semibold text-slate-500">মোট আয়ের হিসাব</p>
+                            <p class="text-sm font-semibold text-slate-500">মোট আয়</p>
                             <p class="text-2xl font-bold text-emerald-600" id="rep-income">৳ ০</p>
                         </div>
                         <div class="border p-4 rounded">
-                            <p class="text-sm font-semibold text-slate-500">মোট ব্যয়ের হিসাব</p>
+                            <p class="text-sm font-semibold text-slate-500">মোট ব্যয়</p>
                             <p class="text-2xl font-bold text-red-600" id="rep-expense">৳ ০</p>
                         </div>
                         <div class="border p-4 rounded">
-                            <p class="text-sm font-semibold text-slate-500">মোট নিট লাভ/ক্ষতি</p>
+                            <p class="text-sm font-semibold text-slate-500">নিট লাভ/ক্ষতি</p>
                             <p class="text-2xl font-bold text-blue-600" id="rep-profit">৳ ০</p>
                         </div>
                     </div>
 
-                    <h3 class="font-bold text-md mb-2">খামারের বর্তমান মোট সম্পদের হিসাব (সক্রিয় স্টক)</h3>
+                    <h3 class="font-bold text-md mb-2">সক্রিয় স্টকের বিবরণ</h3>
                     <table class="w-full text-left border-collapse text-sm mb-6">
                         <thead class="bg-slate-100">
                             <tr>
-                                <th class="p-2 border">ট্যাগ / লট আইডি</th>
-                                <th class="p-2 border">খামারের বিভাগ</th>
-                                <th class="p-2 border">জাত / বিবরণ</th>
-                                <th class="p-2 border">প্রারম্ভিক দাম (৳)</th>
+                                <th class="p-2 border">ট্যাগ/ব্যাচ</th>
+                                <th class="p-2 border">বিভাগ</th>
+                                <th class="p-2 border">বিবরণ</th>
+                                <th class="p-2 border">ক্রয়মূল্য/খরচ (৳)</th>
                                 <th class="p-2 border">অবস্থা</th>
                             </tr>
                         </thead>
-                        <tbody id="rep-asset-table">
-                            <!-- Asset List -->
-                        </tbody>
+                        <tbody id="rep-asset-table"></tbody>
                     </table>
                 </div>
             </div>
@@ -204,21 +193,23 @@
     <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-xl w-96">
             <h2 class="text-lg font-bold mb-4" id="addModalTitle">নতুন এন্ট্রি করুন</h2>
-            <input type="text" id="new-tag" placeholder="আইডি / ট্যাগ (যেমন: POND-01, COW-01)" class="w-full border p-2 mb-3 rounded text-sm">
-            <input type="text" id="new-breed" placeholder="জাত/বিবরণ (যেমন: সোনালী মুরগি, রুই মাছ)" class="w-full border p-2 mb-3 rounded text-sm">
-            <input type="number" id="new-buy-price" placeholder="ক্রয় মূল্য/শুরুর খরচ (৳)" class="w-full border p-2 mb-3 rounded text-sm">
-            <div class="flex justify-end gap-2">
+            <div id="addModalInputs"></div>
+            <div class="flex justify-end gap-2 mt-4">
                 <button onclick="closeModal('addModal')" class="px-4 py-2 bg-slate-200 text-sm rounded">বাতিল</button>
                 <button onclick="saveNewProfile()" class="px-4 py-2 bg-emerald-600 text-white text-sm rounded">সেভ করুন</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Add Transaction -->
+    <!-- Modal: Add Dynamic Transaction -->
     <div id="txModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-xl w-96">
+        <div class="bg-white p-6 rounded-xl w-96 max-h-[90vh] overflow-y-auto">
             <h2 class="text-lg font-bold mb-4" id="txModalTitle">এন্ট্রি করুন</h2>
             <input type="hidden" id="txType">
+            <div class="mb-3">
+                <label class="block text-xs text-slate-500 mb-1">তারিখ</label>
+                <input type="date" id="tx-date" class="w-full border p-2 rounded text-sm">
+            </div>
             <div id="txDynamicInputs"></div>
             <div class="flex justify-end gap-2 mt-4">
                 <button onclick="closeModal('txModal')" class="px-4 py-2 bg-slate-200 text-sm rounded">বাতিল</button>
@@ -228,12 +219,12 @@
     </div>
 
     <script>
-        let farmData = JSON.parse(localStorage.getItem('multifarm_data')) || [];
+        let farmData = JSON.parse(localStorage.getItem('multifarm_v5')) || [];
         let currentCategory = 'গরু';
         let activeProfileId = null;
 
         function saveToStorage() {
-            localStorage.setItem('multifarm_data', JSON.stringify(farmData));
+            localStorage.setItem('multifarm_v5', JSON.stringify(farmData));
             renderDashboard();
             if(!document.getElementById('categoryView').classList.contains('hidden')) {
                 renderCategoryView();
@@ -262,7 +253,30 @@
 
         function openAddModal() {
             document.getElementById('addModalTitle').innerText = `${currentCategory} - নতুন এন্ট্রি`;
+            const container = document.getElementById('addModalInputs');
+            
+            if(['হাঁস', 'মুরগি', 'মাছ'].includes(currentCategory)) {
+                container.innerHTML = `
+                    <input type="text" id="new-tag" placeholder="ব্যাচ আইডি (যেমন: BATCH-01)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="text" id="new-breed" placeholder="জাত/বিবরণ (যেমন: সোনালী / রুই)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-qty" oninput="calcBatchTotal()" placeholder="মোট পরিমাণ (পিস/পোনা)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-unit-price" oninput="calcBatchTotal()" placeholder="প্রতি পিস/ইউনিট মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-buy-price" placeholder="মোট ব্যাচ মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm bg-slate-100" readonly>
+                `;
+            } else {
+                container.innerHTML = `
+                    <input type="text" id="new-tag" placeholder="ট্যাগ / আইডি (যেমন: TAG-01)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="text" id="new-breed" placeholder="জাত (যেমন: ফ্রিজিয়ান/তোতাপুরি)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-buy-price" placeholder="ক্রয় মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm">
+                `;
+            }
             document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function calcBatchTotal() {
+            const qty = parseFloat(document.getElementById('new-qty').value) || 0;
+            const rate = parseFloat(document.getElementById('new-unit-price').value) || 0;
+            document.getElementById('new-buy-price').value = qty * rate;
         }
 
         function closeModal(modalId) {
@@ -274,13 +288,20 @@
             const breed = document.getElementById('new-breed').value;
             const buyPrice = parseFloat(document.getElementById('new-buy-price').value) || 0;
 
-            if(!tag) return alert('আইডি / ট্যাগ আবশ্যক');
+            if(!tag) return alert('আইডি / ট্যাগ প্রদান করুন');
+
+            let detailsStr = breed;
+            if(['হাঁস', 'মুরগি', 'মাছ'].includes(currentCategory)) {
+                const qty = document.getElementById('new-qty').value || 0;
+                const rate = document.getElementById('new-unit-price').value || 0;
+                detailsStr += ` (${qty} পিস @ ৳${rate})`;
+            }
 
             farmData.push({
                 id: Date.now(),
                 category: currentCategory,
                 tag: tag,
-                breed: breed,
+                breed: detailsStr,
                 buyPrice: buyPrice,
                 status: 'সক্রিয়',
                 history: []
@@ -288,9 +309,6 @@
 
             saveToStorage();
             closeModal('addModal');
-            document.getElementById('new-tag').value = '';
-            document.getElementById('new-breed').value = '';
-            document.getElementById('new-buy-price').value = '';
         }
 
         function renderCategoryView() {
@@ -304,8 +322,8 @@
                             <h3 class="font-bold text-lg">${item.tag}</h3>
                             <span class="text-xs px-2 py-1 rounded ${item.status==='সক্রিয়'?'bg-emerald-100 text-emerald-800':'bg-gray-100 text-gray-800'}">${item.status}</span>
                         </div>
-                        <p class="text-sm text-slate-600 mb-1">বিবরণ/জাত: ${item.breed}</p>
-                        <p class="text-sm text-slate-600 mb-3">শুরুর মূল্য/খরচ: ৳ ${item.buyPrice}</p>
+                        <p class="text-sm text-slate-600 mb-1">বিবরণ: ${item.breed}</p>
+                        <p class="text-sm text-slate-600 mb-3">মূল খরচ: ৳ ${item.buyPrice}</p>
                         <button onclick="viewProfile(${item.id})" class="w-full bg-emerald-600 text-white py-2 rounded text-sm font-semibold hover:bg-emerald-700">প্রোফাইল ও হিসাব দেখুন</button>
                     </div>
                 `;
@@ -320,16 +338,46 @@
             if(!item) return;
 
             document.getElementById('prof-tag').innerText = item.tag;
-            document.getElementById('prof-type-breed').innerText = `বিভাগ: ${item.category} | জাত/বিবরণ: ${item.breed}`;
+            document.getElementById('prof-type-breed').innerText = `বিভাগ: ${item.category} | বিবরণ: ${item.breed}`;
             document.getElementById('prof-status-badge').innerText = item.status;
             document.getElementById('prof-buy-price').innerText = '৳ ' + item.buyPrice;
+
+            // Action Buttons Config per Category
+            const btnContainer = document.getElementById('prof-action-buttons');
+            let btns = `
+                <button onclick="openTxModal('feed')" class="bg-amber-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-utensils"></i> খাদ্য ব্যয়</button>
+                <button onclick="openTxModal('med')" class="bg-red-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-stethoscope"></i> চিকিৎসা ব্যয়</button>
+            `;
+
+            if(['গরু', 'ছাগল'].includes(item.category)) {
+                btns += `
+                    <button onclick="openTxModal('milk')" class="bg-blue-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-glass-water"></i> দুধ বিক্রি</button>
+                    <button onclick="openTxModal('calf')" class="bg-purple-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-baby"></i> বাচ্চার দাম (লাভ)</button>
+                    <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> বিক্রি করুন</button>
+                `;
+            } else if(['হাঁস', 'মুরগি'].includes(item.category)) {
+                btns += `
+                    <button onclick="openTxModal('egg')" class="bg-blue-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-egg"></i> ডিম বিক্রি</button>
+                    <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> ব্যাচ বিক্রি</button>
+                `;
+            } else if(item.category === 'পাখি') {
+                btns += `
+                    <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> বিক্রি করুন</button>
+                `;
+            } else if(item.category === 'মাছ') {
+                btns += `
+                    <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> ব্যাচ বিক্রি</button>
+                `;
+            }
+
+            btnContainer.innerHTML = btns;
 
             let otherExp = 0, income = 0;
             let historyHtml = `
                 <tr>
                     <td class="p-3 border-b">প্রারম্ভিক</td>
-                    <td class="p-3 border-b">মূল খরচ/ক্রয়</td>
-                    <td class="p-3 border-b">সংযোজন</td>
+                    <td class="p-3 border-b">মূল খরচ</td>
+                    <td class="p-3 border-b">সংযোজন / ব্যাচ ক্রয়</td>
                     <td class="p-3 border-b text-red-600">৳ ${item.buyPrice}</td>
                     <td class="p-3 border-b text-emerald-600">৳ ০</td>
                 </tr>
@@ -366,72 +414,117 @@
 
         function openTxModal(txType) {
             document.getElementById('txType').value = txType;
+            document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
             const container = document.getElementById('txDynamicInputs');
             let html = '';
 
             if(txType === 'feed') {
-                document.getElementById('txModalTitle').innerText = 'খাবার খরচ এন্ট্রি';
-                html = `<input type="number" id="tx-amount" placeholder="খাবারের খরচ (৳)" class="w-full border p-2 mb-2 rounded">
-                        <input type="text" id="tx-note" placeholder="বিবরণ (যেমন: দানা খাবার/ফিড)" class="w-full border p-2 rounded">`;
+                document.getElementById('txModalTitle').innerText = 'খাদ্য ব্যয় যোগ';
+                html = `
+                    <select id="tx-shift" class="w-full border p-2 mb-2 rounded text-sm">
+                        <option value="সকাল">সকাল</option>
+                        <option value="দুপুর">দুপুর</option>
+                        <option value="রাত">রাত</option>
+                    </select>
+                    <input type="text" id="tx-feed-name" placeholder="খাবারের নাম (যেমন: ভুসি, ঘাস, ফিড)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-feed-qty" oninput="calcFeedTotal()" placeholder="পরিমাণ (কেজি/লিটার)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-feed-rate" oninput="calcFeedTotal()" placeholder="প্রতি কেজি/লিটার মূল্য (৳)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-amount" placeholder="মোট খরচ (৳)" class="w-full border p-2 rounded text-sm bg-slate-100" readonly>
+                `;
             } else if(txType === 'med') {
-                document.getElementById('txModalTitle').innerText = 'চিকিৎসা / যত্ন খরচ';
-                html = `<input type="number" id="tx-amount" placeholder="চিকিৎসা/ঔষধ খরচ (৳)" class="w-full border p-2 mb-2 rounded">
-                        <input type="text" id="tx-note" placeholder="বিবরণ (যেমন: ভ্যাকসিন/মেডিসিন)" class="w-full border p-2 rounded">`;
-            } else if(txType === 'prod') {
-                document.getElementById('txModalTitle').innerText = 'উৎপাদন বিক্রয় (দুধ/ডিম/মাছ)';
-                html = `<input type="text" id="tx-note" placeholder="পরিমাণ/বিবরণ (যেমন: ২০টি ডিম / ৫ কেজি মাছ)" class="w-full border p-2 mb-2 rounded">
-                        <input type="number" id="tx-amount" placeholder="বিক্রি মূল্য (৳)" class="w-full border p-2 rounded">`;
-            } else if(txType === 'offspring') {
-                document.getElementById('txModalTitle').innerText = 'নতুন বাচ্চা/পোনা যোগ';
-                html = `<input type="text" id="tx-tag" placeholder="নতুন আইডি/ট্যাগ" class="w-full border p-2 mb-2 rounded">
-                        <input type="number" id="tx-val" placeholder="আনুমানিক দাম/মূল্য (৳)" class="w-full border p-2 rounded">`;
+                document.getElementById('txModalTitle').innerText = 'চিকিৎসা ব্যয় যোগ';
+                html = `
+                    <select id="tx-shift" class="w-full border p-2 mb-2 rounded text-sm">
+                        <option value="সকাল">সকাল</option>
+                        <option value="দুপুর">দুপুর</option>
+                        <option value="রাত">রাত</option>
+                    </select>
+                    <input type="text" id="tx-med-name" placeholder="ঔষধ / চিকিৎসার বিবরণ" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-med-cost" placeholder="ঔষধ খরচ (৳)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-doc-fee" placeholder="ডাক্তার ভিজিটিং ফি (৳)" class="w-full border p-2 rounded text-sm">
+                `;
+            } else if(txType === 'milk') {
+                document.getElementById('txModalTitle').innerText = 'দুধ বিক্রয়ের এন্ট্রি';
+                html = `
+                    <input type="number" id="tx-qty" placeholder="দুধের পরিমাণ (লিটার)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-amount" placeholder="মোট বিক্রয় মূল্য (৳)" class="w-full border p-2 rounded text-sm">
+                `;
+            } else if(txType === 'egg') {
+                document.getElementById('txModalTitle').innerText = 'ডিম বিক্রয়ের এন্ট্রি';
+                html = `
+                    <input type="number" id="tx-qty" placeholder="ডিমের পরিমাণ (টি)" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-amount" placeholder="মোট বিক্রয় মূল্য (৳)" class="w-full border p-2 rounded text-sm">
+                `;
+            } else if(txType === 'calf') {
+                document.getElementById('txModalTitle').innerText = 'বাচ্চার লাভ নির্ধারণ';
+                html = `
+                    <input type="text" id="tx-note" placeholder="বাচ্চার বিবরণ" class="w-full border p-2 mb-2 rounded text-sm">
+                    <input type="number" id="tx-amount" placeholder="বাচ্চার বিক্রয়/ধরা মূল্য (৳)" class="w-full border p-2 rounded text-sm">
+                `;
             } else if(txType === 'sell') {
-                document.getElementById('txModalTitle').innerText = 'সম্পূর্ণ স্টক/পশু বিক্রয়';
-                html = `<input type="number" id="tx-amount" placeholder="বিক্রি মূল্য (৳)" class="w-full border p-2 rounded">`;
+                document.getElementById('txModalTitle').innerText = 'বিক্রি করুন';
+                html = `<input type="number" id="tx-amount" placeholder="মোট বিক্রি মূল্য (৳)" class="w-full border p-2 rounded text-sm">`;
             }
 
             container.innerHTML = html;
             document.getElementById('txModal').classList.remove('hidden');
         }
 
+        function calcFeedTotal() {
+            const qty = parseFloat(document.getElementById('tx-feed-qty').value) || 0;
+            const rate = parseFloat(document.getElementById('tx-feed-rate').value) || 0;
+            document.getElementById('tx-amount').value = qty * rate;
+        }
+
         function saveTransaction() {
             const txType = document.getElementById('txType').value;
+            const txDate = document.getElementById('tx-date').value || new Date().toISOString().split('T')[0];
             const item = farmData.find(a => a.id === activeProfileId);
             if(!item) return;
 
-            const today = new Date().toISOString().split('T')[0];
-
             if(txType === 'feed') {
+                const shift = document.getElementById('tx-shift').value;
+                const name = document.getElementById('tx-feed-name').value;
+                const qty = document.getElementById('tx-feed-qty').value || 0;
+                const rate = document.getElementById('tx-feed-rate').value || 0;
                 const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
-                const note = document.getElementById('tx-note').value || 'দৈনিক খাদ্য';
-                item.history.push({ date: today, category: 'খাদ্য ব্যয়', details: note, expense: amt, income: 0 });
-            } else if(txType === 'med') {
-                const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
-                const note = document.getElementById('tx-note').value || 'চিকিৎসা';
-                item.history.push({ date: today, category: 'চিকিৎসা ব্যয়', details: note, expense: amt, income: 0 });
-            } else if(txType === 'prod') {
-                const note = document.getElementById('tx-note').value || 'উৎপাদন সেল';
-                const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
-                item.history.push({ date: today, category: 'উৎপাদন বিক্রয়', details: note, expense: 0, income: amt });
-            } else if(txType === 'offspring') {
-                const childTag = document.getElementById('tx-tag').value;
-                const childVal = parseFloat(document.getElementById('tx-val').value) || 0;
-                if(!childTag) return alert('আইডি দিন');
-                
-                item.history.push({ date: today, category: 'নতুন বাচ্চা/পোনা', details: `আইডি: ${childTag}`, expense: 0, income: childVal });
-                
-                farmData.push({
-                    id: Date.now(),
-                    category: item.category,
-                    tag: childTag,
-                    breed: item.breed,
-                    buyPrice: childVal,
-                    status: 'সক্রিয়',
-                    history: []
+
+                item.history.push({
+                    date: txDate,
+                    category: `খাদ্য (${shift})`,
+                    details: `${name} - ${qty} কেজি/লিটার (@ ৳${rate})`,
+                    expense: amt,
+                    income: 0
                 });
+            } else if(txType === 'med') {
+                const shift = document.getElementById('tx-shift').value;
+                const name = document.getElementById('tx-med-name').value;
+                const medCost = parseFloat(document.getElementById('tx-med-cost').value) || 0;
+                const docFee = parseFloat(document.getElementById('tx-doc-fee').value) || 0;
+                const totalMed = medCost + docFee;
+
+                item.history.push({
+                    date: txDate,
+                    category: `চিকিৎসা (${shift})`,
+                    details: `${name} (ঔষধ: ৳${medCost}, ডাক্তার ভিজিট: ৳${docFee})`,
+                    expense: totalMed,
+                    income: 0
+                });
+            } else if(txType === 'milk') {
+                const qty = document.getElementById('tx-qty').value || 0;
+                const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
+                item.history.push({ date: txDate, category: 'দুধ বিক্রি', details: `${qty} লিটার দুধ বিক্রি`, expense: 0, income: amt });
+            } else if(txType === 'egg') {
+                const qty = document.getElementById('tx-qty').value || 0;
+                const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
+                item.history.push({ date: txDate, category: 'ডিম বিক্রি', details: `${qty} টি ডিম বিক্রি`, expense: 0, income: amt });
+            } else if(txType === 'calf') {
+                const note = document.getElementById('tx-note').value || 'নতুন বাচ্চা ধরা হয়েছে';
+                const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
+                item.history.push({ date: txDate, category: 'বাচ্চার লাভ', details: note, expense: 0, income: amt });
             } else if(txType === 'sell') {
                 const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
-                item.history.push({ date: today, category: 'সম্পূর্ণ বিক্রয়', details: 'বিক্রি করা হয়েছে', expense: 0, income: amt });
+                item.history.push({ date: txDate, category: 'বিক্রি', details: 'সম্পূর্ণ বিক্রি করা হয়েছে', expense: 0, income: amt });
                 item.status = 'বিক্রি করা হয়েছে';
             }
 
@@ -493,17 +586,17 @@
         }
 
         function resetYearlyData() {
-            if(confirm('নতুন বছরের জন্য ডাটা রিসেট করতে চান? পূর্বে বিক্রি হয়ে যাওয়া স্টক মুছে যাবে এবং বর্তমান সক্রিয় স্টক নতুন প্রারম্ভিক হিসাব হিসেবে যুক্ত হবে।')) {
+            if(confirm('নতুন বছরের জন্য রিসেট করতে চান? পূর্বে বিক্রি হয়ে যাওয়া রেকর্ড ক্লিয়ার হবে এবং শুধুমাত্র সক্রিয় প্রাণী/ব্যাচ নতুন বছরে প্রারম্ভিক হিসাব হিসেবে থাকবে।')) {
                 let activeData = farmData.filter(a => a.status === 'সক্রিয়');
                 activeData.forEach(a => { a.history = []; });
                 farmData = activeData;
                 saveToStorage();
-                alert('নতুন বছরের হিসাব রিস্টার্ট করা হয়েছে!');
+                alert('নতুন বছরের জন্য সিস্টেম রিসেট করা হয়েছে!');
                 switchTab('dashboard');
             }
         }
 
-        // Initialize
+        // Init App
         renderDashboard();
     </script>
 </body>
