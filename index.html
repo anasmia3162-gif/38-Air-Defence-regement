@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>স্মার্ট ফার্মিং ERP - মাল্টি-ক্যাটাগরি</title>
+    <title>তাওসিফ এগ্রো - মাল্টি-ক্যাটাগরি ERP</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
@@ -18,10 +20,13 @@
 <body class="bg-slate-100 text-slate-800">
 
     <!-- Mobile Header -->
-    <div class="md:hidden bg-emerald-900 text-white flex justify-between items-center p-4 no-print">
-        <div class="text-xl font-bold flex items-center gap-2">
-            <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-            <span>স্মার্ট ফার্ম ERP</span>
+    <div class="md:hidden bg-emerald-900 text-white p-4 no-print flex justify-between items-center">
+        <div>
+            <div class="text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
+                <span>তাওসিফ এগ্রো</span>
+            </div>
+            <p class="text-xs text-emerald-300">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
         </div>
         <button onclick="toggleSidebar()" class="text-2xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -30,11 +35,14 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-emerald-900 text-white flex flex-col justify-between transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out no-print">
             <div>
-                <div class="hidden md:flex p-5 text-xl font-bold border-b border-emerald-800 items-center gap-2">
-                    <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-                    <span>স্মার্ট ফার্ম ERP</span>
+                <div class="hidden md:block p-5 border-b border-emerald-800">
+                    <div class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
+                        <span>তাওসিফ এগ্রো</span>
+                    </div>
+                    <p class="text-xs text-emerald-300 mt-1">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
                 </div>
-                <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-100px)]">
+                <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-120px)]">
                     <button onclick="switchTab('dashboard')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
                     <button onclick="openCategoryTab('গরু')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cow"></i> গরু মডিউল</button>
                     <button onclick="openCategoryTab('ছাগল')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cloud-sun"></i> ছাগল মডিউল</button>
@@ -46,7 +54,7 @@
                 </nav>
             </div>
             <div class="p-3 text-xs text-center border-t border-emerald-800 text-emerald-300">
-                ভার্সন ৫.০ (কাস্টমাইজড ERP)
+                ভার্সন ৫.২ (কাস্টমাইজড ERP)
             </div>
         </aside>
 
@@ -88,11 +96,25 @@
             <!-- Detailed Profile View -->
             <div id="profileView" class="tab-content hidden">
                 <button onclick="closeProfileView()" class="mb-4 bg-slate-600 text-white px-4 py-2 rounded-lg"><i class="fa-solid fa-arrow-left"></i> পেছনে যান</button>
+                
                 <div class="bg-white p-6 rounded-xl shadow mb-6">
-                    <div class="flex justify-between items-start border-b pb-4 mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-slate-800" id="prof-tag">TAG-001</h2>
-                            <p class="text-sm text-slate-500" id="prof-type-breed">ক্যাটাগরি</p>
+                    <!-- Profile Header & Image Upload Section -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start border-b pb-4 mb-4 gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="relative group">
+                                <img id="prof-img" src="https://via.placeholder.com/100?text=No+Image" class="w-24 h-24 object-cover rounded-xl border-2 border-slate-200">
+                                <div id="prof-img-actions" class="mt-2 flex gap-1">
+                                    <label class="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded text-xs hover:bg-slate-800">
+                                        <i class="fa-solid fa-camera"></i> আপলোড
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadProfileImage(event)">
+                                    </label>
+                                    <button onclick="removeProfileImage()" id="btn-remove-img" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700 hidden"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-800" id="prof-tag">TAG-001</h2>
+                                <p class="text-sm text-slate-500" id="prof-type-breed">ক্যাটাগরি</p>
+                            </div>
                         </div>
                         <span id="prof-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">সক্রিয়</span>
                     </div>
@@ -151,8 +173,9 @@
 
                 <div class="bg-white p-8 rounded-xl shadow" id="printableReport">
                     <div class="text-center border-b pb-4 mb-6">
-                        <h2 class="text-3xl font-bold">খামারের বার্ষিক আর্থিক রিপোর্ট</h2>
-                        <p class="text-slate-500 text-sm">তারিখ: <span id="reportDate"></span></p>
+                        <h2 class="text-3xl font-bold">তাওসিফ এগ্রো</h2>
+                        <p class="text-sm text-slate-600 font-semibold">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
+                        <p class="text-slate-500 text-xs mt-1">বার্ষিক আর্থিক রিপোর্ট | তারিখ: <span id="reportDate"></span></p>
                     </div>
 
                     <div class="grid grid-cols-3 gap-4 mb-6 text-center">
@@ -174,6 +197,7 @@
                     <table class="w-full text-left border-collapse text-sm mb-6">
                         <thead class="bg-slate-100">
                             <tr>
+                                <th class="p-2 border">প্রারম্ভিক তারিখ</th>
                                 <th class="p-2 border">ট্যাগ/ব্যাচ</th>
                                 <th class="p-2 border">বিভাগ</th>
                                 <th class="p-2 border">বিবরণ</th>
@@ -254,17 +278,22 @@
         function openAddModal() {
             document.getElementById('addModalTitle').innerText = `${currentCategory} - নতুন এন্ট্রি`;
             const container = document.getElementById('addModalInputs');
+            const today = new Date().toISOString().split('T')[0];
             
-            if(['হাঁস', 'মুরগি', 'মাছ'].includes(currentCategory)) {
+            if(['হাঁস', 'মুরগি', 'পাখি', 'মাছ'].includes(currentCategory)) {
                 container.innerHTML = `
+                    <label class="block text-xs text-slate-500 mb-1">শুরুর/ক্রয়ের তারিখ</label>
+                    <input type="date" id="new-date" value="${today}" class="w-full border p-2 mb-3 rounded text-sm">
                     <input type="text" id="new-tag" placeholder="ব্যাচ আইডি (যেমন: BATCH-01)" class="w-full border p-2 mb-3 rounded text-sm">
-                    <input type="text" id="new-breed" placeholder="জাত/বিবরণ (যেমন: সোনালী / রুই)" class="w-full border p-2 mb-3 rounded text-sm">
-                    <input type="number" id="new-qty" oninput="calcBatchTotal()" placeholder="মোট পরিমাণ (পিস/পোনা)" class="w-full border p-2 mb-3 rounded text-sm">
-                    <input type="number" id="new-unit-price" oninput="calcBatchTotal()" placeholder="প্রতি পিস/ইউনিট মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="text" id="new-breed" placeholder="জাত/বিবরণ (যেমন: সোনালী / লাভবার্ড)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-qty" oninput="calcBatchTotal()" placeholder="মোট পরিমাণ (পিস/জোড়া/পোনা)" class="w-full border p-2 mb-3 rounded text-sm">
+                    <input type="number" id="new-unit-price" oninput="calcBatchTotal()" placeholder="প্রতি ইউনিট/পিস মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm">
                     <input type="number" id="new-buy-price" placeholder="মোট ব্যাচ মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm bg-slate-100" readonly>
                 `;
             } else {
                 container.innerHTML = `
+                    <label class="block text-xs text-slate-500 mb-1">ক্রয়ের/শুরুর তারিখ</label>
+                    <input type="date" id="new-date" value="${today}" class="w-full border p-2 mb-3 rounded text-sm">
                     <input type="text" id="new-tag" placeholder="ট্যাগ / আইডি (যেমন: TAG-01)" class="w-full border p-2 mb-3 rounded text-sm">
                     <input type="text" id="new-breed" placeholder="জাত (যেমন: ফ্রিজিয়ান/তোতাপুরি)" class="w-full border p-2 mb-3 rounded text-sm">
                     <input type="number" id="new-buy-price" placeholder="ক্রয় মূল্য (৳)" class="w-full border p-2 mb-3 rounded text-sm">
@@ -284,6 +313,7 @@
         }
 
         function saveNewProfile() {
+            const startDate = document.getElementById('new-date').value || new Date().toISOString().split('T')[0];
             const tag = document.getElementById('new-tag').value;
             const breed = document.getElementById('new-breed').value;
             const buyPrice = parseFloat(document.getElementById('new-buy-price').value) || 0;
@@ -291,19 +321,21 @@
             if(!tag) return alert('আইডি / ট্যাগ প্রদান করুন');
 
             let detailsStr = breed;
-            if(['হাঁস', 'মুরগি', 'মাছ'].includes(currentCategory)) {
+            if(['হাঁস', 'মুরগি', 'পাখি', 'মাছ'].includes(currentCategory)) {
                 const qty = document.getElementById('new-qty').value || 0;
                 const rate = document.getElementById('new-unit-price').value || 0;
-                detailsStr += ` (${qty} পিস @ ৳${rate})`;
+                detailsStr += ` (${qty} পিস/ইউনিট @ ৳${rate})`;
             }
 
             farmData.push({
                 id: Date.now(),
+                startDate: startDate,
                 category: currentCategory,
                 tag: tag,
                 breed: detailsStr,
                 buyPrice: buyPrice,
                 status: 'সক্রিয়',
+                image: null,
                 history: []
             });
 
@@ -316,14 +348,19 @@
             let html = '';
 
             filtered.forEach(item => {
+                const imgSrc = item.image || 'https://via.placeholder.com/150?text=No+Image';
                 html += `
-                    <div class="bg-white p-5 rounded-xl shadow border border-slate-200">
-                        <div class="flex justify-between items-center mb-3">
+                    <div class="bg-white p-5 rounded-xl shadow border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="relative w-full h-40 mb-3 overflow-hidden rounded-lg bg-slate-100">
+                                <img src="${imgSrc}" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded shadow ${item.status==='সক্রিয়'?'bg-emerald-100 text-emerald-800':'bg-gray-100 text-gray-800'}">${item.status}</span>
+                            </div>
                             <h3 class="font-bold text-lg">${item.tag}</h3>
-                            <span class="text-xs px-2 py-1 rounded ${item.status==='সক্রিয়'?'bg-emerald-100 text-emerald-800':'bg-gray-100 text-gray-800'}">${item.status}</span>
+                            <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar-alt"></i> তারিখ: ${item.startDate || 'N/A'}</p>
+                            <p class="text-sm text-slate-600 mb-1">বিবরণ: ${item.breed}</p>
+                            <p class="text-sm text-slate-600 mb-3">মূল খরচ: ৳ ${item.buyPrice}</p>
                         </div>
-                        <p class="text-sm text-slate-600 mb-1">বিবরণ: ${item.breed}</p>
-                        <p class="text-sm text-slate-600 mb-3">মূল খরচ: ৳ ${item.buyPrice}</p>
                         <button onclick="viewProfile(${item.id})" class="w-full bg-emerald-600 text-white py-2 rounded text-sm font-semibold hover:bg-emerald-700">প্রোফাইল ও হিসাব দেখুন</button>
                     </div>
                 `;
@@ -342,7 +379,18 @@
             document.getElementById('prof-status-badge').innerText = item.status;
             document.getElementById('prof-buy-price').innerText = '৳ ' + item.buyPrice;
 
-            // Action Buttons Config per Category
+            // Image handling
+            const profImg = document.getElementById('prof-img');
+            const removeBtn = document.getElementById('btn-remove-img');
+            if(item.image) {
+                profImg.src = item.image;
+                removeBtn.classList.remove('hidden');
+            } else {
+                profImg.src = 'https://via.placeholder.com/100?text=No+Image';
+                removeBtn.classList.add('hidden');
+            }
+
+            // Dynamic Action Buttons Configuration
             const btnContainer = document.getElementById('prof-action-buttons');
             let btns = `
                 <button onclick="openTxModal('feed')" class="bg-amber-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-utensils"></i> খাদ্য ব্যয়</button>
@@ -355,14 +403,10 @@
                     <button onclick="openTxModal('calf')" class="bg-purple-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-baby"></i> বাচ্চার দাম (লাভ)</button>
                     <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> বিক্রি করুন</button>
                 `;
-            } else if(['হাঁস', 'মুরগি'].includes(item.category)) {
+            } else if(['হাঁস', 'মুরগি', 'পাখি'].includes(item.category)) {
                 btns += `
                     <button onclick="openTxModal('egg')" class="bg-blue-600 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-egg"></i> ডিম বিক্রি</button>
                     <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> ব্যাচ বিক্রি</button>
-                `;
-            } else if(item.category === 'পাখি') {
-                btns += `
-                    <button onclick="openTxModal('sell')" class="bg-emerald-800 text-white px-3 py-2 rounded text-sm"><i class="fa-solid fa-dollar-sign"></i> বিক্রি করুন</button>
                 `;
             } else if(item.category === 'মাছ') {
                 btns += `
@@ -375,9 +419,9 @@
             let otherExp = 0, income = 0;
             let historyHtml = `
                 <tr>
-                    <td class="p-3 border-b">প্রারম্ভিক</td>
+                    <td class="p-3 border-b">${item.startDate || 'প্রারম্ভিক'}</td>
                     <td class="p-3 border-b">মূল খরচ</td>
-                    <td class="p-3 border-b">সংযোজন / ব্যাচ ক্রয়</td>
+                    <td class="p-3 border-b">সংযোজন / প্রারম্ভিক স্টক / ব্যাচ ক্রয়</td>
                     <td class="p-3 border-b text-red-600">৳ ${item.buyPrice}</td>
                     <td class="p-3 border-b text-emerald-600">৳ ০</td>
                 </tr>
@@ -406,6 +450,33 @@
             document.getElementById('prof-history-table').innerHTML = historyHtml;
 
             switchTab('profileView');
+        }
+
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const item = farmData.find(a => a.id === activeProfileId);
+                if(item) {
+                    item.image = e.target.result;
+                    saveToStorage();
+                    viewProfile(activeProfileId);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeProfileImage() {
+            if(confirm('আপনি কি এই ছবি তুলে ফেলতে চান?')) {
+                const item = farmData.find(a => a.id === activeProfileId);
+                if(item) {
+                    item.image = null;
+                    saveToStorage();
+                    viewProfile(activeProfileId);
+                }
+            }
         }
 
         function closeProfileView() {
@@ -569,6 +640,7 @@
                 if(a.status === 'সক্রিয়') {
                     assetHtml += `
                         <tr>
+                            <td class="p-2 border">${a.startDate || 'N/A'}</td>
                             <td class="p-2 border">${a.tag}</td>
                             <td class="p-2 border">${a.category}</td>
                             <td class="p-2 border">${a.breed}</td>
@@ -582,7 +654,7 @@
             document.getElementById('rep-income').innerText = '৳ ' + inc;
             document.getElementById('rep-expense').innerText = '৳ ' + exp;
             document.getElementById('rep-profit').innerText = '৳ ' + (inc - exp);
-            document.getElementById('rep-asset-table').innerHTML = assetHtml || '<tr><td colspan="5" class="p-2 text-center border">কোনো সক্রিয় সম্পদ নেই</td></tr>';
+            document.getElementById('rep-asset-table').innerHTML = assetHtml || '<tr><td colspan="6" class="p-2 text-center border">কোনো সক্রিয় সম্পদ নেই</td></tr>';
         }
 
         function resetYearlyData() {
