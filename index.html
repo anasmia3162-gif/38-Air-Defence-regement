@@ -3,661 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>বাজারি - এডমিন প্যানেল, POS ও শপিং স্টোর</title>
-    <!-- Tailwind CSS -->
+    <title>আদর্শ খামার - ম্যানেজমেন্ট সিস্টেম</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
         body { font-family: 'Hind Siliguri', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="bg-slate-100 text-slate-800">
 
-    <!-- GLOBAL TOP SWITCHER NAVIGATION -->
-    <nav class="bg-black text-white text-xs py-2 px-4 flex justify-between items-center z-50">
-        <div class="flex items-center space-x-2">
-            <span class="bg-emerald-500 text-black px-2 py-0.5 rounded font-bold uppercase text-[10px]">Bazari System</span>
-            <span class="text-gray-400">মোড পরিবর্তন করুন:</span>
-        </div>
-        <div class="flex space-x-2">
-            <button onclick="switchAppView('shop')" id="nav-btn-shop" class="bg-emerald-600 text-white px-3 py-1 rounded font-bold transition hover:bg-emerald-500">
-                <i class="fa-solid fa-store mr-1"></i> কাস্টমার শপ
-            </button>
-            <button onclick="switchAppView('admin')" id="nav-btn-admin" class="bg-slate-700 text-gray-300 px-3 py-1 rounded font-bold transition hover:bg-slate-600">
-                <i class="fa-solid fa-user-shield mr-1"></i> এডমিন প্যানেল ও POS
-            </button>
-        </div>
-    </nav>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-emerald-900 text-white flex flex-col justify-between">
+            <div>
+                <div class="p-5 text-2xl font-bold border-b border-emerald-800 flex items-center gap-2">
+                    <i class="fa-solid fa-tractor text-emerald-400"></i>
+                    <span>আদর্শ খামার</span>
+                </div>
+                <nav class="p-4 space-y-2">
+                    <button onclick="switchTab('dashboard')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
+                    <button onclick="switchTab('livestock')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-cow"></i> গরু ও ছাগল</button>
+                    <button onclick="switchTab('poultry')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-drumstick-bite"></i> হাঁস ও মুরগি</button>
+                    <button onclick="switchTab('fisheries')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-fish"></i> মাছ ও পাখি</button>
+                    <button onclick="switchTab('accounts')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-wallet"></i> আয়-ব্যয় (POS)</button>
+                </nav>
+            </div>
+            <div class="p-4 text-xs text-center border-t border-emerald-800 text-emerald-300">
+                ভার্সন ১.০ | স্মার্ট ফার্ম
+            </div>
+        </aside>
 
-    <!-- ================================================================= -->
-    <!-- SECTION 1: CUSTOMER ONLINE SHOP VIEW                             -->
-    <!-- ================================================================= -->
-    <div id="view-customer-shop" class="flex-1 flex flex-col">
-        <!-- Top Info Bar -->
-        <div class="bg-emerald-700 text-white text-xs py-2 px-4 flex justify-between items-center">
-            <div><i class="fa-solid fa-location-dot text-amber-300 mr-1"></i> সার্ভিস জোন: <strong>মিরপুর, ঢাকা</strong></div>
-            <div>হটলাইন: <strong>০১৭০০-০০০০০</strong></div>
-        </div>
-
-        <!-- Header -->
-        <header class="bg-white shadow-sm sticky top-0 z-40">
-            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-emerald-600 text-white p-2 rounded-lg font-bold text-xl"><i class="fa-solid fa-basket-shopping"></i></div>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-800 leading-none">বাজারি</h1>
-                        <span class="text-xs text-gray-500">গ্রোসারি ও মেডিসিন এক্সপ্রেস</span>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-6">
+            
+            <!-- Dashboard View -->
+            <div id="dashboard" class="tab-content">
+                <h1 class="text-2xl font-bold mb-6">খামারের সার্বিক অবস্থা</h1>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white p-5 rounded-xl shadow border-l-4 border-emerald-500">
+                        <p class="text-sm text-slate-500">মোট প্রাণী</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">১৫৪ টি</h2>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow border-l-4 border-blue-500">
+                        <p class="text-sm text-slate-500">দৈনিক দুধ সংগ্রহ</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">৪৫ লিটার</h2>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow border-l-4 border-amber-500">
+                        <p class="text-sm text-slate-500">দৈনিক ডিম সংগ্রহ</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">১২০ টি</h2>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow border-l-4 border-purple-500">
+                        <p class="text-sm text-slate-500">চলতি মাসের নিট লাভ</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1">৳ ৩২,৫০০</h2>
                     </div>
                 </div>
 
-                <div class="flex-1 max-w-md mx-6 hidden md:block">
-                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="চাল, তেল বা ওষুধ খুঁজুন..." class="w-full border rounded-full py-2 px-4 text-sm focus:outline-none focus:border-emerald-600">
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-bold text-lg mb-4">আসন্ন ভ্যাকসিনেশন রিমাইন্ডার</h3>
+                    <ul class="space-y-3">
+                        <li class="p-3 bg-amber-50 text-amber-900 rounded-lg flex justify-between items-center border border-amber-200">
+                            <span><i class="fa-solid fa-syringe mr-2"></i> গরু শেড - তরকা টিকা (গরু আইডি #১০২)</span>
+                            <span class="text-sm font-semibold">আগামীকাল</span>
+                        </li>
+                        <li class="p-3 bg-blue-50 text-blue-900 rounded-lg flex justify-between items-center border border-blue-200">
+                            <span><i class="fa-solid fa-syringe mr-2"></i> মুরগির শেড - রানীক্ষেত ভ্যাকসিন (ব্যাচ-বি)</span>
+                            <span class="text-sm font-semibold">৩ দিন পর</span>
+                        </li>
+                    </ul>
                 </div>
-
-                <button onclick="alert('কার্ট ফিচারটি দেখতে পাবেন')" class="relative bg-emerald-50 text-emerald-700 p-2.5 rounded-full">
-                    <i class="fa-solid fa-cart-shopping text-lg"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="container mx-auto px-4 py-6 flex-1">
-            <div class="flex space-x-3 mb-6">
-                <button onclick="filterCategory('all')" class="bg-emerald-600 text-white px-5 py-2 rounded-full text-sm font-medium shadow-sm">সব পণ্য</button>
-                <button onclick="filterCategory('grocery')" class="bg-white border text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">গ্রোসারি</button>
-                <button onclick="filterCategory('medicine')" class="bg-white border text-gray-700 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">মেডিসিন</button>
             </div>
 
-            <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            <!-- Livestock View -->
+            <div id="livestock" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold">গরু ও ছাগল ট্র্যাকার</h1>
+                    <button class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন পশু যোগ করুন</button>
+                </div>
+                <div class="bg-white rounded-xl shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+                            <tr>
+                                <th class="p-4 border-b">ট্যাগ আইডি</th>
+                                <th class="p-4 border-b">ধরন</th>
+                                <th class="p-4 border-b">জাত</th>
+                                <th class="p-4 border-b">বয়স/ওজন</th>
+                                <th class="p-4 border-b">দৈনিক দুধ (লিটার)</th>
+                                <th class="p-4 border-b">অবস্থা</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y text-sm">
+                            <tr>
+                                <td class="p-4 font-semibold">COW-001</td>
+                                <td class="p-4">গরু</td>
+                                <td class="p-4">ফ্রিজিয়ান</td>
+                                <td class="p-4">২.৫ বছর / ৩২০ কেজি</td>
+                                <td class="p-4">১৮</td>
+                                <td class="p-4"><span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-xs font-semibold">গর্ভবতী</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">GOT-012</td>
+                                <td class="p-4">ছাগল</td>
+                                <td class="p-4">ব্ল্যাক বেঙ্গল</td>
+                                <td class="p-4">১ বছর / ১৮ কেজি</td>
+                                <td class="p-4">N/A</td>
+                                <td class="p-4"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">সুষম</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Poultry View -->
+            <div id="poultry" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">হাঁস ও মুরগির হিসাব</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <h2 class="font-bold text-lg mb-3">হাঁসের শেড (পুকুর সংলগ্ন)</h2>
+                        <p class="text-sm text-slate-600">মোট হাঁস: ৮০ টি</p>
+                        <p class="text-sm text-slate-600 mt-1">আজকের ডিম: ৪৫ টি</p>
+                        <p class="text-sm text-slate-600 mt-1">দৈনিক খাবার: ৮ কেজি</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <h2 class="font-bold text-lg mb-3">লেয়ার মুরগির শেড</h2>
+                        <p class="text-sm text-slate-600">মোট মুরগি: ১৫০ টি</p>
+                        <p class="text-sm text-slate-600 mt-1">আজকের ডিম: ১২৫ টি</p>
+                        <p class="text-sm text-slate-600 mt-1">দৈনিক খাবার: ১৫ কেজি</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fisheries View -->
+            <div id="fisheries" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">মাছ চাষ ও পাখির শেড</h1>
+                <div class="bg-white p-5 rounded-xl shadow mb-6">
+                    <h2 class="font-bold text-lg mb-2">পুকুর ১ (মিশ্র মাছ চাষ)</h2>
+                    <p class="text-sm text-slate-600">স্টক করা পোনা: রুই, কাতলা, মৃগেল (মোট ১২০০ টি)</p>
+                    <p class="text-sm text-slate-600 mt-1">সর্বশেষ খাবার দেওয়া হয়েছে: আজ সকাল ৮:০০ টা</p>
+                </div>
+            </div>
+
+            <!-- Accounts View -->
+            <div id="accounts" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">আয় ও ব্যয়ের হিসাব (POS)</h1>
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <p class="text-slate-600 mb-4">এখানে সহজেই দুধ, ডিম বা ক্যাটল বিক্রির ক্যাশ মেমো ও খরচ যুক্ত করা যাবে।</p>
+                    <button class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন লেনদেন যুক্ত করুন</button>
+                </div>
+            </div>
+
         </main>
     </div>
 
-    <!-- ================================================================= -->
-    <!-- SECTION 2: ADMIN PANEL & POS VIEW                                -->
-    <!-- ================================================================= -->
-    <div id="view-admin-panel" class="hidden flex-1 flex flex-col">
-        <!-- LOGIN SCREEN -->
-        <div id="loginScreen" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl">
-                <div class="text-center mb-6">
-                    <div class="bg-emerald-600 text-white w-12 h-12 rounded-xl flex items-center justify-center mx-auto text-xl mb-2">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-800">এডমিন প্যানেল লগইন</h2>
-                    <p class="text-xs text-gray-500">আপনার এডমিন আইডি ও পাসওয়ার্ড দিন</p>
-                </div>
-                <form onsubmit="handleLogin(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">এডমিন আইডি</label>
-                        <input type="text" id="loginAdminId" required placeholder="যেমন: admin1" class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-600">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">পাসওয়ার্ড</label>
-                        <input type="password" id="adminPassword" required placeholder="পাসওয়ার্ড দিন" class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-600">
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg text-sm transition">লগইন করুন</button>
-                </form>
-                <p class="text-[11px] text-gray-400 text-center mt-4">ডিফল্ট সুপার এডমিন: ID: <code class="bg-gray-100 px-1">superadmin</code> | Pass: <code class="bg-gray-100 px-1">admin123</code></p>
-            </div>
-        </div>
-
-        <!-- MAIN DASHBOARD CONTAINER -->
-        <div id="adminDashboard" class="hidden flex-1">
-            <!-- Top Navbar -->
-            <header class="bg-slate-800 text-white py-3 px-6 flex justify-between items-center shadow-md sticky top-0 z-40">
-                <div class="flex items-center space-x-3">
-                    <i class="fa-solid fa-store text-emerald-400 text-xl"></i>
-                    <h1 class="text-lg font-bold">বাজারি Admin & POS</h1>
-                </div>
-
-                <!-- Page Navigation Tabs (২ টি পাতা) -->
-                <div class="flex bg-slate-700 p-1 rounded-lg">
-                    <button id="tab-btn-inventory" onclick="switchTab('inventory')" class="px-4 py-1.5 rounded-md text-xs font-bold bg-emerald-600 text-white shadow"><i class="fa-solid fa-boxes-stacked mr-1"></i>পাতা ১: ইনভেন্টরি ও স্টক</button>
-                    <button id="tab-btn-pos" onclick="switchTab('pos')" class="px-4 py-1.5 rounded-md text-xs font-bold text-gray-300 hover:text-white"><i class="fa-solid fa-barcode mr-1"></i>পাতা ২: সেলিং ও বিলিং (POS)</button>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <span class="text-xs bg-slate-700 text-emerald-300 px-3 py-1 rounded-full"><i class="fa-solid fa-user-check mr-1"></i>আইডি: <strong id="currentAdminName">--</strong> (<span id="currentAdminRole">--</span>)</span>
-                    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded transition"><i class="fa-solid fa-power-off mr-1"></i>লগআউট</button>
-                </div>
-            </header>
-
-            <!-- PAGE 1: INVENTORY, PRODUCT & ADMIN MANAGEMENT -->
-            <main id="page-inventory" class="container mx-auto px-4 py-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
-                    <!-- Product Add/Edit Form -->
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                        <h3 id="formTitle" class="text-base font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-plus text-emerald-600 mr-2"></i>পণ্য তথ্য আপডেট / যোগ করুন</h3>
-                        <form id="productForm" onsubmit="saveProduct(event)" class="space-y-3">
-                            <input type="hidden" id="editProductId" value="">
-                            <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">পণ্যের নাম</label>
-                                <input type="text" id="pName" required placeholder="যেমন: নাপা ৫০০এমজি বা মিনিকেট চাল" class="w-full border rounded p-2 text-sm focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block text-xs font-medium text-gray-700 mb-1">ক্যাটাগরি</label>
-                                    <select id="pCategory" class="w-full border rounded p-2 text-sm focus:outline-none focus:border-emerald-600">
-                                        <option value="grocery">গ্রোসারি</option>
-                                        <option value="medicine">মেডিসিন</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-gray-700 mb-1">বারকোড নম্বর</label>
-                                    <input type="text" id="pBarcode" required placeholder="যেমন: 89012345" class="w-full border rounded p-2 text-sm font-mono focus:outline-none focus:border-emerald-600">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block text-xs font-medium text-gray-700 mb-1">মূল্য (৳)</label>
-                                    <input type="number" id="pPrice" required placeholder="100" class="w-full border rounded p-2 text-sm focus:outline-none focus:border-emerald-600">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-gray-700 mb-1">স্টক (পরিমাণ)</label>
-                                    <input type="number" id="pStock" required placeholder="50" class="w-full border rounded p-2 text-sm focus:outline-none focus:border-emerald-600">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">ছবি লিংক (Image URL)</label>
-                                <input type="url" id="pImage" placeholder="https://via.placeholder.com/150" class="w-full border rounded p-2 text-sm focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div class="flex space-x-2 pt-2">
-                                <button type="submit" id="saveBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded text-sm transition">পণ্য সেভ করুন</button>
-                                <button type="button" onclick="resetForm()" class="bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded">রিসেট</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Stock List Table -->
-                    <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                        <h3 class="text-base font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-boxes-stacked text-emerald-600 mr-2"></i>স্টক ও ইনভেন্টরি তালিকা</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs text-gray-600">
-                                <thead class="bg-gray-50 text-gray-700 uppercase font-semibold">
-                                    <tr>
-                                        <th class="p-2.5">বারকোড</th>
-                                        <th class="p-2.5">পণ্য</th>
-                                        <th class="p-2.5">ক্যাটাগরি</th>
-                                        <th class="p-2.5">মূল্য</th>
-                                        <th class="p-2.5">স্টক</th>
-                                        <th class="p-2.5 text-right">অ্যাকশন</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="inventoryTable" class="divide-y"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Create Admin & Audit Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                    <!-- Create Admin Form (Super Admin Only) -->
-                    <div id="superAdminSection" class="bg-amber-50 border border-amber-200 p-5 rounded-xl shadow-sm">
-                        <h3 class="text-base font-bold text-amber-900 mb-3 border-b border-amber-200 pb-2"><i class="fa-solid fa-user-plus mr-2"></i>নতুন এডমিন অ্যাকাউন্ট তৈরি</h3>
-                        <p class="text-[11px] text-amber-700 mb-3">* শুধু প্রধান এডমিন (Super Admin) নতুন এডমিন যুক্ত করতে পারবেন।</p>
-                        <form id="createAdminForm" onsubmit="createNewAdmin(event)" class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">নতুন এডমিন আইডি</label>
-                                <input type="text" id="newAdminId" required placeholder="যেমন: staff_rahim" class="w-full border rounded p-2 text-sm focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">পাসওয়ার্ড</label>
-                                <input type="password" id="newAdminPass" required placeholder="পাসওয়ার্ড" class="w-full border rounded p-2 text-sm focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">রোল / টাইপ</label>
-                                <select id="newAdminRole" class="w-full border rounded p-2 text-sm focus:outline-none">
-                                    <option value="staff">আউটলেট স্টাফ / সেলস</option>
-                                    <option value="superadmin">সুপার এডমিন</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded text-sm transition">অ্যাকাউন্ট তৈরি করুন</button>
-                        </form>
-                    </div>
-
-                    <!-- Audit Log -->
-                    <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                        <h3 class="text-base font-bold text-gray-800 mb-3 border-b pb-2"><i class="fa-solid fa-clock-rotate-left text-amber-600 mr-2"></i>এডমিন অ্যাক্টিভিটি হিস্ট্রি (Audit Log)</h3>
-                        <div class="overflow-x-auto max-h-56 overflow-y-auto">
-                            <table class="w-full text-left text-xs text-gray-600">
-                                <thead class="bg-gray-50 text-gray-700 uppercase font-semibold sticky top-0">
-                                    <tr>
-                                        <th class="p-2">সময়</th>
-                                        <th class="p-2">এডমিন আইডি</th>
-                                        <th class="p-2">কাজ</th>
-                                        <th class="p-2">ডিটেইলস</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="auditTable" class="divide-y"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            <!-- PAGE 2: OUTLET BILLING & BARCODE SCANNER (POS) -->
-            <main id="page-pos" class="container mx-auto px-4 py-6 hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
-                    <!-- Barcode Scanning & Item Addition Area -->
-                    <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl mb-4">
-                            <label class="block text-sm font-bold text-emerald-900 mb-2">
-                                <i class="fa-solid fa-barcode text-xl mr-2"></i>বারকোড স্ক্যান করুন (স্ক্যানার চালু রাখুন):
-                            </label>
-                            <input type="text" id="barcodeScannerInput" onchange="handleBarcodeScan(this.value)" placeholder="বারকোড স্ক্যান করলে সরাসরি আইটেম যুক্ত হবে..." class="w-full text-lg border-2 border-emerald-500 rounded-lg p-3 font-mono focus:outline-none focus:ring-2 focus:ring-emerald-600 shadow-inner" autofocus>
-                            <p class="text-xs text-emerald-700 mt-1">* যেকোনো বারকোড স্ক্যানার দিয়ে স্ক্যান করুন বা বারকোড নম্বর লিখে Enter চাপুন।</p>
-                        </div>
-
-                        <h4 class="font-bold text-gray-800 mb-3">আউটলেট সেল কার্ট</h4>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs text-gray-600">
-                                <thead class="bg-gray-100 text-gray-700 font-semibold uppercase">
-                                    <tr>
-                                        <th class="p-3">পণ্য</th>
-                                        <th class="p-3">একক মূল্য</th>
-                                        <th class="p-3">পরিমাণ</th>
-                                        <th class="p-3">মোট (৳)</th>
-                                        <th class="p-3 text-right">সরান</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="posCartTable" class="divide-y"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Checkout & Receipt Section -->
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4"><i class="fa-solid fa-receipt text-emerald-600 mr-2"></i>ক্যাশ বিল ও ডেলিভারি আউট</h3>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex justify-between text-gray-600">
-                                    <span>মোট আইটেম:</span>
-                                    <span id="posTotalItems" class="font-bold text-gray-800">0</span>
-                                </div>
-                                <div class="flex justify-between text-xl font-bold text-gray-900 border-t border-b py-3">
-                                    <span>মোট বিল:</span>
-                                    <span>৳ <span id="posTotalAmount" class="text-emerald-600">0</span></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 space-y-2">
-                            <button onclick="processPOSOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow transition text-base"><i class="fa-solid fa-print mr-2"></i>ডেলিভারি আউট ও ক্যাশ প্রিন্ট</button>
-                            <button onclick="clearPOSCart()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-2 rounded-lg">কার্ট রিমুভ করুন</button>
-                        </div>
-                    </div>
-
-                </div>
-            </main>
-        </div>
-    </div>
-
-    <!-- ================================================================= -->
-    <!-- COMBINED JAVASCRIPT LOGIC                                         -->
-    <!-- ================================================================= -->
     <script>
-        // Global App Switcher Logic
-        function switchAppView(view) {
-            const shopView = document.getElementById('view-customer-shop');
-            const adminView = document.getElementById('view-admin-panel');
-            const btnShop = document.getElementById('nav-btn-shop');
-            const btnAdmin = document.getElementById('nav-btn-admin');
-
-            if(view === 'shop') {
-                shopView.classList.remove('hidden');
-                adminView.classList.add('hidden');
-                btnShop.className = "bg-emerald-600 text-white px-3 py-1 rounded font-bold transition hover:bg-emerald-500";
-                btnAdmin.className = "bg-slate-700 text-gray-300 px-3 py-1 rounded font-bold transition hover:bg-slate-600";
-                renderProducts(getProducts()); // Refresh shop list
-            } else {
-                shopView.classList.add('hidden');
-                adminView.classList.remove('hidden');
-                btnAdmin.className = "bg-emerald-600 text-white px-3 py-1 rounded font-bold transition hover:bg-emerald-500";
-                btnShop.className = "bg-slate-700 text-gray-300 px-3 py-1 rounded font-bold transition hover:bg-slate-600";
-            }
-        }
-
-        // Shared Local Storage Handlers
-        function getAdmins() {
-            return JSON.parse(localStorage.getItem('bazari_admins')) || [
-                { id: "superadmin", pass: "admin123", role: "superadmin" }
-            ];
-        }
-
-        function getProducts() {
-            return JSON.parse(localStorage.getItem('bazari_products')) || [
-                { id: 101, barcode: "8901001", name: "নাপা এক্সটেন্ড (Napa)", category: "medicine", price: 20, stock: 100, image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=300" },
-                { id: 102, barcode: "8901002", name: "সয়াবিন তেল ১ লিটার", category: "grocery", price: 165, stock: 40, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300" }
-            ];
-        }
-
-        function getAuditLogs() {
-            return JSON.parse(localStorage.getItem('bazari_audit_logs')) || [];
-        }
-
-        // Customer Shop Functions
-        window.onload = function() {
-            renderProducts(getProducts());
-        };
-
-        function renderProducts(items) {
-            const grid = document.getElementById('products-grid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            if(items.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center py-8 text-gray-500">কোনো পণ্য পাওয়া যায়নি।</p>`;
-                return;
-            }
-            items.forEach(p => {
-                grid.innerHTML += `
-                    <div class="bg-white rounded-xl shadow-sm border p-3 flex flex-col justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${p.category === 'medicine' ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'}">${p.category === 'medicine' ? 'মেডিসিন' : 'গ্রোসারি'}</span>
-                            <img src="${p.image}" class="w-full h-28 object-cover rounded-lg my-2" onerror="this.src='https://via.placeholder.com/150'">
-                            <h4 class="font-bold text-gray-800 text-sm line-clamp-2">${p.name}</h4>
-                        </div>
-                        <div class="mt-3 flex justify-between items-center">
-                            <span class="font-bold text-emerald-600 text-sm">৳ ${p.price}</span>
-                            <span class="text-xs text-gray-400">স্টক: ${p.stock}</span>
-                        </div>
-                    </div>
-                `;
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
             });
-        }
-
-        function filterCategory(cat) {
-            const products = getProducts();
-            if(cat === 'all') renderProducts(products);
-            else renderProducts(products.filter(p => p.category === cat));
-        }
-
-        function filterProducts() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            renderProducts(getProducts().filter(p => p.name.toLowerCase().includes(q)));
-        }
-
-        // Admin Panel Variables & Login Logic
-        let currentAdmin = null;
-        let posCart = [];
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const id = document.getElementById('loginAdminId').value.trim();
-            const pass = document.getElementById('adminPassword').value.trim();
-            const admins = getAdmins();
-
-            const foundAdmin = admins.find(a => a.id === id && a.pass === pass);
-
-            if(foundAdmin) {
-                currentAdmin = foundAdmin;
-                document.getElementById('currentAdminName').innerText = currentAdmin.id;
-                document.getElementById('currentAdminRole').innerText = currentAdmin.role === 'superadmin' ? 'সুপার এডমিন' : 'স্টাফ';
-                
-                if(currentAdmin.role !== 'superadmin') {
-                    document.getElementById('superAdminSection').classList.add('hidden');
-                } else {
-                    document.getElementById('superAdminSection').classList.remove('hidden');
-                }
-
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-
-                logAudit("লগইন", "এডমিন প্যানেলে সফল লগইন করেছেন");
-                renderInventory();
-                renderAuditLogs();
-            } else {
-                alert("আইডি বা পাসওয়ার্ড সঠিক নয়!");
-            }
-        }
-
-        function logout() {
-            if(currentAdmin) logAudit("লগআউট", "এডমিন প্যানেল থেকে বের হয়েছেন");
-            location.reload();
-        }
-
-        function switchTab(tab) {
-            const pageInv = document.getElementById('page-inventory');
-            const pagePos = document.getElementById('page-pos');
-            const btnInv = document.getElementById('tab-btn-inventory');
-            const btnPos = document.getElementById('tab-btn-pos');
-
-            if(tab === 'inventory') {
-                pageInv.classList.remove('hidden');
-                pagePos.classList.add('hidden');
-                btnInv.className = "px-4 py-1.5 rounded-md text-xs font-bold bg-emerald-600 text-white shadow";
-                btnPos.className = "px-4 py-1.5 rounded-md text-xs font-bold text-gray-300 hover:text-white";
-            } else {
-                pageInv.classList.add('hidden');
-                pagePos.classList.remove('hidden');
-                btnPos.className = "px-4 py-1.5 rounded-md text-xs font-bold bg-emerald-600 text-white shadow";
-                btnInv.className = "px-4 py-1.5 rounded-md text-xs font-bold text-gray-300 hover:text-white";
-                document.getElementById('barcodeScannerInput').focus();
-            }
-        }
-
-        function createNewAdmin(e) {
-            e.preventDefault();
-            if(currentAdmin.role !== 'superadmin') {
-                return alert("শুধুমাত্র প্রধান এডমিন নতুন আইডি তৈরি করতে পারবেন!");
-            }
-
-            const id = document.getElementById('newAdminId').value.trim();
-            const pass = document.getElementById('newAdminPass').value.trim();
-            const role = document.getElementById('newAdminRole').value;
-
-            let admins = getAdmins();
-            if(admins.some(a => a.id === id)) {
-                return alert("এই এডমিন আইডিটি ইতিমধ্যে রয়েছে!");
-            }
-
-            admins.push({ id, pass, role });
-            localStorage.setItem('bazari_admins', JSON.stringify(admins));
-            logAudit("এডমিন তৈরি", `নতুন এডমিন আইডি তৈরি করা হয়েছে: ${id} (${role})`);
-            document.getElementById('createAdminForm').reset();
-            alert("নতুন এডমিন অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
-        }
-
-        function saveProduct(e) {
-            e.preventDefault();
-            let products = getProducts();
-            const editId = document.getElementById('editProductId').value;
-            const name = document.getElementById('pName').value;
-            const category = document.getElementById('pCategory').value;
-            const barcode = document.getElementById('pBarcode').value.trim();
-            const price = parseFloat(document.getElementById('pPrice').value);
-            const stock = parseInt(document.getElementById('pStock').value);
-            let image = document.getElementById('pImage').value || "https://via.placeholder.com/150";
-
-            if(editId) {
-                const idx = products.findIndex(p => p.id == editId);
-                if(idx !== -1) {
-                    products[idx] = { ...products[idx], name, category, barcode, price, stock, image };
-                    logAudit("পণ্য আপডেট", `${name} (বারকোড: ${barcode}) আপডেট করেছেন`);
-                }
-            } else {
-                const newProd = { id: Date.now(), barcode, name, category, price, stock, image };
-                products.push(newProd);
-                logAudit("নতুন পণ্য এড", `${name} (বারকোড: ${barcode}) যুক্ত করেছেন`);
-            }
-
-            localStorage.setItem('bazari_products', JSON.stringify(products));
-            resetForm();
-            renderInventory();
-        }
-
-        function editProduct(id) {
-            const products = getProducts();
-            const prod = products.find(p => p.id == id);
-            if(prod) {
-                document.getElementById('editProductId').value = prod.id;
-                document.getElementById('pName').value = prod.name;
-                document.getElementById('pCategory').value = prod.category;
-                document.getElementById('pBarcode').value = prod.barcode;
-                document.getElementById('pPrice').value = prod.price;
-                document.getElementById('pStock').value = prod.stock;
-                document.getElementById('pImage').value = prod.image;
-                document.getElementById('formTitle').innerText = "পণ্য এডিট করুন";
-                document.getElementById('saveBtn').innerText = "আপডেট করুন";
-            }
-        }
-
-        function deleteProduct(id) {
-            if(confirm("আপনি কি নিশ্চিত এই পণ্য মুছে ফেলতে চান?")) {
-                let products = getProducts();
-                const prod = products.find(p => p.id == id);
-                products = products.filter(p => p.id != id);
-                localStorage.setItem('bazari_products', JSON.stringify(products));
-                logAudit("পণ্য মুছে ফেলা", `${prod ? prod.name : 'পণ্য'} মুছে ফেলার কাজ সম্পাদিত হয়েছে`);
-                renderInventory();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('productForm').reset();
-            document.getElementById('editProductId').value = "";
-            document.getElementById('formTitle').innerText = "পণ্য তথ্য আপডেট / যোগ করুন";
-            document.getElementById('saveBtn').innerText = "পণ্য সেভ করুন";
-        }
-
-        function renderInventory() {
-            const products = getProducts();
-            const tbody = document.getElementById('inventoryTable');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            products.forEach(p => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="p-2.5 font-mono text-xs font-bold text-slate-700">${p.barcode}</td>
-                        <td class="p-2.5 font-bold text-gray-800">${p.name}</td>
-                        <td class="p-2.5 uppercase">${p.category}</td>
-                        <td class="p-2.5 font-bold text-emerald-600">৳${p.price}</td>
-                        <td class="p-2.5"><span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">${p.stock}</span></td>
-                        <td class="p-2.5 text-right space-x-1">
-                            <button onclick="editProduct(${p.id})" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Barcode POS System Logic
-        function handleBarcodeScan(barcode) {
-            if(!barcode) return;
-            const products = getProducts();
-            const prod = products.find(p => p.barcode === barcode.trim());
-
-            if(prod) {
-                if(prod.stock <= 0) {
-                    alert("স্টক আউট! পণ্যটির পর্যাপ্ত স্টক নেই।");
-                } else {
-                    const cartItem = posCart.find(i => i.id === prod.id);
-                    if(cartItem) {
-                        if(cartItem.qty < prod.stock) cartItem.qty++;
-                        else alert("স্টকের চেয়ে বেশি যোগ করা সম্ভব নয়!");
-                    } else {
-                        posCart.push({ ...prod, qty: 1 });
-                    }
-                    renderPOSCart();
-                }
-            } else {
-                alert("বারকোড পাওয়া যায়নি! ইনভেন্টরিতে তথ্য যুক্ত করুন।");
-            }
-            document.getElementById('barcodeScannerInput').value = "";
-        }
-
-        function renderPOSCart() {
-            const tbody = document.getElementById('posCartTable');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            let total = 0;
-            let totalItems = 0;
-
-            posCart.forEach((item, index) => {
-                const subtotal = item.price * item.qty;
-                total += subtotal;
-                totalItems += item.qty;
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="p-3 font-bold text-gray-800">${item.name}</td>
-                        <td class="p-3">৳ ${item.price}</td>
-                        <td class="p-3 font-bold text-emerald-700">${item.qty} টি</td>
-                        <td class="p-3 font-bold">৳ ${subtotal}</td>
-                        <td class="p-3 text-right">
-                            <button onclick="removePOSItem(${index})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-circle-xmark text-base"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('posTotalItems').innerText = totalItems;
-            document.getElementById('posTotalAmount').innerText = total;
-        }
-
-        function removePOSItem(index) {
-            posCart.splice(index, 1);
-            renderPOSCart();
-        }
-
-        function clearPOSCart() {
-            posCart = [];
-            renderPOSCart();
-        }
-
-        function processPOSOrder() {
-            if(posCart.length === 0) return alert("কার্ট খালি! প্রথমে বারকোড দিয়ে আইটেম যোগ করুন।");
-
-            let products = getProducts();
-
-            posCart.forEach(cartItem => {
-                const prod = products.find(p => p.id === cartItem.id);
-                if(prod) {
-                    prod.stock -= cartItem.qty;
-                }
-            });
-
-            localStorage.setItem('bazari_products', JSON.stringify(products));
-            logAudit("আউটলেট বিলিং/বিক্রি", `বিল মোট: ৳${document.getElementById('posTotalAmount').innerText} (${document.getElementById('posTotalItems').innerText} টি আইটেম)`);
-            
-            alert("ক্যাশ বিল তৈরি এবং স্টক অ্যাডজাস্টমেন্ট সফল হয়েছে!");
-            clearPOSCart();
-            renderInventory();
-        }
-
-        // Audit Trail System
-        function logAudit(action, details) {
-            let logs = getAuditLogs();
-            logs.unshift({
-                time: new Date().toLocaleTimeString('bn-BD'),
-                admin: currentAdmin ? currentAdmin.id : 'System',
-                action, details
-            });
-            localStorage.setItem('bazari_audit_logs', JSON.stringify(logs));
-            renderAuditLogs();
-        }
-
-        function renderAuditLogs() {
-            const logs = getAuditLogs();
-            const tbody = document.getElementById('auditTable');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            logs.forEach(l => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="p-2 text-gray-400">${l.time}</td>
-                        <td class="p-2 font-bold text-emerald-700">${l.admin}</td>
-                        <td class="p-2"><span class="bg-gray-100 text-gray-800 px-2 py-0.5 rounded text-[10px]">${l.action}</span></td>
-                        <td class="p-2">${l.details}</td>
-                    </tr>
-                `;
-            });
+            document.getElementById(tabId).classList.remove('hidden');
         }
     </script>
 </body>
