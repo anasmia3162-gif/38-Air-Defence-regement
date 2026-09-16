@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>তাওসিফ এগ্রো - মাল্টি-ক্যাটাগরি ERP</title>
+    <title>তাওসিফ এগ্রো - ERP</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -24,9 +24,9 @@
         <div>
             <div class="text-xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-                <span>তাওসিফ এগ্রো</span>
+                <span class="display-farm-name">তাওসিফ এগ্রো</span>
             </div>
-            <p class="text-xs text-emerald-300">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
+            <p class="text-xs text-emerald-300">প্রোপাইটার: <span class="display-owner-name">মোছাঃ তানজিলা আকতার</span></p>
         </div>
         <button onclick="toggleSidebar()" class="text-2xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -38,11 +38,11 @@
                 <div class="hidden md:block p-5 border-b border-emerald-800">
                     <div class="text-xl font-bold flex items-center gap-2">
                         <i class="fa-solid fa-wheat-awn text-emerald-400"></i>
-                        <span>তাওসিফ এগ্রো</span>
+                        <span class="display-farm-name">তাওসিফ এগ্রো</span>
                     </div>
-                    <p class="text-xs text-emerald-300 mt-1">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
+                    <p class="text-xs text-emerald-300 mt-1">প্রোপাইটার: <span class="display-owner-name">মোছাঃ তানজিলা আকতার</span></p>
                 </div>
-                <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-120px)]">
+                <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-140px)]">
                     <button onclick="switchTab('dashboard')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
                     <button onclick="openCategoryTab('গরু')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cow"></i> গরু মডিউল</button>
                     <button onclick="openCategoryTab('ছাগল')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-cloud-sun"></i> ছাগল মডিউল</button>
@@ -51,19 +51,33 @@
                     <button onclick="openCategoryTab('পাখি')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-crow"></i> পাখি মডিউল</button>
                     <button onclick="openCategoryTab('মাছ')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-fish"></i> মৎস্য মডিউল</button>
                     <button onclick="switchTab('reports')" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3 border-t border-emerald-800 mt-2"><i class="fa-solid fa-print"></i> বার্ষিক হিসাব ও রিসেট</button>
+                    <button onclick="openSettingsModal()" class="w-full text-left p-2.5 rounded hover:bg-emerald-800 flex items-center gap-3"><i class="fa-solid fa-gear"></i> ফার্ম সেটিংস</button>
                 </nav>
             </div>
             <div class="p-3 text-xs text-center border-t border-emerald-800 text-emerald-300">
-                ভার্সন ৫.২ (কাস্টমাইজড ERP)
+                ভার্সন ৫.৩ (কাস্টমাইজড ERP)
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto p-4 md:p-6 w-full">
             
-            <!-- Dashboard -->
+            <!-- Dashboard Banner & Content -->
             <div id="dashboard" class="tab-content">
-                <h1 class="text-2xl font-bold mb-6">খামারের সার্বিক অবস্থা</h1>
+                <!-- Main Banner -->
+                <div class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white p-6 rounded-2xl shadow-lg mb-6 relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <span class="bg-emerald-600 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">অফিসিয়াল ফার্ম ম্যানেজমেন্ট</span>
+                            <h1 class="text-3xl font-extrabold mt-2 display-farm-name">তাওসিফ এগ্রো</h1>
+                            <p class="text-emerald-100 text-sm mt-1"><i class="fa-solid fa-user"></i> প্রোপাইটার: <span class="display-owner-name">মোছাঃ তানজিলা আকতার</span></p>
+                            <p class="text-emerald-200 text-xs mt-1"><i class="fa-solid fa-location-dot"></i> ঠিকানা: <span id="banner-address">ফার্মের ঠিকানা যোগ করুন</span> | <i class="fa-solid fa-phone"></i> মোবাইল: <span id="banner-phone">০১৭০০-০০০০০০</span></p>
+                        </div>
+                        <button onclick="openSettingsModal()" class="bg-white text-emerald-800 px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-emerald-50 transition"><i class="fa-solid fa-pen-to-square"></i> তথ্য এডিট করুন</button>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-bold mb-4">খামারের সার্বিক অবস্থা</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-emerald-500">
                         <p class="text-sm text-slate-500">মোট সক্রিয় প্রোফাইল/ব্যাচ</p>
@@ -98,23 +112,11 @@
                 <button onclick="closeProfileView()" class="mb-4 bg-slate-600 text-white px-4 py-2 rounded-lg"><i class="fa-solid fa-arrow-left"></i> পেছনে যান</button>
                 
                 <div class="bg-white p-6 rounded-xl shadow mb-6">
-                    <!-- Profile Header & Image Upload Section -->
-                    <div class="flex flex-col sm:flex-row justify-between items-start border-b pb-4 mb-4 gap-4">
-                        <div class="flex items-center gap-4">
-                            <div class="relative group">
-                                <img id="prof-img" src="https://via.placeholder.com/100?text=No+Image" class="w-24 h-24 object-cover rounded-xl border-2 border-slate-200">
-                                <div id="prof-img-actions" class="mt-2 flex gap-1">
-                                    <label class="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded text-xs hover:bg-slate-800">
-                                        <i class="fa-solid fa-camera"></i> আপলোড
-                                        <input type="file" accept="image/*" class="hidden" onchange="uploadProfileImage(event)">
-                                    </label>
-                                    <button onclick="removeProfileImage()" id="btn-remove-img" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700 hidden"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-800" id="prof-tag">TAG-001</h2>
-                                <p class="text-sm text-slate-500" id="prof-type-breed">ক্যাটাগরি</p>
-                            </div>
+                    <!-- Profile Header Section -->
+                    <div class="flex sm:flex-row justify-between items-start border-b pb-4 mb-4 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800" id="prof-tag">TAG-001</h2>
+                            <p class="text-sm text-slate-500" id="prof-type-breed">ক্যাটাগরি</p>
                         </div>
                         <span id="prof-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">সক্রিয়</span>
                     </div>
@@ -173,8 +175,9 @@
 
                 <div class="bg-white p-8 rounded-xl shadow" id="printableReport">
                     <div class="text-center border-b pb-4 mb-6">
-                        <h2 class="text-3xl font-bold">তাওসিফ এগ্রো</h2>
-                        <p class="text-sm text-slate-600 font-semibold">প্রোপাইটার: মোছাঃ তানজিলা আকতার</p>
+                        <h2 class="text-3xl font-bold display-farm-name">তাওসিফ এগ্রো</h2>
+                        <p class="text-sm text-slate-600 font-semibold">প্রোপাইটার: <span class="display-owner-name">মোছাঃ তানজিলা আকতার</span></p>
+                        <p class="text-xs text-slate-500">ঠিকানা: <span id="report-address">N/A</span> | মোবাইল: <span id="report-phone">N/A</span></p>
                         <p class="text-slate-500 text-xs mt-1">বার্ষিক আর্থিক রিপোর্ট | তারিখ: <span id="reportDate"></span></p>
                     </div>
 
@@ -213,6 +216,30 @@
         </main>
     </div>
 
+    <!-- Modal: Farm Settings (Edit Farm Info) -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-xl w-96">
+            <h2 class="text-lg font-bold mb-4 border-b pb-2"><i class="fa-solid fa-sliders"></i> ফার্মের তথ্য পরিবর্তন করুন</h2>
+            
+            <label class="block text-xs text-slate-500 mb-1">ফার্মের নাম</label>
+            <input type="text" id="set-farm-name" class="w-full border p-2 mb-3 rounded text-sm">
+            
+            <label class="block text-xs text-slate-500 mb-1">প্রোপাইটারের নাম</label>
+            <input type="text" id="set-owner-name" class="w-full border p-2 mb-3 rounded text-sm">
+            
+            <label class="block text-xs text-slate-500 mb-1">ফার্মের ঠিকানা</label>
+            <input type="text" id="set-address" placeholder="যেমন: গ্রাম, ডাকঘর, উপজেলা, জেলা" class="w-full border p-2 mb-3 rounded text-sm">
+            
+            <label class="block text-xs text-slate-500 mb-1">মোবাইল নম্বর</label>
+            <input type="text" id="set-phone" placeholder="যেমন: ০১৭০০-০০০০০০" class="w-full border p-2 mb-3 rounded text-sm">
+
+            <div class="flex justify-end gap-2 mt-4">
+                <button onclick="closeModal('settingsModal')" class="px-4 py-2 bg-slate-200 text-sm rounded">বাতিল</button>
+                <button onclick="saveSettings()" class="px-4 py-2 bg-emerald-600 text-white text-sm rounded">সংরক্ষণ করুন</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Add New Profile/Batch -->
     <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-xl w-96">
@@ -244,8 +271,44 @@
 
     <script>
         let farmData = JSON.parse(localStorage.getItem('multifarm_v5')) || [];
+        let farmSettings = JSON.parse(localStorage.getItem('multifarm_settings')) || {
+            name: 'তাওসিফ এগ্রো',
+            owner: 'মোছাঃ তানজিলা আকতার',
+            address: 'ফার্মের ঠিকানা দিন',
+            phone: '০১৭০০-০০০০০০'
+        };
+
         let currentCategory = 'গরু';
         let activeProfileId = null;
+
+        function updateFarmInfoUI() {
+            document.querySelectorAll('.display-farm-name').forEach(el => el.innerText = farmSettings.name);
+            document.querySelectorAll('.display-owner-name').forEach(el => el.innerText = farmSettings.owner);
+            document.getElementById('banner-address').innerText = farmSettings.address;
+            document.getElementById('banner-phone').innerText = farmSettings.phone;
+            
+            document.getElementById('report-address').innerText = farmSettings.address;
+            document.getElementById('report-phone').innerText = farmSettings.phone;
+        }
+
+        function openSettingsModal() {
+            document.getElementById('set-farm-name').value = farmSettings.name;
+            document.getElementById('set-owner-name').value = farmSettings.owner;
+            document.getElementById('set-address').value = farmSettings.address;
+            document.getElementById('set-phone').value = farmSettings.phone;
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function saveSettings() {
+            farmSettings.name = document.getElementById('set-farm-name').value || 'তাওসিফ এগ্রো';
+            farmSettings.owner = document.getElementById('set-owner-name').value || 'মোছাঃ তানজিলা আকতার';
+            farmSettings.address = document.getElementById('set-address').value || 'ঠিকানা দেওয়া হয়নি';
+            farmSettings.phone = document.getElementById('set-phone').value || 'N/A';
+
+            localStorage.setItem('multifarm_settings', JSON.stringify(farmSettings));
+            updateFarmInfoUI();
+            closeModal('settingsModal');
+        }
 
         function saveToStorage() {
             localStorage.setItem('multifarm_v5', JSON.stringify(farmData));
@@ -335,7 +398,6 @@
                 breed: detailsStr,
                 buyPrice: buyPrice,
                 status: 'সক্রিয়',
-                image: null,
                 history: []
             });
 
@@ -348,18 +410,16 @@
             let html = '';
 
             filtered.forEach(item => {
-                const imgSrc = item.image || 'https://via.placeholder.com/150?text=No+Image';
                 html += `
                     <div class="bg-white p-5 rounded-xl shadow border border-slate-200 flex flex-col justify-between">
                         <div>
-                            <div class="relative w-full h-40 mb-3 overflow-hidden rounded-lg bg-slate-100">
-                                <img src="${imgSrc}" class="w-full h-full object-cover">
-                                <span class="absolute top-2 right-2 text-xs px-2 py-1 rounded shadow ${item.status==='সক্রিয়'?'bg-emerald-100 text-emerald-800':'bg-gray-100 text-gray-800'}">${item.status}</span>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-lg text-emerald-900">${item.tag}</h3>
+                                <span class="text-xs px-2 py-1 rounded ${item.status==='সক্রিয়'?'bg-emerald-100 text-emerald-800':'bg-gray-100 text-gray-800'}">${item.status}</span>
                             </div>
-                            <h3 class="font-bold text-lg">${item.tag}</h3>
-                            <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar-alt"></i> তারিখ: ${item.startDate || 'N/A'}</p>
+                            <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar-alt"></i> শুরু: ${item.startDate || 'N/A'}</p>
                             <p class="text-sm text-slate-600 mb-1">বিবরণ: ${item.breed}</p>
-                            <p class="text-sm text-slate-600 mb-3">মূল খরচ: ৳ ${item.buyPrice}</p>
+                            <p class="text-sm text-slate-600 mb-4">মূল খরচ: ৳ ${item.buyPrice}</p>
                         </div>
                         <button onclick="viewProfile(${item.id})" class="w-full bg-emerald-600 text-white py-2 rounded text-sm font-semibold hover:bg-emerald-700">প্রোফাইল ও হিসাব দেখুন</button>
                     </div>
@@ -378,17 +438,6 @@
             document.getElementById('prof-type-breed').innerText = `বিভাগ: ${item.category} | বিবরণ: ${item.breed}`;
             document.getElementById('prof-status-badge').innerText = item.status;
             document.getElementById('prof-buy-price').innerText = '৳ ' + item.buyPrice;
-
-            // Image handling
-            const profImg = document.getElementById('prof-img');
-            const removeBtn = document.getElementById('btn-remove-img');
-            if(item.image) {
-                profImg.src = item.image;
-                removeBtn.classList.remove('hidden');
-            } else {
-                profImg.src = 'https://via.placeholder.com/100?text=No+Image';
-                removeBtn.classList.add('hidden');
-            }
 
             // Dynamic Action Buttons Configuration
             const btnContainer = document.getElementById('prof-action-buttons');
@@ -450,33 +499,6 @@
             document.getElementById('prof-history-table').innerHTML = historyHtml;
 
             switchTab('profileView');
-        }
-
-        function uploadProfileImage(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const item = farmData.find(a => a.id === activeProfileId);
-                if(item) {
-                    item.image = e.target.result;
-                    saveToStorage();
-                    viewProfile(activeProfileId);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeProfileImage() {
-            if(confirm('আপনি কি এই ছবি তুলে ফেলতে চান?')) {
-                const item = farmData.find(a => a.id === activeProfileId);
-                if(item) {
-                    item.image = null;
-                    saveToStorage();
-                    viewProfile(activeProfileId);
-                }
-            }
         }
 
         function closeProfileView() {
@@ -669,6 +691,7 @@
         }
 
         // Init App
+        updateFarmInfoUI();
         renderDashboard();
     </script>
 </body>
