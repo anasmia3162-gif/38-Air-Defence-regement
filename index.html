@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>আদর্শ খামার - ম্যানেজমেন্ট সিস্টেম</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
@@ -15,7 +13,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-    <!-- মোবাইলের জন্য হেডার ও মেনু বাটন -->
+    <!-- Mobile Header -->
     <div class="md:hidden bg-emerald-900 text-white flex justify-between items-center p-4">
         <div class="text-xl font-bold flex items-center gap-2">
             <i class="fa-solid fa-tractor text-emerald-400"></i>
@@ -27,7 +25,7 @@
     </div>
 
     <div class="flex h-screen overflow-hidden relative">
-        <!-- সাইডবার (মোবাইলে রেসপন্সিভ) -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-emerald-900 text-white flex flex-col justify-between transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out">
             <div>
                 <div class="hidden md:flex p-5 text-2xl font-bold border-b border-emerald-800 items-center gap-2">
@@ -36,154 +34,292 @@
                 </div>
                 <nav class="p-4 space-y-2">
                     <button onclick="switchTab('dashboard')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-chart-line"></i> ড্যাশবোর্ড</button>
-                    <button onclick="switchTab('livestock')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-cow"></i> গরু ও ছাগল</button>
-                    <button onclick="switchTab('poultry')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-drumstick-bite"></i> হাঁস ও মুরগি</button>
-                    <button onclick="switchTab('fisheries')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-fish"></i> মাছ ও পাখি</button>
-                    <button onclick="switchTab('accounts')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-wallet"></i> আয়-ব্যয় (POS)</button>
+                    <button onclick="switchTab('cattle')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-cow"></i> গরু প্রোফাইল</button>
+                    <button onclick="switchTab('goat')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-hat-cowboy"></i> ছাগল প্রোফাইল</button>
+                    <button onclick="switchTab('duck')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-feather"></i> হাঁস মডিউল</button>
+                    <button onclick="switchTab('poultry')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-drumstick-bite"></i> মুরগি মডিউল</button>
+                    <button onclick="switchTab('birds')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-dove"></i> পাখি মডিউল</button>
+                    <button onclick="switchTab('fish')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-fish"></i> মাছ চাষ</button>
+                    <button onclick="switchTab('accounts')" class="w-full text-left p-3 rounded-lg hover:bg-emerald-800 flex items-center gap-3 transition"><i class="fa-solid fa-wallet"></i> মোট আয়-ব্যয় (POS)</button>
                 </nav>
             </div>
             <div class="p-4 text-xs text-center border-t border-emerald-800 text-emerald-300">
-                ভার্সন ১.০ | স্মার্ট ফার্ম
+                ভার্সন ২.০ | স্মার্ট ফার্ম
             </div>
         </aside>
 
-        <!-- মূল কনটেন্ট -->
+        <!-- Main Content -->
         <main class="flex-1 overflow-y-auto p-4 md:p-6 w-full">
             
-            <!-- ড্যাশবোর্ড ভিউ -->
+            <!-- Dashboard -->
             <div id="dashboard" class="tab-content">
-                <h1 class="text-2xl font-bold mb-6">খামারের সার্বিক অবস্থা</h1>
+                <h1 class="text-2xl font-bold mb-6">খামারের ওভারভিউ</h1>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-emerald-500">
-                        <p class="text-sm text-slate-500">মোট প্রাণী</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1">১৫৪ টি</h2>
+                        <p class="text-sm text-slate-500">মোট পশু-পাখি</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-animals">২৯০ টি</h2>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-blue-500">
-                        <p class="text-sm text-slate-500">দৈনিক দুধ সংগ্রহ</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1">৪৫ লিটার</h2>
+                        <p class="text-sm text-slate-500">মোট বিক্রয়</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-sales">৳ ৭৫,০০০</h2>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-amber-500">
-                        <p class="text-sm text-slate-500">দৈনিক ডিম সংগ্রহ</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1">১২০ টি</h2>
+                        <p class="text-sm text-slate-500">মোট ব্যয়</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-total-expense">৳ ২৫,০০০</h2>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow border-l-4 border-purple-500">
-                        <p class="text-sm text-slate-500">চলতি মাসের নিট লাভ</p>
-                        <h2 class="text-3xl font-bold text-slate-800 mt-1">৳ ৩২,৫০০</h2>
+                        <p class="text-sm text-slate-500">মোট নিট লাভ</p>
+                        <h2 class="text-3xl font-bold text-slate-800 mt-1" id="dash-net-profit">৳ ৫০,০০০</h2>
                     </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="font-bold text-lg mb-4">আসন্ন ভ্যাকসিনেশন রিমাইন্ডার</h3>
-                    <ul class="space-y-3">
-                        <li class="p-3 bg-amber-50 text-amber-900 rounded-lg flex justify-between items-center border border-amber-200">
-                            <span><i class="fa-solid fa-syringe mr-2"></i> গরু শেড - তরকা টিকা (গরু আইডি #১০২)</span>
-                            <span class="text-sm font-semibold">আগামীকাল</span>
-                        </li>
-                        <li class="p-3 bg-blue-50 text-blue-900 rounded-lg flex justify-between items-center border border-blue-200">
-                            <span><i class="fa-solid fa-syringe mr-2"></i> মুরগির শেড - রানীক্ষেত ভ্যাকসিন (ব্যাচ-বি)</span>
-                            <span class="text-sm font-semibold">৩ দিন পর</span>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
-            <!-- গরু ও ছাগল ভিউ -->
-            <div id="livestock" class="tab-content hidden">
+            <!-- Cattle (গরু) -->
+            <div id="cattle" class="tab-content hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold">গরু ও ছাগল ট্র্যাকার</h1>
-                    <button class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন পশু যোগ করুন</button>
+                    <h1 class="text-2xl font-bold">গরুর প্রোফাইল ও রেকর্ড</h1>
+                    <button onclick="openModal('cattleModal')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন গরু যোগ করুন</button>
                 </div>
-                <div class="bg-white rounded-xl shadow overflow-x-auto">
+                <div class="bg-white rounded-xl shadow overflow-x-auto mb-6">
                     <table class="w-full text-left border-collapse min-w-[600px]">
                         <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
                             <tr>
                                 <th class="p-4 border-b">ট্যাগ আইডি</th>
-                                <th class="p-4 border-b">ধরন</th>
                                 <th class="p-4 border-b">জাত</th>
-                                <th class="p-4 border-b">বয়স/ওজন</th>
-                                <th class="p-4 border-b">দৈনিক দুধ (লিটার)</th>
-                                <th class="p-4 border-b">অবস্থা</th>
+                                <th class="p-4 border-b">ওজন/বয়স</th>
+                                <th class="p-4 border-b">ব্যয় (৳)</th>
+                                <th class="p-4 border-b">বিক্রয় (৳)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y text-sm">
+                        <tbody id="cattleTable" class="divide-y text-sm">
                             <tr>
-                                <td class="p-4 font-semibold">COW-001</td>
-                                <td class="p-4">গরু</td>
+                                <td class="p-4 font-semibold">COW-01</td>
                                 <td class="p-4">ফ্রিজিয়ান</td>
-                                <td class="p-4">২.৫ বছর / ৩২০ কেজি</td>
-                                <td class="p-4">১৮</td>
-                                <td class="p-4"><span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-xs font-semibold">গর্ভবতী</span></td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-semibold">GOT-012</td>
-                                <td class="p-4">ছাগল</td>
-                                <td class="p-4">ব্ল্যাক বেঙ্গল</td>
-                                <td class="p-4">১ বছর / ১৮ কেজি</td>
-                                <td class="p-4">N/A</td>
-                                <td class="p-4"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">সুষম</span></td>
+                                <td class="p-4">৩০০ কেজি / ২ বছর</td>
+                                <td class="p-4 text-red-600">৫,০০০</td>
+                                <td class="p-4 text-emerald-600">১২,০০০</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- হাঁস ও মুরগি ভিউ -->
+            <!-- Goat (ছাগল) -->
+            <div id="goat" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold">ছাগলের প্রোফাইল ও রেকর্ড</h1>
+                    <button onclick="openModal('goatModal')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন ছাগল যোগ করুন</button>
+                </div>
+                <div class="bg-white rounded-xl shadow overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+                            <tr>
+                                <th class="p-4 border-b">ট্যাগ আইডি</th>
+                                <th class="p-4 border-b">জাত</th>
+                                <th class="p-4 border-b">ব্যয় (৳)</th>
+                                <th class="p-4 border-b">বিক্রয় (৳)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="goatTable" class="divide-y text-sm">
+                            <tr>
+                                <td class="p-4 font-semibold">GOT-01</td>
+                                <td class="p-4">ব্ল্যাক বেঙ্গল</td>
+                                <td class="p-4 text-red-600">১,৫০০</td>
+                                <td class="p-4 text-emerald-600">৮,০০০</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Duck (হাঁস) -->
+            <div id="duck" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">হাঁস ড্যাশবোর্ড</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট হাঁস</p>
+                        <input type="number" id="duck-count" value="100" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট ডিম সংগ্রহ (টি)</p>
+                        <input type="number" id="duck-eggs" value="450" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট ব্যয় (৳)</p>
+                        <input type="number" id="duck-expense" value="3000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট বিক্রয় (৳)</p>
+                        <input type="number" id="duck-sales" value="8000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                </div>
+                <button onclick="updateAccounts()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700">তথ্য সেভ করুন</button>
+            </div>
+
+            <!-- Poultry (মুরগি) -->
             <div id="poultry" class="tab-content hidden">
-                <h1 class="text-2xl font-bold mb-6">হাঁস ও মুরগির হিসাব</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h1 class="text-2xl font-bold mb-6">মুরগি ড্যাশবোর্ড</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-5 rounded-xl shadow">
-                        <h2 class="font-bold text-lg mb-3">হাঁসের শেড (পুকুর সংলগ্ন)</h2>
-                        <p class="text-sm text-slate-600">মোট হাঁস: ৮০ টি</p>
-                        <p class="text-sm text-slate-600 mt-1">আজকের ডিম: ৪৫ টি</p>
-                        <p class="text-sm text-slate-600 mt-1">দৈনিক খাবার: ৮ কেজি</p>
+                        <p class="text-sm text-slate-500">মোট মুরগি</p>
+                        <input type="number" id="poultry-count" value="150" class="text-2xl font-bold border rounded p-1 w-full mt-1">
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow">
-                        <h2 class="font-bold text-lg mb-3">লেয়ার মুরগির শেড</h2>
-                        <p class="text-sm text-slate-600">মোট মুরগি: ১৫০ টি</p>
-                        <p class="text-sm text-slate-600 mt-1">আজকের ডিম: ১২৫ টি</p>
-                        <p class="text-sm text-slate-600 mt-1">দৈনিক খাবার: ১৫ কেজি</p>
+                        <p class="text-sm text-slate-500">মোট ডিম সংগ্রহ (টি)</p>
+                        <input type="number" id="poultry-eggs" value="1200" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট ব্যয় (৳)</p>
+                        <input type="number" id="poultry-expense" value="6000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট বিক্রয় (৳)</p>
+                        <input type="number" id="poultry-sales" value="18000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
                     </div>
                 </div>
+                <button onclick="updateAccounts()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700">তথ্য সেভ করুন</button>
             </div>
 
-            <!-- মাছ ও পাখি ভিউ -->
-            <div id="fisheries" class="tab-content hidden">
-                <h1 class="text-2xl font-bold mb-6">মাছ চাষ ও পাখির শেড</h1>
-                <div class="bg-white p-5 rounded-xl shadow mb-6">
-                    <h2 class="font-bold text-lg mb-2">পুকুর ১ (মিশ্র মাছ চাষ)</h2>
-                    <p class="text-sm text-slate-600">স্টক করা পোনা: রুই, কাতলা, মৃগেল (মোট ১২০০ টি)</p>
-                    <p class="text-sm text-slate-600 mt-1">সর্বশেষ খাবার দেওয়া হয়েছে: আজ সকাল ৮:০০ টা</p>
+            <!-- Birds (পাখি) -->
+            <div id="birds" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">পাখি চাষ ড্যাশবোর্ড</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট পাখি</p>
+                        <input type="number" id="birds-count" value="40" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট ব্যয় (৳)</p>
+                        <input type="number" id="birds-expense" value="1000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট বিক্রয় (৳)</p>
+                        <input type="number" id="birds-sales" value="4000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
                 </div>
+                <button onclick="updateAccounts()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700">তথ্য সেভ করুন</button>
             </div>
 
-            <!-- আয়-ব্যয় ভিউ -->
+            <!-- Fish (মাছ) -->
+            <div id="fish" class="tab-content hidden">
+                <h1 class="text-2xl font-bold mb-6">মাছ চাষ ড্যাশবোর্ড</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট পোনা/মাছ (আনুমানিক)</p>
+                        <input type="number" id="fish-count" value="1000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">খাদ্য ও অন্যান্য ব্যয় (৳)</p>
+                        <input type="number" id="fish-expense" value="8500" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow">
+                        <p class="text-sm text-slate-500">মোট মাছ বিক্রয় (৳)</p>
+                        <input type="number" id="fish-sales" value="33000" class="text-2xl font-bold border rounded p-1 w-full mt-1">
+                    </div>
+                </div>
+                <button onclick="updateAccounts()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700">তথ্য সেভ করুন</button>
+            </div>
+
+            <!-- Summary Accounts (POS) -->
             <div id="accounts" class="tab-content hidden">
-                <h1 class="text-2xl font-bold mb-6">আয় ও ব্যয়ের হিসাব (POS)</h1>
-                <div class="bg-white p-6 rounded-xl shadow">
-                    <p class="text-slate-600 mb-4">এখানে সহজেই দুধ, ডিম বা ক্যাটল বিক্রির ক্যাশ মেমো ও খরচ যুক্ত করা যাবে।</p>
-                    <button class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700">+ নতুন লেনদেন যুক্ত করুন</button>
+                <h1 class="text-2xl font-bold mb-6">কেন্দ্রীয় আয়-ব্যয় সামারি (POS)</h1>
+                <div class="bg-white p-6 rounded-xl shadow mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                            <p class="text-emerald-700 font-semibold">সর্বমোট বিক্রয় (আয়)</p>
+                            <h2 class="text-2xl font-bold text-emerald-900 mt-1" id="acc-total-sales">৳ ০</h2>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <p class="text-red-700 font-semibold">সর্বমোট খরচ (ব্যয়)</p>
+                            <h2 class="text-2xl font-bold text-red-900 mt-1" id="acc-total-expense">৳ ০</h2>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <p class="text-blue-700 font-semibold">মোট নিট লাভ/ক্ষতি</p>
+                            <h2 class="text-2xl font-bold text-blue-900 mt-1" id="acc-net-profit">৳ ০</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </main>
     </div>
 
+    <!-- Modals for Adding Cattle -->
+    <div id="cattleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-xl w-96">
+            <h2 class="text-lg font-bold mb-4">নতুন গরু প্রোফাইল</h2>
+            <input type="text" id="c-id" placeholder="ট্যাগ আইডি (যেমন COW-02)" class="w-full border p-2 mb-3 rounded">
+            <input type="text" id="c-breed" placeholder="জাত" class="w-full border p-2 mb-3 rounded">
+            <input type="text" id="c-weight" placeholder="ওজন ও বয়স" class="w-full border p-2 mb-3 rounded">
+            <input type="number" id="c-expense" placeholder="মোট ব্যয় (৳)" class="w-full border p-2 mb-3 rounded">
+            <input type="number" id="c-sales" placeholder="বিক্রয় মূল্য (৳)" class="w-full border p-2 mb-4 rounded">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal('cattleModal')" class="px-4 py-2 bg-slate-200 rounded">বাতিল</button>
+                <button onclick="addCattle()" class="px-4 py-2 bg-emerald-600 text-white rounded">সেভ</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
-            
-            if (window.innerWidth < 768) {
-                toggleSidebar();
-            }
+            if (window.innerWidth < 768) toggleSidebar();
         }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function addCattle() {
+            const id = document.getElementById('c-id').value;
+            const breed = document.getElementById('c-breed').value;
+            const weight = document.getElementById('c-weight').value;
+            const expense = document.getElementById('c-expense').value || 0;
+            const sales = document.getElementById('c-sales').value || 0;
+
+            if(!id) return alert('আইডি প্রদান করুন');
+
+            const row = `<tr>
+                <td class="p-4 font-semibold">${id}</td>
+                <td class="p-4">${breed}</td>
+                <td class="p-4">${weight}</td>
+                <td class="p-4 text-red-600">${expense}</td>
+                <td class="p-4 text-emerald-600">${sales}</td>
+            </tr>`;
+            document.getElementById('cattleTable').insertAdjacentHTML('beforeend', row);
+            closeModal('cattleModal');
+            updateAccounts();
+        }
+
+        function updateAccounts() {
+            const duckExp = parseFloat(document.getElementById('duck-expense').value) || 0;
+            const duckSales = parseFloat(document.getElementById('duck-sales').value) || 0;
+            const poultryExp = parseFloat(document.getElementById('poultry-expense').value) || 0;
+            const poultrySales = parseFloat(document.getElementById('poultry-sales').value) || 0;
+            const birdsExp = parseFloat(document.getElementById('birds-expense').value) || 0;
+            const birdsSales = parseFloat(document.getElementById('birds-sales').value) || 0;
+            const fishExp = parseFloat(document.getElementById('fish-expense').value) || 0;
+            const fishSales = parseFloat(document.getElementById('fish-sales').value) || 0;
+
+            const totalExp = duckExp + poultryExp + birdsExp + fishExp + 6500; // 6500 static default for cattle/goat
+            const totalSales = duckSales + poultrySales + birdsSales + fishSales + 20000;
+            const netProfit = totalSales - totalExp;
+
+            document.getElementById('acc-total-sales').innerText = '৳ ' + totalSales;
+            document.getElementById('acc-total-expense').innerText = '৳ ' + totalExp;
+            document.getElementById('acc-net-profit').innerText = '৳ ' + netProfit;
+
+            document.getElementById('dash-total-sales').innerText = '৳ ' + totalSales;
+            document.getElementById('dash-total-expense').innerText = '৳ ' + totalExp;
+            document.getElementById('dash-net-profit').innerText = '৳ ' + netProfit;
+        }
+
+        // Initialize Accounts
+        updateAccounts();
     </script>
 </body>
 </html>
