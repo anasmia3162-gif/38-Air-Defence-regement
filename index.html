@@ -3,100 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrustRoute Express - Courier Management System</title>
-    <!-- Tailwind CSS CDN -->
+    <title>TrustRoute Express - Enterprise Courier System</title>
+    <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-    </style>
 </head>
 <body class="bg-gray-100 font-sans min-h-screen flex flex-col">
 
-    <!-- Header Navigation -->
-    <header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
+    <!-- Top Navigation Header -->
+    <header class="bg-slate-900 text-white shadow-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid font-bold text-yellow-400 text-2xl fa-truck-fast"></i>
-                <span class="text-2xl font-bold tracking-wide">Trust<span class="text-yellow-400">Route</span></span>
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-truck-fast text-yellow-400 text-2xl"></i>
+                <span class="text-2xl font-black tracking-wide">Trust<span class="text-yellow-400">Route</span></span>
+                <span id="currentRoleBadge" class="ml-4 bg-blue-600 text-xs px-3 py-1 rounded-full uppercase font-bold tracking-wider">Public View</span>
             </div>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <button onclick="switchTab('tracking')" class="hover:text-yellow-400">ট্র্যাকিং</button>
-                <button onclick="switchTab('calculator')" class="hover:text-yellow-400">ক্যালকুলেটর</button>
-                <button onclick="switchTab('pickup')" class="hover:text-yellow-400">পিকআপ</button>
-                <button onclick="switchTab('merchant')" class="hover:text-yellow-400">মার্চেন্ট প্যানেল</button>
-                <button onclick="switchTab('rider')" class="hover:text-yellow-400">রাইডার প্যানেল</button>
-            </nav>
+            
+            <!-- Quick Role Switcher (For Testing & Demo) -->
+            <div class="flex items-center space-x-2">
+                <span class="text-xs text-gray-400 hidden sm:inline">প্যানেল সুইচ করুন:</span>
+                <select id="roleSelector" onchange="switchRole(this.value)" class="bg-slate-800 text-yellow-400 text-xs px-3 py-2 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 font-semibold cursor-pointer">
+                    <option value="PUBLIC">🌐 হোমপেজ / ট্র্যাকিং</option>
+                    <option value="MERCHANT">🛍️ মার্চেন্ট প্যানেল</option>
+                    <option value="HUB">🏬 হাব / ব্রাঞ্চ প্যানেল</option>
+                    <option value="RIDER">🛵 রাইডার প্যানেল</option>
+                    <option value="ADMIN">👑 সুপার এডমিন প্যানেল</option>
+                </select>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
 
-        <!-- 1. PARCEL TRACKING SECTION -->
-        <section id="tracking" class="tab-content active">
-            <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center"><i class="fa-solid fa-magnifying-glass text-blue-800 mr-2"></i>পার্সেল ট্র্যাকিং (Parcel Tracking)</h2>
+        <!-- 0. PUBLIC VIEW / TRACKING -->
+        <section id="view-public" class="role-view">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2 text-center">পার্সেল ট্র্যাক করুন</h2>
+                <p class="text-gray-500 text-sm text-center mb-6">আপনার ট্র্যাকিং আইডি প্রবেশ করিয়ে রিয়েল-টাইম স্ট্যাটাস জানুন</p>
                 <div class="flex gap-2 mb-6">
-                    <input type="text" id="trackInput" placeholder="ট্র্যাকিং আইডি দিন (যেমন: TR-1001)" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    <button onclick="trackParcel()" class="bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-900 transition">ট্র্যাক</button>
+                    <input type="text" id="publicTrackInput" placeholder="ট্র্যাকিং আইডি (যেমন: TR-1001)" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-600 outline-none">
+                    <button onclick="publicTrack()" class="bg-blue-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-900 transition">ট্র্যাক</button>
                 </div>
-                <div id="trackingResult" class="hidden border-t pt-4">
-                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
-                        <p class="text-sm text-gray-600">ট্র্যাকিং আইডি: <span id="resId" class="font-bold text-gray-800"></span></p>
-                        <p class="text-sm text-gray-600">গ্রাহকের নাম: <span id="resCustomer" class="font-bold text-gray-800"></span></p>
-                        <p class="text-sm text-gray-600">গন্তব্য: <span id="resAddress" class="font-bold text-gray-800"></span></p>
-                    </div>
-                    <div class="flex justify-between items-center my-6 relative">
-                        <div class="w-full bg-gray-200 h-2 absolute top-1/2 -translate-y-1/2 z-0"></div>
-                        <div id="statusProgress" class="bg-blue-600 h-2 absolute top-1/2 -translate-y-1/2 z-0 transition-all duration-500" style="width: 0%;"></div>
-                        
-                        <div class="z-10 bg-white p-2 text-center">
-                            <div id="step1" class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center mx-auto mb-1"><i class="fa-solid fa-box"></i></div>
-                            <span class="text-xs font-semibold">পিকআপড</span>
-                        </div>
-                        <div class="z-10 bg-white p-2 text-center">
-                            <div id="step2" class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center mx-auto mb-1"><i class="fa-solid fa-warehouse"></i></div>
-                            <span class="text-xs font-semibold">হাবে আছে</span>
-                        </div>
-                        <div class="z-10 bg-white p-2 text-center">
-                            <div id="step3" class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center mx-auto mb-1"><i class="fa-solid fa-motorcycle"></i></div>
-                            <span class="text-xs font-semibold">আউট ফর ডেলিভারি</span>
-                        </div>
-                        <div class="z-10 bg-white p-2 text-center">
-                            <div id="step4" class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center mx-auto mb-1"><i class="fa-solid fa-check"></i></div>
-                            <span class="text-xs font-semibold">ডেলিভারড</span>
-                        </div>
+                <div id="publicTrackResult" class="hidden border-t pt-4">
+                    <div class="bg-blue-50 p-4 rounded-xl mb-4 text-sm space-y-1">
+                        <p><span class="text-gray-500">আইডি:</span> <b id="pResId"></b></p>
+                        <p><span class="text-gray-500">গ্রাহক:</span> <b id="pResCust"></b></p>
+                        <p><span class="text-gray-500">ঠিকানা:</span> <b id="pResAddr"></b></p>
+                        <p><span class="text-gray-500">বর্তমান স্ট্যাটাস:</span> <span id="pResStatus" class="bg-yellow-100 text-yellow-800 font-bold px-2 py-0.5 rounded text-xs"></span></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. PRICE CALCULATOR SECTION -->
-        <section id="calculator" class="tab-content">
-            <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center"><i class="fa-solid fa-calculator text-blue-800 mr-2"></i>ডেলিভারি চার্জ ক্যালকুলেটর</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">এলাকা নিবরণ করুন</label>
-                        <select id="calcArea" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600">
-                            <option value="60">ঢাকার ভেতরে (Inside Dhaka) - ৳60</option>
-                            <option value="100">ঢাকার বাইরে (Outside Dhaka) - ৳100</option>
-                            <option value="120">সাব-আরবান (Suburban Area) - ৳120</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ওজন (কেজি)</label>
-                        <input type="number" id="calcWeight" value="1" min="1" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <button onclick="calculatePrice()" class="w-full bg-blue-800 text-white py-3 rounded-lg font-semibold hover:bg-blue-900">হিসাব করুন</button>
-                    <div id="calcResult" class="mt-4 p-4 bg-green-50 text-green-800 rounded-lg text-center font-bold text-lg hidden"></div>
+        <!-- 1. MERCHANT PORTAL -->
+        <section id="view-merchant" class="role-view hidden space-y-6">
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white p-6 rounded-2xl shadow-lg flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">মার্চেন্ট ড্যাশবোর্ড</h1>
+                    <p class="text-blue-200 text-sm">স্বাগতম, ফ্যাশন হাউস মার্চেন্ট</p>
+                </div>
+                <button onclick="showMerchantModal()" class="bg-yellow-400 text-slate-900 px-5 py-2.5 rounded-xl font-bold hover:bg-yellow-300 transition"><i class="fa-solid fa-plus mr-1"></i> নতুন পার্সেল বুকিং</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-500 text-xs font-bold uppercase">মোট পার্সেল</span>
+                    <h3 id="mStatTotal" class="text-2xl font-black text-slate-800 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-500 text-xs font-bold uppercase">পেন্ডিং COD অ্যামাউন্ট</span>
+                    <h3 id="mStatCod" class="text-2xl font-black text-green-600 mt-1">৳0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-500 text-xs font-bold uppercase">ডেলিভারড</span>
+                    <h3 id="mStatDelivered" class="text-2xl font-black text-blue-600 mt-1">0</h3>
+                </div>
+            </div>
+
+            <!-- Parcel Table -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-800 mb-4">আপনার পার্সেল তালিকা</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-600 border-b">
+                            <tr>
+                                <th class="p-3">আইডি</th>
+                                <th class="p-3">গ্রাহকের নাম</th>
+                                <th class="p-3">ঠিকানা</th>
+                                <th class="p-3">COD টাকা</th>
+                                <th class="p-3">স্ট্যাটাস</th>
+                                <th class="p-3">রাইডার</th>
+                            </tr>
+                        </thead>
+                        <tbody id="merchantTable" class="divide-y"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- 3. PICKUP REQUEST SECTION -->
-        <section id="pickup" class="tab-content">
-            <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center"><i class="fa-solid fa-hand-holding-box text-blue-800 mr-2"></i>পিকআপ রিকুয়েস্ট ফর্ম</h2>
+        <!-- 2. HUB / BRANCH PORTAL -->
+        <section id="view-hub" class="role-view hidden space-y-6">
+            <div class="bg-amber-600 text-white p-6 rounded-2xl shadow-lg">
+                <h1 class="text-2xl font-bold">মিরপুর ১০ ব্রাঞ্চ / হাব প্যানেল</h1>
+                <p class="text-amber-100 text-sm">পার্সেল রিসিভ এবং রাইডার এসাইনমেন্ট পরিচালনা করুন</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-800 mb-4">হাবে আসা পার্সেল ও রাইডার এসাইনমেন্ট</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-600 border-b">
+                            <tr>
+                                <th class="p-3">আইডি</th>
+                                <th class="p-3">গ্রাহক ও এলাকা</th>
+                                <th class="p-3">বর্তমান স্ট্যাটাস</th>
+                                <th class="p-3">রাইডার নির্বাচন করুন</th>
+                                <th class="p-3">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hubTable" class="divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. RIDER PORTAL -->
+        <section id="view-rider" class="role-view hidden space-y-6">
+            <div class="bg-emerald-700 text-white p-6 rounded-2xl shadow-lg flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">রাইডার ডেলিভারি অ্যাপ</h1>
+                    <p class="text-emerald-100 text-sm">আপনার আজকের এসাইন করা কাজের তালিকা</p>
+                </div>
+                <span class="bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold">রাইডার: সাকিব আহমেদ</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="riderCards">
+                <!-- Dynamic Cards Inserted Here -->
+            </div>
+        </section>
+
+        <!-- 4. SUPER ADMIN PORTAL -->
+        <section id="view-admin" class="role-view hidden space-y-6">
+            <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg">
+                <h1 class="text-2xl font-bold">সুপার এডমিন কন্ট্রোল সেন্টার</h1>
+                <p class="text-gray-400 text-sm">সিস্টেমের সার্বিক তদারকি ও কন্ট্রোল</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-400 text-xs font-bold">মোট পার্সেল</span>
+                    <h3 id="aStatTotal" class="text-2xl font-black text-slate-800 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-400 text-xs font-bold">সক্রিয় হাব</span>
+                    <h3 class="text-2xl font-black text-amber-600 mt-1">১২টি</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-400 text-xs font-bold">সক্রিয় রাইডার</span>
+                    <h3 id="aStatRiders" class="text-2xl font-black text-emerald-600 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <span class="text-gray-400 text-xs font-bold">মোট ক্যাশ প্রসেসড</span>
+                    <h3 id="aStatCash" class="text-2xl font-black text-blue-600 mt-1">৳0</h3>
+                </div>
+            </div>
+
+            <!-- System Master Table -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-800 mb-4">অল-পার্সেল মাস্টার ট্র্যাকিং</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-600 border-b">
+                            <tr>
+                                <th class="p-3">আইডি</th>
+                                <th class="p-3">মার্চেন্ট</th>
+                                <th class="p-3">গ্রাহক</th>
+                                <th class="p-3">COD</th>
+                                <th class="p-3">স্ট্যাটাস</th>
+                                <th class="p-3">নিযুক্ত রাইডার</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTable" class="divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MERCHANT NEW PARCEL MODAL -->
+    <div id="merchantModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">নতুন পার্সেল এন্ট্রি করুন</h3>
+            <form onsubmit="saveNewParcel(event)" class="space-y-3">
+                <input type="text" id="mInName" placeholder="গ্রাহকের নাম" required class="w-full p-3 border rounded-xl outline-none">
+                <input type="text" id="mInAddr" placeholder="ডেলিভারি ঠিকানা (যেমন: মিরপুর ১০)" required class="w-full p-3 border rounded-xl outline-none">
+                <input type="tel" id="mInPhone" placeholder="গ্রাহকের ফোন নম্বর" required class="w-full p-3 border rounded-xl outline-none">
+                <input type="number" id="mInCod" placeholder="COD অ্যামাউন্ট (৳)" required class="w-full p-3 border rounded-xl outline-none">
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="hideMerchantModal()" class="w-1/2 bg-gray-100 text-gray-700 py-3 rounded-xl font-bold">বাতিল</button>
+                    <button type="submit" class="w-1/2 bg-blue-800 text-white py-3 rounded-xl font-bold hover:bg-blue-900">সংরক্ষণ করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Centralized State & Logic -->
+    <script>
+        // Central Data Store (Simulating Database)
+        let ridersList = [
+            { id: "R-101", name: "সাকিব আহমেদ" },
+            { id: "R-102", name: "রাফি হাসান" }
+        ];
+
+        let parcels = [
+            { id: "TR-1001", merchant: "ফ্যাশন হাউস", customer: "রহিম আহমেদ", phone: "01700000000", address: "মিরপুর ১০, ঢাকা", cod: 1200, status: "In Hub", riderId: null },
+            { id: "TR-1002", customer: "করিম উল্লাহ", merchant: "টেক শপ", phone: "01800000000", address: "উত্তরা সেক্টর ৭, ঢাকা", cod: 850, status: "Assigned", riderId: "R-101" }
+        ];
+
+        // Role Router Engine
+        function switchRole(role) {
+            document.querySelectorAll('.role-view').forEach(view => view.classList.add('hidden'));
+            const badge = document.getElementById('currentRoleBadge');
+
+            if(role === 'PUBLIC') {
+                document.getElementById('view-public').classList.remove('hidden');
+                badge.innerText = "Public View"; badge.className = "ml-4 bg-gray-600 text-xs px-3 py-1 rounded-full uppercase font-bold";
+            } else if(role === 'MERCHANT') {
+                document.getElementById('view-merchant').classList.remove('hidden');
+                badge.innerText = "Merchant Portal"; badge.className = "ml-4 bg-blue-600 text-xs px-3 py-1 rounded-full uppercase font-bold";
+                renderMerchant();
+            } else if(role === 'HUB') {
+                document.getElementById('view-hub').classList.remove('hidden');
+                badge.innerText = "Hub Panel"; badge.className = "ml-4 bg-amber-600 text-xs px-3 py-1 rounded-full uppercase font-bold";
+                renderHub();
+            } else if(role === 'RIDER') {
+                document.getElementById('view-rider').classList.remove('hidden');
+                badge.innerText = "Rider Portal"; badge.className = "ml-4 bg-emerald-600 text-xs px-3 py-1 rounded-full uppercase font-bold";
+                renderRider();
+            } else if(role === 'ADMIN') {
+                document.getElementById('view-admin').classList.remove('hidden');
+                badge.innerText = "Super Admin"; badge.className = "ml-4 bg-purple-600 text-xs px-3 py-1 rounded-full uppercase font-bold";
+                renderAdmin();
+            }
+        }
+
+        // 0. Public Track
+        function publicTrack() {
+            const id = document.getElementById('publicTrackInput').value.trim();
+            const p = parcels.find(x => x
