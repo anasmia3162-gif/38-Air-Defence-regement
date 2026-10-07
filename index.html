@@ -40,11 +40,11 @@
 
     <!-- USER PANEL -->
     <main id="user-panel" class="max-w-7xl mx-auto px-4 py-6">
-        <!-- Banner Slider (5 Max) -->
-        <div class="relative bg-slate-200 rounded-2xl overflow-hidden mb-8 h-48 md:h-80 shadow-inner">
+        <!-- Banner Slider (Auto Sliding) -->
+        <div id="banner-container" onmouseenter="stopAutoSlide()" onmouseleave="startAutoSlide()" class="relative bg-slate-200 rounded-2xl overflow-hidden mb-8 h-48 md:h-80 shadow-inner">
             <div id="banner-slider" class="w-full h-full relative"></div>
-            <button onclick="changeBanner(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center"><i class="fa-solid fa-chevron-left"></i></button>
-            <button onclick="changeBanner(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center"><i class="fa-solid fa-chevron-right"></i></button>
+            <button onclick="changeBanner(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-left"></i></button>
+            <button onclick="changeBanner(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
 
         <!-- Categories Filter -->
@@ -170,12 +170,14 @@
             "", "", ""
         ];
         let activeBannerIndex = 0;
+        let autoSlideTimer = null;
         let selectedCategory = "সব";
         let cart = [];
 
         // App Initialize
         function init() {
             renderBanners();
+            startAutoSlide();
             renderCategories();
             renderProducts();
             populateCategoryDropdown();
@@ -213,7 +215,7 @@
             switchPanel('user');
         }
 
-        // Banners Functions
+        // Banners & Auto Slide Logic
         function renderBanners() {
             const activeBanners = banners.filter(b => b && b.trim() !== "");
             const container = document.getElementById('banner-slider');
@@ -222,7 +224,7 @@
                 return;
             }
             if (activeBannerIndex >= activeBanners.length) activeBannerIndex = 0;
-            container.innerHTML = `<img src="${activeBanners[activeBannerIndex]}" class="w-full h-full object-cover">`;
+            container.innerHTML = `<img src="${activeBanners[activeBannerIndex]}" class="w-full h-full object-cover transition-all duration-500">`;
         }
 
         function changeBanner(step) {
@@ -230,6 +232,17 @@
             if (activeBanners.length <= 1) return;
             activeBannerIndex = (activeBannerIndex + step + activeBanners.length) % activeBanners.length;
             renderBanners();
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            autoSlideTimer = setInterval(() => {
+                changeBanner(1);
+            }, 3000); // ৩ সেকেন্ড পর পর স্বয়ংক্রিয়ভাবে স্লাইড হবে
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideTimer) clearInterval(autoSlideTimer);
         }
 
         function renderBannerInputs() {
@@ -394,116 +407,4 @@
         // Cart & Checkout Logic
         function addToCart(id) {
             const prod = products.find(p => p.id === id);
-            if (!prod || prod.stock <= 0) return;
-
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                if (existing.qty < prod.stock) {
-                    existing.qty++;
-                } else {
-                    alert("স্টক সীমার বেশি যোগ করা যাবে না!");
-                    return;
-                }
-            } else {
-                cart.push({ ...prod, qty: 1 });
-            }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cart-badge').innerText = totalQty;
-            
-            const container = document.getElementById('cart-items');
-            container.innerHTML = "";
-            let totalPrice = 0;
-
-            if (cart.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-400 py-6 text-sm">কার্ট ফাঁকা রয়েছে</p>`;
-                resetCheckoutForm();
-            } else {
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.qty;
-                    totalPrice += itemTotal;
-                    container.innerHTML += `
-                        <div class="py-3 flex justify-between items-center">
-                            <div>
-                                <h5 class="font-bold text-sm">${item.name}</h5>
-                                <span class="text-xs text-slate-500">৳${item.price} x ${item.qty}</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-sm">৳${itemTotal}</span>
-                                <button onclick="removeFromCart(${item.id})" class="text-rose-500 text-xs p-1">&times;</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            document.getElementById('cart-total').innerText = `৳${totalPrice}`;
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
-
-        function openCart() { document.getElementById('cart-drawer').classList.remove('hidden'); }
-        function closeCart() { 
-            document.getElementById('cart-drawer').classList.add('hidden');
-            resetCheckoutForm();
-        }
-
-        function showCheckoutForm() {
-            if (cart.length === 0) return alert("আপনার কার্ট খালি!");
-            document.getElementById('checkout-form-container').classList.remove('hidden');
-            document.getElementById('checkout-btn').classList.add('hidden');
-            document.getElementById('submit-order-btn').classList.remove('hidden');
-        }
-
-        function resetCheckoutForm() {
-            document.getElementById('checkout-form-container').classList.add('hidden');
-            document.getElementById('checkout-btn').classList.remove('hidden');
-            document.getElementById('submit-order-btn').classList.add('hidden');
-        }
-
-        function submitOrder() {
-            const name = document.getElementById('cust-name').value.trim();
-            const phone = document.getElementById('cust-phone').value.trim();
-            const address = document.getElementById('cust-address').value.trim();
-
-            if (!name || !phone || !address) {
-                alert("অনুগ্রহ করে আপনার নাম, ফোন নম্বর এবং ঠিকানা সঠিকভাবে লিখুন।");
-                return;
-            }
-
-            // Deduct stock
-            cart.forEach(item => {
-                const prod = products.find(p => p.id === item.id);
-                if (prod) prod.stock -= item.qty;
-            });
-
-            alert(`ধন্যবাদ ${name}! আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে।`);
-            cart = [];
-            document.getElementById('cust-name').value = '';
-            document.getElementById('cust-phone').value = '';
-            document.getElementById('cust-address').value = '';
-            
-            updateCartUI();
-            closeCart();
-            renderProducts();
-        }
-
-        // Admin Tabs
-        function switchAdminTab(tab) {
-            ['products', 'categories', 'banners'].forEach(t => {
-                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).classList.remove('active-tab');
-            });
-            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).classList.add('active-tab');
-        }
-
-        window.onload = init;
-    </script>
-</body>
-</html>
+            if (!
