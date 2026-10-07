@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce with Reseller System</title>
+    <title>Bazari - E-Commerce with Reseller System</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('user')">
                 <i class="fa-solid fa-bag-shopping text-2xl"></i>
-                <span class="font-bold text-xl tracking-wide">MyStore & Resell</span>
+                <span class="font-bold text-xl tracking-wide">Bazari</span>
             </div>
             
             <div class="flex items-center space-x-4">
@@ -62,7 +62,7 @@
 
                 <!-- Admin Nav Links -->
                 <div id="admin-nav" class="hidden flex items-center space-x-3">
-                    <span class="bg-indigo-800 text-xs px-2 py-1 rounded">এডমিন মোড</span>
+                    <span class="bg-indigo-800 text-xs px-2 py-1 rounded">Bazari এডমিন মোড</span>
                     <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded text-sm transition">লগআউট</button>
                 </div>
             </div>
@@ -74,7 +74,7 @@
         
         <!-- Tab: Home -->
         <div id="tab-home">
-            <!-- Banner Slider (5 Max) -->
+            <!-- Banner Slider -->
             <div class="relative bg-gray-900 rounded-xl overflow-hidden shadow-lg mb-8 h-56 md:h-72">
                 <div id="banner-container" class="h-full"></div>
                 <button onclick="prevBanner()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/70"><i class="fa-solid fa-chevron-left"></i></button>
@@ -89,7 +89,7 @@
 
             <!-- Reseller Alert Banner -->
             <div id="reseller-status-alert" class="hidden mb-6 p-4 rounded-lg bg-indigo-50 border border-indigo-200 flex justify-between items-center">
-                <span class="text-sm text-indigo-900 font-medium"><i class="fa-solid fa-circle-check text-indigo-600 mr-2"></i>আপনি রিসেলার হিসেবে সাইন-ইন আছেন! বিশেষ মূল্য ও সম্পদ ডাউনলোড সুবিধা চালু আছে।</span>
+                <span class="text-sm text-indigo-900 font-medium"><i class="fa-solid fa-circle-check text-indigo-600 mr-2"></i>আপনি রিসেলার হিসেবে সাইন-ইন আছেন! বিশেষ মূল্য ও সুবিধা চালু আছে।</span>
             </div>
 
             <!-- Products Grid -->
@@ -115,7 +115,7 @@
             
             <!-- Admin Sidebar -->
             <div class="w-full md:w-64 bg-white p-4 rounded-xl shadow-md h-fit space-y-2">
-                <h3 class="font-bold text-lg border-b pb-2 mb-3">এডমিন মেনু</h3>
+                <h3 class="font-bold text-lg border-b pb-2 mb-3">Bazari এডমিন প্যানেল</h3>
                 <button onclick="switchAdminTab('products')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium"><i class="fa-solid fa-box mr-2"></i>প্রোডাক্ট ও প্রাইসিং</button>
                 <button onclick="switchAdminTab('resellers')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium flex justify-between items-center">
                     <span><i class="fa-solid fa-user-clock mr-2"></i>রিসেলার রিকোয়েস্ট</span>
@@ -123,8 +123,6 @@
                 </button>
                 <button onclick="switchAdminTab('categories')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium"><i class="fa-solid fa-list mr-2"></i>ক্যাটাগরি ম্যানেজমেন্ট</button>
                 <button onclick="switchAdminTab('orders')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium"><i class="fa-solid fa-truck-fast mr-2"></i>অর্ডার ও ট্র্যাকিং</button>
-                <button onclick="switchAdminTab('banners')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium"><i class="fa-solid fa-images mr-2"></i>ব্যানার সেটিং (৫টি)</button>
-                <button onclick="switchAdminTab('admins')" class="w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-indigo-700 font-medium"><i class="fa-solid fa-user-shield mr-2"></i>এডমিন প্যানেল লিস্ট</button>
             </div>
 
             <!-- Admin Content Area -->
@@ -134,7 +132,6 @@
                 <div id="admin-tab-products">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold">প্রোডাক্ট ও স্টক ম্যানেজমেন্ট</h2>
-                        <button onclick="openProductModal()" class="bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-700 text-sm"><i class="fa-solid fa-plus mr-1"></i> নতুন প্রোডাক্ট</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
@@ -145,7 +142,6 @@
                                     <th class="p-2">সাধারণ মূল্য</th>
                                     <th class="p-2">রিসেলার মূল্য</th>
                                     <th class="p-2">স্টক</th>
-                                    <th class="p-2">অ্যাকশন</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-products-table"></tbody>
@@ -164,7 +160,6 @@
                                     <th class="p-2">ফোন</th>
                                     <th class="p-2">শপের নাম</th>
                                     <th class="p-2">স্ট্যাটাস</th>
-                                    <th class="p-2">অ্যাকশন</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-resellers-table"></tbody>
@@ -176,4 +171,216 @@
                 <div id="admin-tab-categories" class="hidden">
                     <h2 class="text-xl font-bold mb-4">ক্যাটাগরি তৈরি করুন</h2>
                     <form onsubmit="addCategory(event)" class="flex gap-2 mb-6">
-                        <input type="text" id="new-cat-input" placeholder="ক্যাটাগরির নাম" required class="border p-
+                        <input type="text" id="new-cat-input" placeholder="ক্যাটাগরির নাম" required class="border p-2 rounded w-full">
+                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">যুক্ত করুন</button>
+                    </form>
+                    <ul id="categories-list" class="space-y-2"></ul>
+                </div>
+
+                <!-- Orders Tab -->
+                <div id="admin-tab-orders" class="hidden">
+                    <h2 class="text-xl font-bold mb-4">সকল অর্ডার</h2>
+                    <div id="admin-orders-list" class="space-y-3"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals & Cart Drawers -->
+    <div id="cart-drawer" class="fixed inset-0 bg-black/50 hidden z-50 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full p-6 flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">আপনার কার্ট</h2>
+                    <button onclick="closeCart()" class="text-gray-500 text-xl">&times;</button>
+                </div>
+                <div id="cart-items" class="space-y-4"></div>
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex justify-between font-bold text-lg mb-4">
+                    <span>মোট:</span>
+                    <span id="cart-total">৳0</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-indigo-600 text-white py-2 rounded font-bold hover:bg-indigo-700">অর্ডার কনফার্ম করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data State
+        let products = [
+            { id: 1, name: "স্মার্টওয়াচ", price: 1500, resellerPrice: 1200, category: "ইলেকট্রনিক্স", stock: 10, image: "https://via.placeholder.com/150" },
+            { id: 2, name: "টি-শার্ট", price: 500, resellerPrice: 350, category: "ফ্যাশন", stock: 25, image: "https://via.placeholder.com/150" }
+        ];
+        let categories = ["সব", "ইলেকট্রনিক্স", "ফ্যাশন"];
+        let cart = [];
+        let isReseller = false;
+        let orders = [
+            { id: "ORD-1001", customer: "করিম", status: "Processing", total: 1500 }
+        ];
+
+        // Init App
+        function init() {
+            renderProducts();
+            renderCategories();
+        }
+
+        function renderProducts(cat = "সব") {
+            const grid = document.getElementById("products-grid");
+            const adminTable = document.getElementById("admin-products-table");
+            
+            grid.innerHTML = "";
+            adminTable.innerHTML = "";
+
+            const filtered = cat === "সব" ? products : products.filter(p => p.category === cat);
+
+            filtered.forEach(p => {
+                const currentPrice = isReseller ? p.resellerPrice : p.price;
+                grid.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-md border">
+                        <img src="${p.image}" class="w-full h-40 object-cover rounded mb-3">
+                        <h3 class="font-bold text-lg">${p.name}</h3>
+                        <p class="text-indigo-600 font-bold">৳${currentPrice} ${isReseller ? `<span class="text-xs text-gray-400 line-through">৳${p.price}</span>` : ''}</p>
+                        <button onclick="addToCart(${p.id})" class="mt-3 w-full bg-indigo-600 text-white py-1.5 rounded hover:bg-indigo-700 text-sm">কার্টে যোগ করুন</button>
+                    </div>
+                `;
+
+                adminTable.innerHTML += `
+                    <tr class="border-b text-sm">
+                        <td class="p-2"><img src="${p.image}" class="w-10 h-10 object-cover rounded"></td>
+                        <td class="p-2 font-medium">${p.name}</td>
+                        <td class="p-2">৳${p.price}</td>
+                        <td class="p-2">৳${p.resellerPrice}</td>
+                        <td class="p-2">${p.stock}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderCategories() {
+            const filterContainer = document.getElementById("category-filters");
+            const catList = document.getElementById("categories-list");
+            
+            filterContainer.innerHTML = "";
+            catList.innerHTML = "";
+
+            categories.forEach(c => {
+                filterContainer.innerHTML += `<button onclick="renderProducts('${c}')" class="bg-gray-200 hover:bg-indigo-600 hover:text-white px-3 py-1 rounded text-sm">${c}</button>`;
+                if(c !== "সব") {
+                    catList.innerHTML += `<li class="border-b py-1 flex justify-between">${c}</li>`;
+                }
+            });
+        }
+
+        function addCategory(e) {
+            e.preventDefault();
+            const input = document.getElementById("new-cat-input");
+            if(input.value) {
+                categories.push(input.value);
+                renderCategories();
+                input.value = "";
+            }
+        }
+
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id);
+            cart.push(prod);
+            document.getElementById("cart-count").innerText = cart.length;
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById("cart-items");
+            cartItems.innerHTML = "";
+            let total = 0;
+            cart.forEach((item) => {
+                const price = isReseller ? item.resellerPrice : item.price;
+                total += price;
+                cartItems.innerHTML += `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <span class="text-xs text-gray-500">৳${price}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById("cart-total").innerText = `৳${total}`;
+        }
+
+        function openCart() { document.getElementById("cart-drawer").classList.remove("hidden"); }
+        function closeCart() { document.getElementById("cart-drawer").classList.add("hidden"); }
+
+        function checkout() {
+            if(cart.length === 0) return alert("কার্ট খালি!");
+            const newOrdId = "ORD-" + Math.floor(1000 + Math.random() * 9000);
+            alert(`আপনার অর্ডার সম্পন্ন হয়েছে! ট্র্যাকিং আইডি: ${newOrdId}`);
+            orders.push({ id: newOrdId, customer: "গ্রাহক", status: "Processing", total: 100 });
+            cart = [];
+            document.getElementById("cart-count").innerText = "0";
+            renderCart();
+            closeCart();
+        }
+
+        function trackOrder() {
+            const val = document.getElementById("track-input").value.trim();
+            const res = document.getElementById("track-result");
+            const ord = orders.find(o => o.id === val);
+            
+            res.classList.remove("hidden");
+            if(ord) {
+                res.innerHTML = `<p class="text-green-600 font-bold">অর্ডার পাওয়া গেছে!</p><p>আইডি: ${ord.id}</p><p>স্ট্যাটাস: ${ord.status}</p>`;
+            } else {
+                res.innerHTML = `<p class="text-red-500 font-bold">কোনো অর্ডার পাওয়া যায়নি!</p>`;
+            }
+        }
+
+        function switchView(view) {
+            if(view === 'admin') {
+                document.getElementById("user-view").classList.add("hidden");
+                document.getElementById("admin-view").classList.remove("hidden");
+                document.getElementById("user-nav").classList.add("hidden");
+                document.getElementById("admin-nav").classList.remove("hidden");
+            } else {
+                document.getElementById("user-view").classList.remove("hidden");
+                document.getElementById("admin-view").classList.add("hidden");
+                document.getElementById("user-nav").classList.remove("hidden");
+                document.getElementById("admin-nav").classList.add("hidden");
+            }
+        }
+
+        function openAdminLoginModal() {
+            const pass = prompt("Bazari এডমিন পাসওয়ার্ড দিন (ডিফল্ট: admin):");
+            if(pass === "admin") {
+                switchView('admin');
+            } else if(pass) {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
+
+        function logoutAdmin() {
+            switchView('user');
+        }
+
+        function switchAdminTab(tab) {
+            ['products', 'resellers', 'categories', 'orders'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`).classList.add("hidden");
+            });
+            document.getElementById(`admin-tab-${tab}`).classList.remove("hidden");
+        }
+
+        function switchTab(tab) {
+            if(tab === 'home') {
+                document.getElementById("tab-home").classList.remove("hidden");
+                document.getElementById("tab-track").classList.add("hidden");
+            } else {
+                document.getElementById("tab-home").classList.add("hidden");
+                document.getElementById("tab-track").classList.remove("hidden");
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
