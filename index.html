@@ -111,31 +111,47 @@
             </div>
         </section>
 
-        <!-- Banners Tab -->
+        <!-- Banners Tab (Storage Upload Enabled) -->
         <section id="admin-tab-banners" class="hidden space-y-4">
             <div class="bg-white p-5 rounded-xl border shadow-sm max-w-2xl">
                 <h3 class="font-bold text-lg mb-2">হোমপেজ ব্যানার সেট করুন (সর্বোচ্চ ৫টি)</h3>
-                <p class="text-xs text-slate-500 mb-4">ইমেজ লিংক (URL) পরিবর্তন করে ব্যানার আপডেট করুন।</p>
-                <div id="banner-inputs" class="space-y-3"></div>
-                <button onclick="saveBanners()" class="mt-4 bg-indigo-600 text-white font-medium px-5 py-2.5 rounded-lg hover:bg-indigo-700">ব্যানার সেভ করুন</button>
+                <p class="text-xs text-slate-500 mb-4">আপনার ডিভাইস/স্টোরেজ থেকে ছবি সিলেক্ট করুন।</p>
+                <div id="banner-inputs" class="space-y-4"></div>
             </div>
         </section>
     </main>
 
-    <!-- Cart Drawer -->
+    <!-- Cart & Checkout Modal -->
     <div id="cart-drawer" class="fixed inset-0 bg-black/40 hidden z-50 flex justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="font-bold text-lg">আপনার শপিং কার্ট</h3>
-                <button onclick="closeCart()" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
+        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="p-4 border-b flex justify-between items-center">
+                    <h3 class="font-bold text-lg">আপনার শপিং কার্ট</h3>
+                    <button onclick="closeCart()" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
+                </div>
+                
+                <div id="cart-items" class="p-4 divide-y"></div>
+
+                <!-- Checkout Form -->
+                <div id="checkout-form-container" class="p-4 bg-slate-50 border-t space-y-3 hidden">
+                    <h4 class="font-bold text-sm text-slate-700">ডেলিভারি তথ্য দিন:</h4>
+                    <input type="text" id="cust-name" placeholder="আপনার নাম" class="w-full border p-2 text-sm rounded-lg" required>
+                    <input type="tel" id="cust-phone" placeholder="মোবাইল নম্বর" class="w-full border p-2 text-sm rounded-lg" required>
+                    <textarea id="cust-address" placeholder="পূর্ণাঙ্গ ঠিকানা" class="w-full border p-2 text-sm rounded-lg" rows="2" required></textarea>
+                </div>
             </div>
-            <div id="cart-items" class="p-4 overflow-y-auto flex-1 divide-y"></div>
+
             <div class="p-4 border-t bg-slate-50 space-y-3">
                 <div class="flex justify-between font-bold text-lg">
                     <span>মোট:</span>
                     <span id="cart-total">৳০</span>
                 </div>
-                <button onclick="checkout()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">অর্ডার সম্পন্ন করুন</button>
+                <button id="checkout-btn" onclick="showCheckoutForm()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">
+                    অর্ডার নিশ্চিত করুন
+                </button>
+                <button id="submit-order-btn" onclick="submitOrder()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition hidden">
+                    অর্ডার প্লেস করুন
+                </button>
             </div>
         </div>
     </div>
@@ -197,12 +213,12 @@
             switchPanel('user');
         }
 
-        // Banners
+        // Banners Functions
         function renderBanners() {
-            const activeBanners = banners.filter(b => b.trim() !== "");
+            const activeBanners = banners.filter(b => b && b.trim() !== "");
             const container = document.getElementById('banner-slider');
             if (activeBanners.length === 0) {
-                container.innerHTML = `<div class="w-full h-full bg-slate-300 flex items-center justify-center text-slate-600 font-medium">কোনো ব্যানার নেই</div>`;
+                container.innerHTML = `<div class="w-full h-full bg-slate-300 flex items-center justify-center text-slate-600 font-medium">কোনো ব্যানার যুক্ত নেই</div>`;
                 return;
             }
             if (activeBannerIndex >= activeBanners.length) activeBannerIndex = 0;
@@ -210,7 +226,7 @@
         }
 
         function changeBanner(step) {
-            const activeBanners = banners.filter(b => b.trim() !== "");
+            const activeBanners = banners.filter(b => b && b.trim() !== "");
             if (activeBanners.length <= 1) return;
             activeBannerIndex = (activeBannerIndex + step + activeBanners.length) % activeBanners.length;
             renderBanners();
@@ -221,23 +237,29 @@
             container.innerHTML = "";
             for (let i = 0; i < 5; i++) {
                 container.innerHTML += `
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">ব্যানার ${i + 1} URL</label>
-                        <input type="url" id="banner-input-${i}" value="${banners[i] || ''}" placeholder="https://example.com/image.jpg" class="border p-2 rounded-lg text-sm w-full">
+                    <div class="border p-3 rounded-lg bg-slate-50">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">ব্যানার ${i + 1}</label>
+                        <input type="file" accept="image/*" onchange="handleBannerUpload(event, ${i})" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        ${banners[i] ? `<img src="${banners[i]}" class="h-16 mt-2 rounded object-cover border">` : ''}
                     </div>
                 `;
             }
         }
 
-        function saveBanners() {
-            for (let i = 0; i < 5; i++) {
-                banners[i] = document.getElementById(`banner-input-${i}`).value.trim();
+        function handleBannerUpload(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    banners[index] = e.target.result;
+                    renderBanners();
+                    renderBannerInputs();
+                };
+                reader.readAsDataURL(file);
             }
-            renderBanners();
-            alert("ব্যানার সফলভাবে সেভ হয়েছে!");
         }
 
-        // Categories
+        // Categories Functions
         function renderCategories() {
             const container = document.getElementById('user-category-list');
             container.innerHTML = "";
@@ -276,7 +298,7 @@
         function renderAdminCategories() {
             const list = document.getElementById('admin-category-list');
             list.innerHTML = "";
-            categories.filter(c => c !== "সব").forEach((c, idx) => {
+            categories.filter(c => c !== "সব").forEach((c) => {
                 list.innerHTML += `
                     <li class="py-2.5 flex justify-between items-center text-sm">
                         <span>${c}</span>
@@ -293,7 +315,7 @@
             renderAdminCategories();
         }
 
-        // Products
+        // Products Functions
         function renderProducts() {
             const grid = document.getElementById('user-product-grid');
             grid.innerHTML = "";
@@ -369,7 +391,7 @@
             renderAdminProducts();
         }
 
-        // Cart
+        // Cart & Checkout Logic
         function addToCart(id) {
             const prod = products.find(p => p.id === id);
             if (!prod || prod.stock <= 0) return;
@@ -396,22 +418,27 @@
             container.innerHTML = "";
             let totalPrice = 0;
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                totalPrice += itemTotal;
-                container.innerHTML += `
-                    <div class="py-3 flex justify-between items-center">
-                        <div>
-                            <h5 class="font-bold text-sm">${item.name}</h5>
-                            <span class="text-xs text-slate-500">৳${item.price} x ${item.qty}</span>
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-6 text-sm">কার্ট ফাঁকা রয়েছে</p>`;
+                resetCheckoutForm();
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.qty;
+                    totalPrice += itemTotal;
+                    container.innerHTML += `
+                        <div class="py-3 flex justify-between items-center">
+                            <div>
+                                <h5 class="font-bold text-sm">${item.name}</h5>
+                                <span class="text-xs text-slate-500">৳${item.price} x ${item.qty}</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-sm">৳${itemTotal}</span>
+                                <button onclick="removeFromCart(${item.id})" class="text-rose-500 text-xs p-1">&times;</button>
+                            </div>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-bold text-sm">৳${itemTotal}</span>
-                            <button onclick="removeFromCart(${item.id})" class="text-rose-500 text-xs p-1">&times;</button>
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
             document.getElementById('cart-total').innerText = `৳${totalPrice}`;
         }
 
@@ -421,19 +448,46 @@
         }
 
         function openCart() { document.getElementById('cart-drawer').classList.remove('hidden'); }
-        function closeCart() { document.getElementById('cart-drawer').classList.add('hidden'); }
+        function closeCart() { 
+            document.getElementById('cart-drawer').classList.add('hidden');
+            resetCheckoutForm();
+        }
 
-        function checkout() {
+        function showCheckoutForm() {
             if (cart.length === 0) return alert("আপনার কার্ট খালি!");
-            
+            document.getElementById('checkout-form-container').classList.remove('hidden');
+            document.getElementById('checkout-btn').classList.add('hidden');
+            document.getElementById('submit-order-btn').classList.remove('hidden');
+        }
+
+        function resetCheckoutForm() {
+            document.getElementById('checkout-form-container').classList.add('hidden');
+            document.getElementById('checkout-btn').classList.remove('hidden');
+            document.getElementById('submit-order-btn').classList.add('hidden');
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+
+            if (!name || !phone || !address) {
+                alert("অনুগ্রহ করে আপনার নাম, ফোন নম্বর এবং ঠিকানা সঠিকভাবে লিখুন।");
+                return;
+            }
+
             // Deduct stock
             cart.forEach(item => {
                 const prod = products.find(p => p.id === item.id);
                 if (prod) prod.stock -= item.qty;
             });
 
-            alert("ধন্যবাদ! আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে।");
+            alert(`ধন্যবাদ ${name}! আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে।`);
             cart = [];
+            document.getElementById('cust-name').value = '';
+            document.getElementById('cust-phone').value = '';
+            document.getElementById('cust-address').value = '';
+            
             updateCartUI();
             closeCart();
             renderProducts();
