@@ -1,1107 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bazari - Online Shopping</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .active-tab { border-bottom: 2px solid #4f46e5; color: #4f46e5; }
-        /* Toast Animation */
-        #toast {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Order Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-admin { background-color: #e0e0e0; color: #333; }
+    .btn-user { background-color: #d1e7dd; color: #0f5132; }
+    .btn-logout { background-color: #dc3545; color: #fff; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f8f9fa;
+      color: #555;
+    }
+    select {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+    .status-text {
+      font-weight: bold;
+    }
+    .status-delivered { color: #0d6efd; }
+    .status-cancelled { color: #dc3545; }
+    .status-transit { color: #fd7e14; }
+    .status-placed { color: #6c757d; }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans pb-12 md:pb-0">
+<body>
+
+<div class="container">
+  <!-- Top Navigation -->
+  <div class="header">
+    <button class="btn btn-admin">Admin Mode</button>
+    <button class="btn btn-user">User Site</button>
+    <button class="btn btn-logout">Logout</button>
+  </div>
+
+  <!-- Order Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Items</th>
+        <th>Total Amount</th>
+        <th>Date</th>
+        <th>Parcel Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wireless Headphones (x1)</td>
+        <td>৳1320</td>
+        <td>08/10/2026</td>
+        <td>
+          <select id="statusSelect" onchange="updateActionStatus(this.value)">
+            <option value="Order Placed">Order Placed</option>
+            <option value="In Transit">In Transit</option>
+            <option value="Out for Delivery (Shipped)">Out for Delivery (Shipped)</option>
+            <option value="Delivered" selected>Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </td>
+        <td>
+          <span id="actionStatus" class="status-text status-delivered">Delivered</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function updateActionStatus(status) {
+    const actionElement = document.getElementById('actionStatus');
+    actionElement.innerText = status;
+
+    // Reset classes
+    actionElement.className = 'status-text';
+
+    // Apply color based on status
+    if (status === 'Delivered') {
+      actionElement.classList.add('status-delivered');
+    } else if (status === 'Cancelled') {
+      actionElement.classList.add('status-cancelled');
+    } else if (status === 'In Transit' || status === 'Out for Delivery (Shipped)') {
+      actionElement.classList.add('status-transit');
+    } else {
+      actionElement.classList.add('status-placed');
+    }
+  }
+</script>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 opacity-0 pointer-events-none translate-y-5">
-        <div class="bg-emerald-500 text-white p-1.5 rounded-full flex items-center justify-center text-xs">
-            <i class="fa-solid fa-check"></i>
-        </div>
-        <span id="toast-msg" class="text-xs font-medium"></span>
-    </div>
-
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-6">
-                <div onclick="switchPanel('user')" class="flex items-center space-x-2 cursor-pointer">
-                    <div class="bg-indigo-600 text-white p-2 rounded-lg"><i class="fa-solid fa-store text-xl"></i></div>
-                    <span class="text-2xl font-black text-indigo-600 tracking-tight">Bazari</span>
-                </div>
-
-                <!-- 1. USER NAV LINKS (Desktop) -->
-                <nav id="user-nav-links" class="hidden md:flex items-center space-x-4 text-sm font-medium text-slate-600">
-                    <button onclick="switchPanel('user')" class="hover:text-indigo-600 flex items-center gap-1.5"><i class="fa-solid fa-house text-xs"></i> Home</button>
-                    <a href="#user-product-grid" onclick="switchPanel('user')" class="hover:text-indigo-600 flex items-center gap-1.5"><i class="fa-solid fa-bag-shopping text-xs"></i> Shop</a>
-                    <button onclick="switchPanel('profile')" class="hover:text-indigo-600 flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-xs"></i> Track Order</button>
-                </nav>
-            </div>
-
-            <div id="user-nav" class="flex items-center space-x-3">
-                <button onclick="openCart()" class="relative p-2 text-slate-700 hover:text-indigo-600">
-                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
-                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
-                </button>
-                
-                <!-- User Auth Area -->
-                <div id="user-auth-area">
-                    <button onclick="openLoginModal()" class="bg-indigo-50 text-indigo-600 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition">
-                        <i class="fa-solid fa-right-to-bracket mr-1"></i> Login
-                    </button>
-                </div>
-
-                <button onclick="loginAdmin()" class="bg-slate-900 text-white text-sm px-3 py-2 rounded-lg font-medium hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-user-gear mr-1"></i> Admin
-                </button>
-            </div>
-
-            <div id="admin-nav" class="hidden flex items-center space-x-3">
-                <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full border border-amber-300">Admin Mode</span>
-                <button onclick="switchPanel('user')" class="bg-slate-200 text-slate-700 text-sm px-3 py-1.5 rounded-lg font-medium hover:bg-slate-300">User Site</button>
-                <button onclick="logoutAdmin()" class="bg-rose-600 text-white text-sm px-3 py-1.5 rounded-lg font-medium hover:bg-rose-700">Logout</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Bottom Navigation Bar for Mobile -->
-    <div id="mobile-nav" class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-40 flex justify-around py-2 text-slate-600 text-xs shadow-lg">
-        <button onclick="switchPanel('user')" class="flex flex-col items-center gap-1 hover:text-indigo-600">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span>Home</span>
-        </button>
-        <button onclick="openCart()" class="flex flex-col items-center gap-1 hover:text-indigo-600 relative">
-            <i class="fa-solid fa-cart-shopping text-lg"></i>
-            <span>Cart</span>
-        </button>
-        <button onclick="switchPanel('profile')" class="flex flex-col items-center gap-1 hover:text-indigo-600">
-            <i class="fa-solid fa-truck-fast text-lg"></i>
-            <span>Orders</span>
-        </button>
-    </div>
-
-    <!-- USER PANEL -->
-    <main id="user-panel" class="max-w-7xl mx-auto px-4 py-6">
-        <!-- Banner Slider -->
-        <div id="banner-container" onmouseenter="stopAutoSlide()" onmouseleave="startAutoSlide()" class="relative bg-slate-200 rounded-2xl overflow-hidden mb-8 h-48 md:h-80 shadow-inner">
-            <div id="banner-slider" class="w-full h-full relative"></div>
-            <button onclick="changeBanner(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-left"></i></button>
-            <button onclick="changeBanner(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-
-        <!-- Categories Filter -->
-        <div class="mb-6">
-            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Categories</h3>
-            <div id="user-category-list" class="flex flex-wrap gap-2"></div>
-        </div>
-
-        <!-- Products -->
-        <h2 class="text-xl font-bold mb-4 text-slate-900">Products</h2>
-        <div id="user-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"></div>
-    </main>
-
-    <!-- USER PROFILE & ORDER TRACKING PANEL -->
-    <main id="profile-panel" class="hidden max-w-5xl mx-auto px-4 py-6 space-y-6">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <h2 id="profile-user-name" class="text-2xl font-bold text-slate-800"></h2>
-                <p id="profile-user-phone" class="text-slate-500 text-sm mt-1"></p>
-                <p id="profile-user-address" class="text-slate-600 text-xs mt-1 bg-slate-50 p-2 rounded border"></p>
-            </div>
-            <button onclick="logoutUser()" class="bg-rose-50 text-rose-600 border border-rose-200 text-sm px-4 py-2 rounded-lg font-medium hover:bg-rose-100">
-                <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
-            </button>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl border shadow-sm">
-            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-truck-fast text-indigo-600"></i> SteadFast Style Live Order Tracking
-            </h3>
-            <div id="user-orders-list" class="space-y-4"></div>
-        </div>
-    </main>
-
-    <!-- ADMIN PANEL -->
-    <main id="admin-panel" class="hidden max-w-7xl mx-auto px-4 py-6">
-        <div class="flex border-b border-slate-200 mb-6 gap-4 md:gap-6 overflow-x-auto text-sm md:text-base">
-            <button onclick="switchAdminTab('orders')" id="tab-btn-orders" class="pb-3 font-semibold text-slate-600 active-tab whitespace-nowrap">Orders <span id="admin-order-count" class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-xs">0</span></button>
-            <button onclick="switchAdminTab('products')" id="tab-btn-products" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Products & Stock</button>
-            <button onclick="switchAdminTab('categories')" id="tab-btn-categories" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Categories</button>
-            <button onclick="switchAdminTab('banners')" id="tab-btn-banners" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Banners</button>
-            <button onclick="switchAdminTab('users')" id="tab-btn-users" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">User List</button>
-            <button onclick="switchAdminTab('settings')" id="tab-btn-settings" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Settings</button>
-        </div>
-
-        <!-- Orders Tab -->
-        <section id="admin-tab-orders" class="space-y-6">
-            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-100 border-b text-slate-600">
-                        <tr>
-                            <th class="p-3">Order / Tracking ID</th>
-                            <th class="p-3">Customer</th>
-                            <th class="p-3">Items</th>
-                            <th class="p-3">Total Amount</th>
-                            <th class="p-3">Date</th>
-                            <th class="p-3">Steadfast Status</th>
-                            <th class="p-3 text-right">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-orders-table"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Products Tab -->
-        <section id="admin-tab-products" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-xl border shadow-sm">
-                <h3 class="font-bold text-lg mb-4">Add New Product</h3>
-                <form onsubmit="handleAddProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="text" id="p-name" placeholder="Product Name" required class="border p-2.5 rounded-lg text-sm w-full">
-                    <input type="number" id="p-price" placeholder="Price (৳)" required class="border p-2.5 rounded-lg text-sm w-full">
-                    <input type="number" id="p-stock" placeholder="Stock Count" required class="border p-2.5 rounded-lg text-sm w-full">
-                    <select id="p-category" required class="border p-2.5 rounded-lg text-sm w-full"></select>
-                    <input type="url" id="p-image" placeholder="Image URL (e.g. https://...)" required class="border p-2.5 rounded-lg text-sm w-full md:col-span-2">
-                    <button type="submit" class="bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition md:col-span-3">Add Product</button>
-                </form>
-            </div>
-
-            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-100 border-b text-slate-600">
-                        <tr>
-                            <th class="p-3">Image</th>
-                            <th class="p-3">Name</th>
-                            <th class="p-3">Category</th>
-                            <th class="p-3">Price</th>
-                            <th class="p-3">Stock</th>
-                            <th class="p-3 text-right">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-product-table"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Categories Tab -->
-        <section id="admin-tab-categories" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
-                <h3 class="font-bold text-lg mb-4">Add New Category</h3>
-                <form onsubmit="handleAddCategory(event)" class="flex gap-2">
-                    <input type="text" id="cat-name" placeholder="Category Name" required class="border p-2.5 rounded-lg text-sm flex-1">
-                    <button type="submit" class="bg-indigo-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-indigo-700">Add</button>
-                </form>
-            </div>
-            <div class="bg-white rounded-xl border shadow-sm max-w-md p-4">
-                <ul id="admin-category-list" class="divide-y"></ul>
-            </div>
-        </section>
-
-        <!-- Banners Tab -->
-        <section id="admin-tab-banners" class="hidden space-y-4">
-            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-2xl">
-                <h3 class="font-bold text-lg mb-2">Set Homepage Banners (Max 5)</h3>
-                <div id="banner-inputs" class="space-y-4"></div>
-            </div>
-        </section>
-
-        <!-- Users Tab -->
-        <section id="admin-tab-users" class="hidden space-y-4">
-            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-100 border-b text-slate-600">
-                        <tr>
-                            <th class="p-3">User ID</th>
-                            <th class="p-3">Name</th>
-                            <th class="p-3">Phone Number</th>
-                            <th class="p-3">Recent Address</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-users-table"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Settings Tab -->
-        <section id="admin-tab-settings" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
-                <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-truck-ramps text-indigo-600 mr-2"></i>Delivery Charge Settings</h3>
-                <form onsubmit="handleDeliverySettings(event)" class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Inside Dhaka (৳)</label>
-                        <input type="number" id="del-dhaka" required class="w-full border p-2.5 rounded-lg text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Outside Dhaka (৳)</label>
-                        <input type="number" id="del-outside" required class="w-full border p-2.5 rounded-lg text-sm">
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Save Delivery Charges</button>
-                </form>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
-                <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-key text-indigo-600 mr-2"></i>Change Admin Password</h3>
-                <form onsubmit="handleChangePassword(event)" class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Current Password</label>
-                        <input type="password" id="curr-pass" required class="w-full border p-2.5 rounded-lg text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">New Password</label>
-                        <input type="password" id="new-pass" required class="w-full border p-2.5 rounded-lg text-sm">
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Update Password</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 relative shadow-xl">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl">&times;</button>
-            <h3 class="text-xl font-bold text-slate-800 mb-1">User Login</h3>
-            <p class="text-slate-500 text-xs mb-4">Enter your name & mobile number to order and track items</p>
-            <!-- 3. LOGIN WITH NAME AND PHONE -->
-            <form onsubmit="handleUserLogin(event)" class="space-y-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Your Full Name</label>
-                    <input type="text" id="login-name" placeholder="Enter your name" required class="w-full border p-2.5 rounded-lg text-sm focus:outline-indigo-600">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Mobile Number</label>
-                    <input type="tel" id="login-phone" placeholder="017XXXXXXXX" required class="w-full border p-2.5 rounded-lg text-sm focus:outline-indigo-600">
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Enter</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Cart Drawer -->
-    <div id="cart-drawer" class="fixed inset-0 bg-black/40 hidden z-50 flex justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between overflow-y-auto">
-            <div>
-                <div class="p-4 border-b flex justify-between items-center">
-                    <h3 class="font-bold text-lg">Your Shopping Cart</h3>
-                    <button onclick="closeCart()" class="text-slate-400 hover:text-slate-700 text-2xl">&times;</button>
-                </div>
-                
-                <div id="cart-items" class="p-4 divide-y"></div>
-
-                <div id="checkout-form-container" class="p-4 bg-slate-50 border-t space-y-3 hidden">
-                    <h4 class="font-bold text-sm text-slate-700">Delivery Information:</h4>
-                    <input type="text" id="cust-name" placeholder="Your Name" class="w-full border p-2 text-sm rounded-lg">
-                    <input type="tel" id="cust-phone" placeholder="Mobile Number" class="w-full border p-2 text-sm rounded-lg">
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <select id="cust-district" onchange="updateCartUI()" class="border p-2 text-sm rounded-lg w-full bg-white">
-                            <option value="">Select District</option>
-                            <option value="Dhaka">Dhaka</option>
-                            <option value="Chattogram">Chattogram</option>
-                            <option value="Rajshahi">Rajshahi</option>
-                            <option value="Khulna">Khulna</option>
-                            <option value="Barishal">Barishal</option>
-                            <option value="Sylhet">Sylhet</option>
-                            <option value="Rangpur">Rangpur</option>
-                            <option value="Mymensingh">Mymensingh</option>
-                            <option value="Cumilla">Cumilla</option>
-                            <option value="Bogra">Bogra</option>
-                        </select>
-                        <input type="text" id="cust-thana" placeholder="Thana / Upazila" class="border p-2 text-sm rounded-lg w-full">
-                    </div>
-                    
-                    <input type="text" id="cust-village" placeholder="Village / Area" class="w-full border p-2 text-sm rounded-lg">
-                    <textarea id="cust-address" placeholder="Detailed Address (e.g. House No, Road No, Landmark)" class="w-full border p-2 text-sm rounded-lg" rows="2"></textarea>
-                </div>
-            </div>
-
-            <div class="p-4 border-t bg-slate-50 space-y-3">
-                <div id="cart-summary" class="space-y-1.5 text-sm">
-                    <div class="flex justify-between text-slate-600">
-                        <span>Subtotal:</span>
-                        <span id="cart-subtotal" class="font-semibold">৳0</span>
-                    </div>
-                    <div id="delivery-charge-row" class="flex justify-between text-slate-600 hidden">
-                        <span>Delivery Charge:</span>
-                        <span id="cart-delivery" class="font-semibold text-indigo-600">৳0</span>
-                    </div>
-                    <div class="flex justify-between font-bold text-lg text-slate-900 border-t pt-2">
-                        <span>Total:</span>
-                        <span id="cart-total">৳0</span>
-                    </div>
-                </div>
-
-                <button id="checkout-btn" onclick="showCheckoutForm()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">
-                    Checkout
-                </button>
-                <button id="submit-order-btn" onclick="submitOrder()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition hidden">
-                    Place Order
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Logic -->
-    <script>
-        const defaultCategories = ["All", "Electronics", "Fashion", "Home Appliances"];
-        const defaultProducts = [
-            { id: 1, name: "Wireless Headphones", price: 1200, stock: 15, category: "Electronics", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
-            { id: 2, name: "Casual T-Shirt", price: 450, stock: 8, category: "Fashion", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" }
-        ];
-        const defaultBanners = [
-            "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200",
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200",
-            "", "", ""
-        ];
-
-        let categories = defaultCategories;
-        let products = defaultProducts;
-        let banners = defaultBanners;
-        let orders = [];
-        let users = [];
-        let adminPassword = "admin";
-        let currentUser = null;
-        let deliveryCharges = { dhaka: 60, outside: 120 };
-
-        try {
-            const savedCats = localStorage.getItem('bazari_cats');
-            if (savedCats) categories = JSON.parse(savedCats);
-
-            const savedProds = localStorage.getItem('bazari_prods');
-            if (savedProds) products = JSON.parse(savedProds);
-
-            const savedBanners = localStorage.getItem('bazari_banners');
-            if (savedBanners) banners = JSON.parse(savedBanners);
-
-            const savedOrders = localStorage.getItem('bazari_orders');
-            if (savedOrders) orders = JSON.parse(savedOrders);
-
-            const savedUsers = localStorage.getItem('bazari_users');
-            if (savedUsers) users = JSON.parse(savedUsers);
-
-            const savedPass = localStorage.getItem('bazari_admin_pass');
-            if (savedPass) adminPassword = savedPass;
-
-            const savedCurrentUser = localStorage.getItem('bazari_current_user');
-            if (savedCurrentUser) currentUser = JSON.parse(savedCurrentUser);
-
-            const savedDelivery = localStorage.getItem('bazari_delivery');
-            if (savedDelivery) deliveryCharges = JSON.parse(savedDelivery);
-        } catch(e) {
-            console.warn("LocalStorage error or disabled", e);
-        }
-
-        let activeBannerIndex = 0;
-        let autoSlideTimer = null;
-        let selectedCategory = "All";
-        let cart = [];
-        let toastTimer = null;
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            toastMsg.innerText = message;
-
-            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-5');
-            toast.classList.add('opacity-100', 'translate-y-0');
-
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-5');
-            }, 2500);
-        }
-
-        function saveData() {
-            try {
-                localStorage.setItem('bazari_cats', JSON.stringify(categories));
-                localStorage.setItem('bazari_prods', JSON.stringify(products));
-                localStorage.setItem('bazari_banners', JSON.stringify(banners));
-                localStorage.setItem('bazari_orders', JSON.stringify(orders));
-                localStorage.setItem('bazari_users', JSON.stringify(users));
-                localStorage.setItem('bazari_admin_pass', adminPassword);
-                localStorage.setItem('bazari_current_user', JSON.stringify(currentUser));
-                localStorage.setItem('bazari_delivery', JSON.stringify(deliveryCharges));
-            } catch(e) {
-                console.warn("Data could not be saved to LocalStorage", e);
-            }
-        }
-
-        function init() {
-            renderBanners();
-            startAutoSlide();
-            renderCategories();
-            renderProducts();
-            populateCategoryDropdown();
-            renderBannerInputs();
-            updateOrderCount();
-            renderUserAuthArea();
-            
-            document.getElementById('del-dhaka').value = deliveryCharges.dhaka;
-            document.getElementById('del-outside').value = deliveryCharges.outside;
-        }
-
-        function renderUserAuthArea() {
-            const authArea = document.getElementById('user-auth-area');
-            if (currentUser) {
-                authArea.innerHTML = `
-                    <button onclick="switchPanel('profile')" class="bg-indigo-50 text-indigo-700 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-user-circle text-lg"></i>
-                        <span>${currentUser.name}</span>
-                    </button>
-                `;
-            } else {
-                authArea.innerHTML = `
-                    <button onclick="openLoginModal()" class="bg-indigo-50 text-indigo-600 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition">
-                        <i class="fa-solid fa-right-to-bracket mr-1"></i> Login
-                    </button>
-                `;
-            }
-        }
-
-        function switchPanel(panel) {
-            document.getElementById('user-panel').classList.add('hidden');
-            document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById('profile-panel').classList.add('hidden');
-            document.getElementById('user-nav').classList.remove('hidden');
-            document.getElementById('admin-nav').classList.add('hidden');
-
-            if (panel === 'admin') {
-                document.getElementById('admin-panel').classList.remove('hidden');
-                document.getElementById('user-nav').classList.add('hidden');
-                document.getElementById('admin-nav').classList.remove('hidden');
-                renderAdminOrders();
-                renderAdminProducts();
-                renderAdminCategories();
-                renderAdminUsers();
-            } else if (panel === 'profile') {
-                if (!currentUser) {
-                    openLoginModal();
-                    document.getElementById('user-panel').classList.remove('hidden');
-                    return;
-                }
-                document.getElementById('profile-panel').classList.remove('hidden');
-                renderUserProfile();
-            } else {
-                document.getElementById('user-panel').classList.remove('hidden');
-                renderProducts();
-            }
-        }
-
-        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
-        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
-
-        function handleUserLogin(e) {
-            e.preventDefault();
-            const name = document.getElementById('login-name').value.trim();
-            const phone = document.getElementById('login-phone').value.trim();
-            if (!phone || !name) return;
-
-            let existingUser = users.find(u => u.phone === phone);
-            if (!existingUser) {
-                existingUser = {
-                    id: 'USR-' + Math.floor(1000 + Math.random() * 9000),
-                    name: name,
-                    phone: phone,
-                    district: '',
-                    thana: '',
-                    village: '',
-                    address: ''
-                };
-                users.push(existingUser);
-            } else {
-                existingUser.name = name; // Update name if provided
-            }
-
-            currentUser = existingUser;
-            saveData();
-            closeLoginModal();
-            renderUserAuthArea();
-            switchPanel('profile');
-            document.getElementById('login-phone').value = '';
-            document.getElementById('login-name').value = '';
-        }
-
-        function logoutUser() {
-            currentUser = null;
-            saveData();
-            renderUserAuthArea();
-            switchPanel('user');
-        }
-
-        // 4. STEADFAST STYLE TRACKING SYSTEM & USER PROFILE
-        function renderUserProfile() {
-            if (!currentUser) return;
-            document.getElementById('profile-user-name').innerText = currentUser.name || 'User';
-            document.getElementById('profile-user-phone').innerText = 'Phone: ' + currentUser.phone;
-            
-            const addr = [currentUser.village, currentUser.thana, currentUser.district].filter(Boolean).join(', ');
-            const fullAddr = currentUser.address ? `${currentUser.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'No address added');
-            document.getElementById('profile-user-address').innerText = 'Address: ' + fullAddr;
-
-            const userOrdersContainer = document.getElementById('user-orders-list');
-            userOrdersContainer.innerHTML = "";
-
-            const myOrders = orders.filter(o => o.customer && o.customer.phone === currentUser.phone);
-
-            if (myOrders.length === 0) {
-                userOrdersContainer.innerHTML = `<p class="text-slate-400 text-center py-6 text-sm">You haven't placed any orders yet!</p>`;
-                return;
-            }
-
-            myOrders.forEach(o => {
-                const itemsList = o.items.map(i => `<div class="flex justify-between text-xs py-1 border-b border-dashed"><span>${i.name} (x${i.qty})</span><span class="font-bold">৳${i.price * i.qty}</span></div>`).join('');
-                
-                // Steadfast Tracking Status Map
-                const statusMap = {
-                    'Order Placed': 1,
-                    'In Transit': 2,
-                    'Shipped': 3,
-                    'Delivered': 4
-                };
-                const currentStep = statusMap[o.status] || 1;
-
-                userOrdersContainer.innerHTML += `
-                    <div class="border rounded-xl p-4 bg-slate-50 space-y-4 shadow-sm">
-                        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2">
-                            <div>
-                                <span class="font-mono text-xs font-bold text-indigo-600">${o.id}</span>
-                                <span class="bg-slate-200 text-slate-700 font-mono text-[11px] px-2 py-0.5 rounded ml-2"><i class="fa-solid fa-barcode mr-1"></i>${o.trackingCode || 'Trk-N/A'}</span>
-                                <span class="text-xs text-slate-400 ml-2">${o.date}</span>
-                            </div>
-                            <span class="text-xs px-3 py-1 rounded-full font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
-                                Steadfast Status: ${o.status}
-                            </span>
-                        </div>
-
-                        <!-- Steadfast Timeline -->
-                        <div class="py-2">
-                            <div class="flex items-center justify-between relative max-w-lg mx-auto px-4">
-                                <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 z-0"></div>
-                                <div class="absolute top-1/2 left-0 h-1 bg-indigo-600 -translate-y-1/2 z-0 transition-all duration-500" style="width: ${((currentStep - 1) / 3) * 100}%"></div>
-                                
-                                <div class="relative z-10 ${currentStep >= 1 ? 'bg-indigo-600 text-white' : 'bg-slate-300 text-slate-600'} w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow">
-                                    <i class="fa-solid fa-receipt"></i>
-                                </div>
-                                <div class="relative z-10 ${currentStep >= 2 ? 'bg-indigo-600 text-white' : 'bg-slate-300 text-slate-600'} w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow">
-                                    <i class="fa-solid fa-boxes-packing"></i>
-                                </div>
-                                <div class="relative z-10 ${currentStep >= 3 ? 'bg-indigo-600 text-white' : 'bg-slate-300 text-slate-600'} w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow">
-                                    <i class="fa-solid fa-truck-fast"></i>
-                                </div>
-                                <div class="relative z-10 ${currentStep >= 4 ? 'bg-emerald-600 text-white' : 'bg-slate-300 text-slate-600'} w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow">
-                                    <i class="fa-solid fa-house-chimney-check"></i>
-                                </div>
-                            </div>
-                            <div class="flex justify-between text-[11px] font-semibold text-slate-600 mt-2 max-w-lg mx-auto">
-                                <span class="text-center">Order<br>Placed</span>
-                                <span class="text-center">In<br>Transit</span>
-                                <span class="text-center">Out for<br>Delivery</span>
-                                <span class="text-center">Delivered</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-3 rounded-lg border space-y-1">
-                            ${itemsList}
-                            <div class="flex justify-between text-xs pt-1 font-bold">
-                                <span>Total Amount:</span>
-                                <span class="text-indigo-600">৳${o.total}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Banners
-        function renderBanners() {
-            const container = document.getElementById('banner-slider');
-            const validBanners = banners.filter(b => b && b.trim() !== "");
-            if (validBanners.length === 0) {
-                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-slate-400 text-sm">No banners available</div>`;
-                return;
-            }
-            if (activeBannerIndex >= validBanners.length) activeBannerIndex = 0;
-            container.innerHTML = `<img src="${validBanners[activeBannerIndex]}" class="w-full h-full object-cover transition-all duration-500">`;
-        }
-
-        function changeBanner(dir) {
-            const validBanners = banners.filter(b => b && b.trim() !== "");
-            if (validBanners.length === 0) return;
-            activeBannerIndex = (activeBannerIndex + dir + validBanners.length) % validBanners.length;
-            renderBanners();
-        }
-
-        function startAutoSlide() {
-            stopAutoSlide();
-            autoSlideTimer = setInterval(() => changeBanner(1), 4000);
-        }
-
-        function stopAutoSlide() {
-            if (autoSlideTimer) clearInterval(autoSlideTimer);
-        }
-
-        // Categories
-        function renderCategories() {
-            const catContainer = document.getElementById('user-category-list');
-            catContainer.innerHTML = categories.map(c => `
-                <button onclick="selectCategory('${c}')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition ${selectedCategory === c ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border'}">
-                    ${c}
-                </button>
-            `).join('');
-        }
-
-        function selectCategory(cat) {
-            selectedCategory = cat;
-            renderCategories();
-            renderProducts();
-        }
-
-        function populateCategoryDropdown() {
-            const select = document.getElementById('p-category');
-            select.innerHTML = categories.filter(c => c !== "All").map(c => `<option value="${c}">${c}</option>`).join('');
-        }
-
-        // 2. PRODUCTS WITH ADD TO CART & BUY NOW BUTTONS
-        function renderProducts() {
-            const grid = document.getElementById('user-product-grid');
-            const filtered = selectedCategory === "All" ? products : products.filter(p => p.category === selectedCategory);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10">No products found in this category.</p>`;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(p => `
-                <div class="bg-white rounded-2xl border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                    <div>
-                        <img src="${p.image}" class="w-full h-40 md:h-48 object-cover">
-                        <div class="p-4">
-                            <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded">${p.category}</span>
-                            <h3 class="font-bold text-slate-800 text-sm mt-1 line-clamp-1">${p.name}</h3>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-lg font-black text-slate-900">৳${p.price}</span>
-                                <span class="text-xs ${p.stock > 0 ? 'text-emerald-600' : 'text-rose-500'} font-medium">${p.stock > 0 ? 'In Stock ('+p.stock+')' : 'Out of Stock'}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-4 pt-0 grid grid-cols-2 gap-2">
-                        <button onclick="addToCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''} class="bg-slate-100 hover:bg-slate-200 disabled:bg-slate-100 text-slate-800 font-medium py-2 rounded-xl text-xs transition flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-cart-plus"></i> Cart
-                        </button>
-                        <button onclick="buyNow(${p.id})" ${p.stock <= 0 ? 'disabled' : ''} class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-medium py-2 rounded-xl text-xs transition flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-bolt"></i> Buy Now
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Cart Logic
-        function openCart() { document.getElementById('cart-drawer').classList.remove('hidden'); updateCartUI(); }
-        function closeCart() { document.getElementById('cart-drawer').classList.add('hidden'); }
-
-        function addToCart(pId, showNotice = true) {
-            const prod = products.find(p => p.id === pId);
-            if (!prod || prod.stock <= 0) return;
-
-            const existing = cart.find(c => c.id === pId);
-            if (existing) {
-                if (existing.qty < prod.stock) {
-                    existing.qty++;
-                } else {
-                    if (showNotice) showToast("Cannot add more than available stock!");
-                    return;
-                }
-            } else {
-                cart.push({ ...prod, qty: 1 });
-            }
-            if (showNotice) showToast("Added to cart!");
-            updateCartUI();
-        }
-
-        // 2. BUY NOW FUNCTION
-        function buyNow(pId) {
-            addToCart(pId, false);
-            openCart();
-            showCheckoutForm();
-        }
-
-        function updateCartQty(pId, change) {
-            const item = cart.find(c => c.id === pId);
-            const prod = products.find(p => p.id === pId);
-            if (!item) return;
-
-            item.qty += change;
-            if (item.qty > prod.stock) {
-                item.qty = prod.stock;
-                showToast("Maximum available stock reached!");
-            }
-            if (item.qty <= 0) {
-                cart = cart.filter(c => c.id !== pId);
-            }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const badge = document.getElementById('cart-badge');
-            const container = document.getElementById('cart-items');
-            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            badge.innerText = totalQty;
-
-            if (cart.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-400 py-10 text-sm">Your cart is empty.</p>`;
-                document.getElementById('checkout-form-container').classList.add('hidden');
-                document.getElementById('checkout-btn').classList.remove('hidden');
-                document.getElementById('submit-order-btn').classList.add('hidden');
-                document.getElementById('delivery-charge-row').classList.add('hidden');
-                document.getElementById('cart-subtotal').innerText = '৳0';
-                document.getElementById('cart-total').innerText = '৳0';
-                return;
-            }
-
-            container.innerHTML = cart.map(item => `
-                <div class="py-3 flex items-center justify-between gap-3">
-                    <img src="${item.image}" class="w-12 h-12 rounded-lg object-cover">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs text-slate-800 line-clamp-1">${item.name}</h4>
-                        <div class="text-xs text-slate-500 font-semibold mt-0.5">৳${item.price}</div>
-                    </div>
-                    <div class="flex items-center border rounded-lg overflow-hidden bg-slate-50">
-                        <button onclick="updateCartQty(${item.id}, -1)" class="px-2 py-1 hover:bg-slate-200 text-xs">-</button>
-                        <span class="px-2 py-1 text-xs font-bold">${item.qty}</span>
-                        <button onclick="updateCartQty(${item.id}, 1)" class="px-2 py-1 hover:bg-slate-200 text-xs">+</button>
-                    </div>
-                </div>
-            `).join('');
-
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            document.getElementById('cart-subtotal').innerText = `৳${subtotal}`;
-
-            const district = document.getElementById('cust-district').value;
-            let delCharge = 0;
-            if (district) {
-                delCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
-                document.getElementById('delivery-charge-row').classList.remove('hidden');
-                document.getElementById('cart-delivery').innerText = `৳${delCharge}`;
-            } else {
-                document.getElementById('delivery-charge-row').classList.add('hidden');
-            }
-
-            document.getElementById('cart-total').innerText = `৳${subtotal + delCharge}`;
-        }
-
-        function showCheckoutForm() {
-            if (cart.length === 0) return;
-            document.getElementById('checkout-form-container').classList.remove('hidden');
-            document.getElementById('checkout-btn').classList.add('hidden');
-            document.getElementById('submit-order-btn').classList.remove('hidden');
-
-            if (currentUser) {
-                document.getElementById('cust-name').value = currentUser.name || '';
-                document.getElementById('cust-phone').value = currentUser.phone || '';
-                document.getElementById('cust-district').value = currentUser.district || '';
-                document.getElementById('cust-thana').value = currentUser.thana || '';
-                document.getElementById('cust-village').value = currentUser.village || '';
-                document.getElementById('cust-address').value = currentUser.address || '';
-                updateCartUI();
-            }
-        }
-
-        function submitOrder() {
-            const name = document.getElementById('cust-name').value.trim();
-            const phone = document.getElementById('cust-phone').value.trim();
-            const district = document.getElementById('cust-district').value;
-            const thana = document.getElementById('cust-thana').value.trim();
-            const village = document.getElementById('cust-village').value.trim();
-            const address = document.getElementById('cust-address').value.trim();
-
-            if (!name || !phone || !district || !thana || !address) {
-                alert("Please fill in all required delivery details!");
-                return;
-            }
-
-            const delCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const total = subtotal + delCharge;
-
-            const newOrder = {
-                id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
-                trackingCode: 'Trk-' + Math.floor(10000000 + Math.random() * 90000000), // Steadfast Code
-                customer: { name, phone, district, thana, village, address },
-                items: [...cart],
-                subtotal,
-                delCharge,
-                total,
-                date: new Date().toLocaleDateString(),
-                status: 'Order Placed'
-            };
-
-            // Deduct stock
-            cart.forEach(c => {
-                const p = products.find(prod => prod.id === c.id);
-                if (p) p.stock -= c.qty;
-            });
-
-            // Save user profile data
-            let user = users.find(u => u.phone === phone);
-            if (!user) {
-                user = { id: 'USR-' + Math.floor(1000 + Math.random() * 9000), name, phone, district, thana, village, address };
-                users.push(user);
-            } else {
-                user.name = name;
-                user.district = district;
-                user.thana = thana;
-                user.village = village;
-                user.address = address;
-            }
-
-            currentUser = user;
-            orders.unshift(newOrder);
-
-            cart = [];
-            saveData();
-            updateCartUI();
-            closeCart();
-            renderProducts();
-            renderUserAuthArea();
-            showToast("Order placed successfully!");
-            switchPanel('profile');
-        }
-
-        // ADMIN FUNCTIONS
-        function loginAdmin() {
-            const pass = prompt("Enter Admin Password:");
-            if (pass === adminPassword) {
-                switchPanel('admin');
-            } else if (pass !== null) {
-                alert("Incorrect Password!");
-            }
-        }
-
-        function logoutAdmin() { switchPanel('user'); }
-
-        function switchAdminTab(tab) {
-            ['orders', 'products', 'categories', 'banners', 'users', 'settings'].forEach(t => {
-                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).classList.remove('active-tab');
-            });
-            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).classList.add('active-tab');
-        }
-
-        function updateOrderCount() {
-            document.getElementById('admin-order-count').innerText = orders.length;
-        }
-
-        // 4. ADMIN STEADFAST STATUS CONTROL
-        function renderAdminOrders() {
-            updateOrderCount();
-            const tbody = document.getElementById('admin-orders-table');
-            if (orders.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">No orders received yet.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = orders.map(o => `
-                <tr class="border-b hover:bg-slate-50">
-                    <td class="p-3">
-                        <div class="font-mono font-bold text-xs text-indigo-600">${o.id}</div>
-                        <div class="font-mono text-[10px] text-slate-500"><i class="fa-solid fa-barcode mr-1"></i>${o.trackingCode || 'Trk-N/A'}</div>
-                    </td>
-                    <td class="p-3">
-                        <div class="font-bold">${o.customer.name}</div>
-                        <div class="text-xs text-slate-500">${o.customer.phone}</div>
-                        <div class="text-[10px] text-slate-400">${o.customer.address}, ${o.customer.thana}, ${o.customer.district}</div>
-                    </td>
-                    <td class="p-3 text-xs">
-                        ${o.items.map(i => `<div>${i.name} (x${i.qty})</div>`).join('')}
-                    </td>
-                    <td class="p-3 font-bold">৳${o.total}</td>
-                    <td class="p-3 text-xs text-slate-500">${o.date}</td>
-                    <td class="p-3">
-                        <select onchange="updateSteadfastStatus('${o.id}', this.value)" class="text-xs font-semibold p-1.5 rounded border border-slate-300 bg-white">
-                            <option value="Order Placed" ${o.status === 'Order Placed' ? 'selected' : ''}>Order Placed</option>
-                            <option value="In Transit" ${o.status === 'In Transit' ? 'selected' : ''}>In Transit</option>
-                            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Out for Delivery (Shipped)</option>
-                            <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                        </select>
-                    </td>
-                    <td class="p-3 text-right">
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-indigo-50 text-indigo-700">${o.status}</span>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function updateSteadfastStatus(orderId, newStatus) {
-            const order = orders.find(o => o.id === orderId);
-            if (order) {
-                order.status = newStatus;
-                saveData();
-                renderAdminOrders();
-                showToast("Steadfast Status Updated!");
-            }
-        }
-
-        function renderAdminProducts() {
-            const tbody = document.getElementById('admin-product-table');
-            tbody.innerHTML = products.map(p => `
-                <tr class="border-b hover:bg-slate-50">
-                    <td class="p-3"><img src="${p.image}" class="w-10 h-10 rounded-lg object-cover"></td>
-                    <td class="p-3 font-bold">${p.name}</td>
-                    <td class="p-3 text-xs"><span class="bg-slate-100 px-2 py-1 rounded">${p.category}</span></td>
-                    <td class="p-3 font-bold">৳${p.price}</td>
-                    <td class="p-3">
-                        <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-16 border rounded px-2 py-1 text-xs">
-                    </td>
-                    <td class="p-3 text-right">
-                        <button onclick="deleteProduct(${p.id})" class="text-rose-600 hover:text-rose-800 text-sm"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function handleAddProduct(e) {
-            e.preventDefault();
-            const name = document.getElementById('p-name').value.trim();
-            const price = parseFloat(document.getElementById('p-price').value);
-            const stock = parseInt(document.getElementById('p-stock').value);
-            const category = document.getElementById('p-category').value;
-            const image = document.getElementById('p-image').value.trim();
-
-            const newProduct = { id: Date.now(), name, price, stock, category, image };
-            products.push(newProduct);
-            saveData();
-            renderAdminProducts();
-            renderProducts();
-            e.target.reset();
-            showToast("Product added successfully!");
-        }
-
-        function updateStock(id, newStock) {
-            const p = products.find(prod => prod.id === id);
-            if (p) {
-                p.stock = parseInt(newStock) || 0;
-                saveData();
-                renderProducts();
-            }
-        }
-
-        function deleteProduct(id) {
-            if (confirm("Are you sure you want to delete this product?")) {
-                products = products.filter(p => p.id !== id);
-                saveData();
-                renderAdminProducts();
-                renderProducts();
-            }
-        }
-
-        function renderAdminCategories() {
-            const list = document.getElementById('admin-category-list');
-            list.innerHTML = categories.filter(c => c !== "All").map(c => `
-                <li class="py-2.5 flex justify-between items-center text-sm">
-                    <span class="font-medium">${c}</span>
-                    <button onclick="deleteCategory('${c}')" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i> Delete</button>
-                </li>
-            `).join('');
-        }
-
-        function handleAddCategory(e) {
-            e.preventDefault();
-            const catName = document.getElementById('cat-name').value.trim();
-            if (catName && !categories.includes(catName)) {
-                categories.push(catName);
-                saveData();
-                renderAdminCategories();
-                renderCategories();
-                populateCategoryDropdown();
-                document.getElementById('cat-name').value = '';
-                showToast("Category added!");
-            }
-        }
-
-        function deleteCategory(catName) {
-            if (confirm(`Delete category "${catName}"?`)) {
-                categories = categories.filter(c => c !== catName);
-                saveData();
-                renderAdminCategories();
-                renderCategories();
-                populateCategoryDropdown();
-            }
-        }
-
-        function renderBannerInputs() {
-            const container = document.getElementById('banner-inputs');
-            container.innerHTML = [0, 1, 2, 3, 4].map(i => `
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Banner ${i + 1} Image URL</label>
-                    <input type="url" value="${banners[i] || ''}" onchange="updateBanner(${i}, this.value)" placeholder="https://..." class="w-full border p-2 rounded-lg text-sm">
-                </div>
-            `).join('');
-        }
-
-        function updateBanner(index, url) {
-            banners[index] = url.trim();
-            saveData();
-            renderBanners();
-        }
-
-        function renderAdminUsers() {
-            const tbody = document.getElementById('admin-users-table');
-            if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No registered users found.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = users.map(u => {
-                const addr = [u.village, u.thana, u.district].filter(Boolean).join(', ');
-                const fullAddr = u.address ? `${u.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'N/A');
-                return `
-                    <tr class="border-b hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs">${u.id}</td>
-                        <td class="p-3 font-bold">${u.name || 'User'}</td>
-                        <td class="p-3 text-xs">${u.phone}</td>
-                        <td class="p-3 text-xs text-slate-500">${fullAddr}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function handleDeliverySettings(e) {
-            e.preventDefault();
-            const dhaka = parseInt(document.getElementById('del-dhaka').value) || 0;
-            const outside = parseInt(document.getElementById('del-outside').value) || 0;
-
-            deliveryCharges = { dhaka, outside };
-            saveData();
-            showToast("Delivery charges updated!");
-        }
-
-        function handleChangePassword(e) {
-            e.preventDefault();
-            const curr = document.getElementById('curr-pass').value;
-            const newP = document.getElementById('new-pass').value;
-
-            if (curr !== adminPassword) {
-                alert("Current password does not match!");
-                return;
-            }
-
-            adminPassword = newP;
-            saveData();
-            document.getElementById('curr-pass').value = '';
-            document.getElementById('new-pass').value = '';
-            showToast("Admin password updated!");
-        }
-
-        // Initialize App on load
-        window.onload = init;
-    </script>
 </body>
 </html>
