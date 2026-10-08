@@ -800,12 +800,30 @@
             return true;
         }
 
-        function buyNow(id) {
-            const success = addToCart(id, false);
-            if (success) {
-                openCart();
-                showCheckoutForm();
+        function updateCartQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            const prod = products.find(p => p.id === id);
+            const newQty = item.qty + delta;
+
+            if (newQty <= 0) {
+                removeFromCart(id);
+            } else if (prod && newQty > prod.stock) {
+                alert("Stock limit reached!");
+            } else {
+                item.qty = newQty;
+                updateCartUI();
             }
+        }
+
+        function buyNow(id) {
+            const existing = cart.find(item => item.id === id);
+            if (!existing) {
+                addToCart(id, false);
+            }
+            openCart();
+            showCheckoutForm();
         }
 
         function updateCartUI() {
@@ -826,12 +844,17 @@
                     container.innerHTML += `
                         <div class="py-3 flex justify-between items-center">
                             <div>
-                                <h5 class="font-bold text-sm">${item.name}</h5>
-                                <span class="text-xs text-slate-500">৳${item.price} x ${item.qty}</span>
+                                <h5 class="font-bold text-sm text-slate-800">${item.name}</h5>
+                                <div class="text-xs text-slate-500 mt-0.5">৳${item.price}</div>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-sm">৳${itemTotal}</span>
-                                <button onclick="removeFromCart(${item.id})" class="text-rose-500 text-xs p-1">&times;</button>
+                            <div class="flex items-center space-x-3">
+                                <div class="flex items-center border rounded-lg overflow-hidden bg-slate-50">
+                                    <button onclick="updateCartQty(${item.id}, -1)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">-</button>
+                                    <span class="px-2 text-xs font-bold text-slate-800">${item.qty}</span>
+                                    <button onclick="updateCartQty(${item.id}, 1)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">+</button>
+                                </div>
+                                <span class="font-bold text-sm min-w-[50px] text-right">৳${itemTotal}</span>
+                                <button onclick="removeFromCart(${item.id})" class="text-rose-500 text-xs p-1 hover:text-rose-700"><i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>
                     `;
