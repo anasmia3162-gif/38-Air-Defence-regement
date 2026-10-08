@@ -1,398 +1,416 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce Store</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Bazari - Online Shopping</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .active-tab {
-            border-bottom: 2px solid #4f46e5;
-            color: #4f46e5;
-            font-weight: 600;
+        .active-tab { border-bottom: 2px solid #4f46e5; color: #4f46e5; }
+        /* Toast Animation */
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 font-sans">
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-5 right-5 bg-slate-800 text-white text-sm px-4 py-2.5 rounded-xl shadow-lg z-50 hidden transition-all duration-300">
-        Message
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 opacity-0 pointer-events-none translate-y-5">
+        <div class="bg-emerald-500 text-white p-1.5 rounded-full flex items-center justify-center text-xs">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <span id="toast-msg" class="text-xs font-medium"></span>
     </div>
 
-    <!-- MAIN NAVBAR -->
+    <!-- Header / Navbar -->
     <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <button onclick="switchPanel('user')" class="text-xl font-bold text-indigo-600 flex items-center gap-2">
-                    <i class="fa-solid fa-bag-shopping"></i> Bazari
-                </button>
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div onclick="switchPanel('user')" class="flex items-center space-x-2 cursor-pointer">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg"><i class="fa-solid fa-store text-xl"></i></div>
+                <span class="text-2xl font-black text-indigo-600 tracking-tight">Bazari</span>
             </div>
-            
-            <div class="flex items-center space-x-2">
-                <!-- Home Button Added -->
-                <button onclick="switchPanel('user')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-house"></i> Home
-                </button>
 
+            <div id="user-nav" class="flex items-center space-x-3">
+                <button onclick="openCart()" class="relative p-2 text-slate-700 hover:text-indigo-600">
+                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+                
+                <!-- User Auth Area -->
                 <div id="user-auth-area">
-                    <!-- Dynamic Auth / Profile Button -->
+                    <button onclick="openLoginModal()" class="bg-indigo-50 text-indigo-600 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition">
+                        <i class="fa-solid fa-right-to-bracket mr-1"></i> Login
+                    </button>
                 </div>
 
-                <button onclick="openCart()" class="relative p-2 text-slate-600 hover:text-indigo-600 transition">
-                    <i class="fa-solid fa-cart-shopping text-lg"></i>
-                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                <button onclick="loginAdmin()" class="bg-slate-900 text-white text-sm px-3 py-2 rounded-lg font-medium hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-user-gear mr-1"></i> Admin
                 </button>
+            </div>
+
+            <div id="admin-nav" class="hidden flex items-center space-x-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full border border-amber-300">Admin Mode</span>
+                <button onclick="switchPanel('user')" class="bg-slate-200 text-slate-700 text-sm px-3 py-1.5 rounded-lg font-medium hover:bg-slate-300">User Site</button>
+                <button onclick="logoutAdmin()" class="bg-rose-600 text-white text-sm px-3 py-1.5 rounded-lg font-medium hover:bg-rose-700">Logout</button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4">
-
-        <!-- USER PANEL -->
-        <div id="panel-user" class="space-y-6">
-            
-            <!-- Banner Slider -->
-            <div class="relative w-full h-44 sm:h-64 bg-slate-200 rounded-2xl overflow-hidden shadow-sm" onmouseenter="stopAutoSlide()" onmouseleave="startAutoSlide()">
-                <div id="banner-slider" class="w-full h-full relative">
-                    <!-- Banners Rendered Here -->
-                </div>
-                <button onclick="changeBanner(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 w-8 h-8 rounded-full shadow flex items-center justify-center text-xs z-10"><i class="fa-solid fa-chevron-left"></i></button>
-                <button onclick="changeBanner(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 w-8 h-8 rounded-full shadow flex items-center justify-center text-xs z-10"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-
-            <!-- Categories Filter Bar -->
-            <div>
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Categories</h3>
-                <div id="user-category-list" class="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
-                    <!-- Categories Rendered Here -->
-                </div>
-            </div>
-
-            <!-- Products Grid -->
-            <div>
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Featured Products</h3>
-                <div id="user-product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    <!-- Products Rendered Here -->
-                </div>
-            </div>
+    <!-- USER PANEL -->
+    <main id="user-panel" class="max-w-7xl mx-auto px-4 py-6">
+        <!-- Banner Slider -->
+        <div id="banner-container" onmouseenter="stopAutoSlide()" onmouseleave="startAutoSlide()" class="relative bg-slate-200 rounded-2xl overflow-hidden mb-8 h-48 md:h-80 shadow-inner">
+            <div id="banner-slider" class="w-full h-full relative"></div>
+            <button onclick="changeBanner(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-left"></i></button>
+            <button onclick="changeBanner(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-9 h-9 rounded-full shadow flex items-center justify-center z-10"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
 
-        <!-- USER LOGIN / OTP MODAL -->
-        <div id="otp-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-            <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl space-y-4">
-                <div class="flex justify-between items-center border-b pb-3">
-                    <h3 class="font-bold text-slate-800 text-sm" id="otp-modal-title">Customer Login / Signup</h3>
-                    <button onclick="closeOtpModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-
-                <!-- Step 1: Request Phone -->
-                <div id="otp-step-1" class="space-y-3">
-                    <p class="text-xs text-slate-500">Enter your phone number to receive a verification OTP.</p>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Mobile Number</label>
-                        <input type="tel" id="login-phone" placeholder="017XXXXXXXX" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-                    </div>
-                    <button onclick="sendOtp()" class="w-full bg-indigo-600 text-white font-semibold py-2.5 rounded-lg text-xs hover:bg-indigo-700 transition">Send OTP Code</button>
-                </div>
-
-                <!-- Step 2: Submit OTP -->
-                <div id="otp-step-2" class="space-y-3 hidden">
-                    <p class="text-xs text-slate-500">An OTP code was sent to <span id="sent-phone-display" class="font-bold text-slate-700"></span>.</p>
-                    <div class="p-2 bg-indigo-50 border border-indigo-200 rounded-lg text-center text-xs text-indigo-700 font-mono">
-                        Demo OTP Code: <b id="demo-otp-code" class="text-sm"></b>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Enter 6-Digit OTP</label>
-                        <input type="text" id="login-otp" placeholder="123456" maxlength="6" class="w-full border rounded-lg p-2.5 text-center tracking-widest font-mono text-base font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
-                    </div>
-                    <button onclick="verifyOtp()" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg text-xs hover:bg-emerald-700 transition">Verify & Login</button>
-                    <button onclick="resetOtpStep()" class="w-full text-xs text-slate-400 hover:text-slate-600">Change Phone Number</button>
-                </div>
-            </div>
+        <!-- Categories Filter -->
+        <div class="mb-6">
+            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Categories</h3>
+            <div id="user-category-list" class="flex flex-wrap gap-2"></div>
         </div>
 
-        <!-- USER PROFILE / ORDERS PANEL -->
-        <div id="panel-profile" class="hidden space-y-6">
-            <div class="flex items-center justify-between bg-white p-4 rounded-2xl border">
-                <div>
-                    <h2 class="font-bold text-slate-800" id="profile-name">Customer Profile</h2>
-                    <p class="text-xs text-slate-500" id="profile-phone">Phone: -</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="switchPanel('user')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
-                        <i class="fa-solid fa-house"></i> Home
-                    </button>
-                    <button onclick="logoutUser()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 text-rose-600 hover:bg-rose-100 transition">Logout</button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl border p-4 space-y-4">
-                <h3 class="font-bold text-sm text-slate-800 border-b pb-2">My Orders & Tracking</h3>
-                <div id="user-orders-list" class="space-y-4">
-                    <!-- Orders Rendered Here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ADMIN PANEL -->
-        <div id="panel-admin" class="hidden space-y-6">
-            <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-sm">
-                <div>
-                    <h2 class="font-bold text-base">Admin Dashboard</h2>
-                    <p class="text-xs text-slate-400">Manage products, orders & store settings</p>
-                </div>
-                <button onclick="logoutAdmin()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-rose-400 transition">Logout Admin</button>
-            </div>
-
-            <!-- Admin Navigation Tabs -->
-            <div class="flex border-b text-xs space-x-6 overflow-x-auto scrollbar-none">
-                <button id="tab-btn-orders" onclick="switchAdminTab('orders')" class="pb-2.5 active-tab">Orders (<span id="admin-order-count">0</span>)</button>
-                <button id="tab-btn-products" onclick="switchAdminTab('products')" class="pb-2.5 text-slate-500 hover:text-indigo-600">Products</button>
-                <button id="tab-btn-categories" onclick="switchAdminTab('categories')" class="pb-2.5 text-slate-500 hover:text-indigo-600">Categories</button>
-                <button id="tab-btn-banners" onclick="switchAdminTab('banners')" class="pb-2.5 text-slate-500 hover:text-indigo-600">Banners</button>
-                <button id="tab-btn-users" onclick="switchAdminTab('users')" class="pb-2.5 text-slate-500 hover:text-indigo-600">Users</button>
-                <button id="tab-btn-settings" onclick="switchAdminTab('settings')" class="pb-2.5 text-slate-500 hover:text-indigo-600">Settings</button>
-            </div>
-
-            <!-- TAB: ORDERS -->
-            <div id="admin-tab-orders" class="bg-white border rounded-2xl overflow-hidden shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 border-b text-slate-500">
-                            <tr>
-                                <th class="p-3">Order ID</th>
-                                <th class="p-3">Customer Details</th>
-                                <th class="p-3">Items</th>
-                                <th class="p-3">Total Amount</th>
-                                <th class="p-3">Date</th>
-                                <th class="p-3">Tracking Status</th>
-                                <th class="p-3 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-orders-table" class="divide-y">
-                            <!-- Orders Rendered Here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- TAB: PRODUCTS -->
-            <div id="admin-tab-products" class="hidden space-y-4">
-                <form onsubmit="handleAddProduct(event)" class="bg-white p-4 rounded-2xl border space-y-3">
-                    <h4 class="font-bold text-xs text-slate-700 uppercase">Add New Product</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-                        <input type="text" id="p-name" placeholder="Product Title" required class="border p-2 rounded-lg text-xs">
-                        <input type="number" id="p-price" placeholder="Price (৳)" required class="border p-2 rounded-lg text-xs">
-                        <input type="number" id="p-stock" placeholder="Stock Qty" required class="border p-2 rounded-lg text-xs">
-                        <select id="p-category" class="border p-2 rounded-lg text-xs">
-                            <!-- Dropdown dynamically filled -->
-                        </select>
-                        <input type="url" id="p-image" placeholder="Image URL" required class="border p-2 rounded-lg text-xs">
-                    </div>
-                    <button type="submit" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition">Save Product</button>
-                </form>
-
-                <div class="bg-white border rounded-2xl overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-50 border-b text-slate-500">
-                                <tr>
-                                    <th class="p-3">Image</th>
-                                    <th class="p-3">Name</th>
-                                    <th class="p-3">Category</th>
-                                    <th class="p-3">Price</th>
-                                    <th class="p-3">Stock</th>
-                                    <th class="p-3 text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-product-table" class="divide-y">
-                                <!-- Products Rendered Here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB: CATEGORIES -->
-            <div id="admin-tab-categories" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-                <form onsubmit="handleAddCategory(event)" class="bg-white p-4 rounded-2xl border space-y-3">
-                    <h4 class="font-bold text-xs text-slate-700 uppercase">Add Category</h4>
-                    <div class="flex gap-2">
-                        <input type="text" id="cat-name" placeholder="Category Name" required class="border p-2 rounded-lg text-xs flex-1">
-                        <button type="submit" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition">Add</button>
-                    </div>
-                </form>
-                <div class="bg-white p-4 rounded-2xl border">
-                    <h4 class="font-bold text-xs text-slate-700 uppercase mb-3">Existing Categories</h4>
-                    <ul id="admin-category-list" class="divide-y">
-                        <!-- Categories list -->
-                    </ul>
-                </div>
-            </div>
-
-            <!-- TAB: BANNERS -->
-            <div id="admin-tab-banners" class="hidden bg-white p-4 rounded-2xl border space-y-4">
-                <h4 class="font-bold text-xs text-slate-700 uppercase">Manage Banner Images (URL)</h4>
-                <div id="banner-inputs" class="space-y-3">
-                    <!-- Banner Inputs -->
-                </div>
-            </div>
-
-            <!-- TAB: USERS -->
-            <div id="admin-tab-users" class="hidden bg-white border rounded-2xl overflow-hidden shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 border-b text-slate-500">
-                            <tr>
-                                <th class="p-3">User ID</th>
-                                <th class="p-3">Name</th>
-                                <th class="p-3">Phone</th>
-                                <th class="p-3">Address Info</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-users-table" class="divide-y">
-                            <!-- Users Table -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- TAB: SETTINGS -->
-            <div id="admin-tab-settings" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-                <form onsubmit="handleDeliverySettings(event)" class="bg-white p-4 rounded-2xl border space-y-3">
-                    <h4 class="font-bold text-xs text-slate-700 uppercase">Delivery Charge Settings</h4>
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">Inside Dhaka (৳)</label>
-                        <input type="number" id="del-dhaka" class="border p-2 rounded-lg text-xs w-full" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">Outside Dhaka (৳)</label>
-                        <input type="number" id="del-outside" class="border p-2 rounded-lg text-xs w-full" required>
-                    </div>
-                    <button type="submit" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition">Save Delivery Rates</button>
-                </form>
-
-                <form onsubmit="handleChangePassword(event)" class="bg-white p-4 rounded-2xl border space-y-3">
-                    <h4 class="font-bold text-xs text-slate-700 uppercase">Change Admin Password</h4>
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">Current Password</label>
-                        <input type="password" id="curr-pass" class="border p-2 rounded-lg text-xs w-full" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">New Password</label>
-                        <input type="password" id="new-pass" class="border p-2 rounded-lg text-xs w-full" required>
-                    </div>
-                    <button type="submit" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition">Update Password</button>
-                </form>
-            </div>
-
-        </div>
-
+        <!-- Products -->
+        <h2 class="text-xl font-bold mb-4 text-slate-900">Products</h2>
+        <div id="user-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"></div>
     </main>
 
-    <!-- CART & CHECKOUT DRAWER -->
-    <div id="cart-drawer" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-end hidden">
-        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between shadow-2xl">
-            <div class="p-4 border-b flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-indigo-600"></i> Shopping Cart
-                </h3>
-                <button onclick="closeCart()" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- USER PROFILE & ORDER TRACKING PANEL -->
+    <main id="profile-panel" class="hidden max-w-5xl mx-auto px-4 py-6 space-y-6">
+        <div class="bg-white p-6 rounded-2xl border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h2 id="profile-user-name" class="text-2xl font-bold text-slate-800"></h2>
+                <p id="profile-user-phone" class="text-slate-500 text-sm mt-1"></p>
+                <p id="profile-user-address" class="text-slate-600 text-xs mt-1 bg-slate-50 p-2 rounded border"></p>
+            </div>
+            <button onclick="logoutUser()" class="bg-rose-50 text-rose-600 border border-rose-200 text-sm px-4 py-2 rounded-lg font-medium hover:bg-rose-100">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+            </button>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-truck-fast text-indigo-600"></i> My Orders & Tracking
+            </h3>
+            <div id="user-orders-list" class="space-y-4"></div>
+        </div>
+    </main>
+
+    <!-- ADMIN PANEL -->
+    <main id="admin-panel" class="hidden max-w-7xl mx-auto px-4 py-6">
+        <div class="flex border-b border-slate-200 mb-6 gap-4 md:gap-6 overflow-x-auto text-sm md:text-base">
+            <button onclick="switchAdminTab('orders')" id="tab-btn-orders" class="pb-3 font-semibold text-slate-600 active-tab whitespace-nowrap">Orders <span id="admin-order-count" class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-xs">0</span></button>
+            <button onclick="switchAdminTab('products')" id="tab-btn-products" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Products & Stock</button>
+            <button onclick="switchAdminTab('categories')" id="tab-btn-categories" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Categories</button>
+            <button onclick="switchAdminTab('banners')" id="tab-btn-banners" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Banners</button>
+            <button onclick="switchAdminTab('users')" id="tab-btn-users" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">User List</button>
+            <button onclick="switchAdminTab('settings')" id="tab-btn-settings" class="pb-3 font-semibold text-slate-600 whitespace-nowrap">Settings</button>
+        </div>
+
+        <!-- Orders Tab -->
+        <section id="admin-tab-orders" class="space-y-6">
+            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 border-b text-slate-600">
+                        <tr>
+                            <th class="p-3">Order ID</th>
+                            <th class="p-3">Customer</th>
+                            <th class="p-3">Items</th>
+                            <th class="p-3">Total Amount</th>
+                            <th class="p-3">Date</th>
+                            <th class="p-3">Status</th>
+                            <th class="p-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-orders-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Products Tab -->
+        <section id="admin-tab-products" class="hidden space-y-6">
+            <div class="bg-white p-5 rounded-xl border shadow-sm">
+                <h3 class="font-bold text-lg mb-4">Add New Product</h3>
+                <form onsubmit="handleAddProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="p-name" placeholder="Product Name" required class="border p-2.5 rounded-lg text-sm w-full">
+                    <input type="number" id="p-price" placeholder="Price (৳)" required class="border p-2.5 rounded-lg text-sm w-full">
+                    <input type="number" id="p-stock" placeholder="Stock Count" required class="border p-2.5 rounded-lg text-sm w-full">
+                    <select id="p-category" required class="border p-2.5 rounded-lg text-sm w-full"></select>
+                    <input type="url" id="p-image" placeholder="Image URL (e.g. https://...)" required class="border p-2.5 rounded-lg text-sm w-full md:col-span-2">
+                    <button type="submit" class="bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition md:col-span-3">Add Product</button>
+                </form>
             </div>
 
-            <div id="cart-items" class="flex-1 overflow-y-auto p-4 divide-y">
-                <!-- Cart items list -->
+            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 border-b text-slate-600">
+                        <tr>
+                            <th class="p-3">Image</th>
+                            <th class="p-3">Name</th>
+                            <th class="p-3">Category</th>
+                            <th class="p-3">Price</th>
+                            <th class="p-3">Stock</th>
+                            <th class="p-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-product-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Categories Tab -->
+        <section id="admin-tab-categories" class="hidden space-y-6">
+            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
+                <h3 class="font-bold text-lg mb-4">Add New Category</h3>
+                <form onsubmit="handleAddCategory(event)" class="flex gap-2">
+                    <input type="text" id="cat-name" placeholder="Category Name" required class="border p-2.5 rounded-lg text-sm flex-1">
+                    <button type="submit" class="bg-indigo-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-indigo-700">Add</button>
+                </form>
+            </div>
+            <div class="bg-white rounded-xl border shadow-sm max-w-md p-4">
+                <ul id="admin-category-list" class="divide-y"></ul>
+            </div>
+        </section>
+
+        <!-- Banners Tab -->
+        <section id="admin-tab-banners" class="hidden space-y-4">
+            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-2xl">
+                <h3 class="font-bold text-lg mb-2">Set Homepage Banners (Max 5)</h3>
+                <div id="banner-inputs" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <!-- Users Tab -->
+        <section id="admin-tab-users" class="hidden space-y-4">
+            <div class="bg-white rounded-xl border shadow-sm overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 border-b text-slate-600">
+                        <tr>
+                            <th class="p-3">User ID</th>
+                            <th class="p-3">Name</th>
+                            <th class="p-3">Phone Number</th>
+                            <th class="p-3">Recent Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-users-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="admin-tab-settings" class="hidden space-y-6">
+            <!-- Delivery Charge Settings -->
+            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
+                <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-truck-ramps text-indigo-600 mr-2"></i>Delivery Charge Settings</h3>
+                <form onsubmit="handleDeliverySettings(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Inside Dhaka (৳)</label>
+                        <input type="number" id="del-dhaka" required class="w-full border p-2.5 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Outside Dhaka (৳)</label>
+                        <input type="number" id="del-outside" required class="w-full border p-2.5 rounded-lg text-sm">
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Save Delivery Charges</button>
+                </form>
             </div>
 
-            <!-- Checkout Form Section -->
-            <div id="checkout-form-container" class="hidden p-4 border-t bg-slate-50 space-y-3 max-h-80 overflow-y-auto">
-                <h4 class="font-bold text-xs text-slate-700 uppercase">Shipping Details</h4>
-                <input type="text" id="cust-name" placeholder="Full Name" class="w-full border p-2 rounded-lg text-xs">
-                <input type="tel" id="cust-phone" placeholder="Phone Number" class="w-full border p-2 rounded-lg text-xs">
-                <select id="cust-district" onchange="updateCartUI()" class="w-full border p-2 rounded-lg text-xs">
-                    <option value="">Select District</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Outside Dhaka">Outside Dhaka</option>
-                </select>
-                <input type="text" id="cust-thana" placeholder="Thana / Upazila" class="w-full border p-2 rounded-lg text-xs">
-                <input type="text" id="cust-village" placeholder="Village / Area" class="w-full border p-2 rounded-lg text-xs">
-                <textarea id="cust-address" placeholder="Full Address Details" rows="2" class="w-full border p-2 rounded-lg text-xs"></textarea>
+            <!-- Password Settings -->
+            <div class="bg-white p-5 rounded-xl border shadow-sm max-w-md">
+                <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-key text-indigo-600 mr-2"></i>Change Admin Password</h3>
+                <form onsubmit="handleChangePassword(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Current Password</label>
+                        <input type="password" id="curr-pass" required class="w-full border p-2.5 rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">New Password</label>
+                        <input type="password" id="new-pass" required class="w-full border p-2.5 rounded-lg text-sm">
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Update Password</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 relative shadow-xl">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl">&times;</button>
+            <h3 class="text-xl font-bold text-slate-800 mb-1">User Login</h3>
+            <p class="text-slate-500 text-xs mb-4">Enter your mobile number to order and track items</p>
+            <form onsubmit="handleUserLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Mobile Number</label>
+                    <input type="tel" id="login-phone" placeholder="017XXXXXXXX" required class="w-full border p-2.5 rounded-lg text-sm focus:outline-indigo-600">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition">Enter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 bg-black/40 hidden z-50 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="p-4 border-b flex justify-between items-center">
+                    <h3 class="font-bold text-lg">Your Shopping Cart</h3>
+                    <button onclick="closeCart()" class="text-slate-400 hover:text-slate-700 text-2xl">&times;</button>
+                </div>
+                
+                <div id="cart-items" class="p-4 divide-y"></div>
+
+                <div id="checkout-form-container" class="p-4 bg-slate-50 border-t space-y-3 hidden">
+                    <h4 class="font-bold text-sm text-slate-700">Delivery Information:</h4>
+                    <input type="text" id="cust-name" placeholder="Your Name" class="w-full border p-2 text-sm rounded-lg">
+                    <input type="tel" id="cust-phone" placeholder="Mobile Number" class="w-full border p-2 text-sm rounded-lg">
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="cust-district" onchange="updateCartUI()" class="border p-2 text-sm rounded-lg w-full bg-white">
+                            <option value="">Select District</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chattogram">Chattogram</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Barishal">Barishal</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Mymensingh">Mymensingh</option>
+                            <option value="Cumilla">Cumilla</option>
+                            <option value="Bogra">Bogra</option>
+                        </select>
+                        <input type="text" id="cust-thana" placeholder="Thana / Upazila" class="border p-2 text-sm rounded-lg w-full">
+                    </div>
+                    
+                    <input type="text" id="cust-village" placeholder="Village / Area" class="w-full border p-2 text-sm rounded-lg">
+                    <textarea id="cust-address" placeholder="Detailed Address (e.g. House No, Road No, Landmark)" class="w-full border p-2 text-sm rounded-lg" rows="2"></textarea>
+                </div>
             </div>
 
-            <div class="p-4 border-t bg-white space-y-3">
-                <div class="space-y-1.5 text-xs">
-                    <div class="flex justify-between text-slate-500">
+            <div class="p-4 border-t bg-slate-50 space-y-3">
+                <div id="cart-summary" class="space-y-1.5 text-sm">
+                    <div class="flex justify-between text-slate-600">
                         <span>Subtotal:</span>
-                        <span id="cart-subtotal" class="font-semibold text-slate-800">৳0</span>
+                        <span id="cart-subtotal" class="font-semibold">৳0</span>
                     </div>
-                    <div id="delivery-charge-row" class="flex justify-between text-slate-500 hidden">
+                    <div id="delivery-charge-row" class="flex justify-between text-slate-600 hidden">
                         <span>Delivery Charge:</span>
-                        <span id="cart-delivery" class="font-semibold text-slate-800">৳0</span>
+                        <span id="cart-delivery" class="font-semibold text-indigo-600">৳0</span>
                     </div>
-                    <div class="flex justify-between text-sm font-bold text-slate-800 border-t pt-2">
-                        <span>Total Amount:</span>
-                        <span id="cart-total" class="text-indigo-600">৳0</span>
+                    <div class="flex justify-between font-bold text-lg text-slate-900 border-t pt-2">
+                        <span>Total:</span>
+                        <span id="cart-total">৳0</span>
                     </div>
                 </div>
 
-                <button id="checkout-btn" onclick="showCheckoutForm()" class="w-full bg-indigo-600 text-white font-semibold py-2.5 rounded-xl text-xs hover:bg-indigo-700 transition">Proceed to Checkout</button>
-                <button id="submit-order-btn" onclick="submitOrder()" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-xs hover:bg-emerald-700 transition hidden">Confirm & Place Order</button>
+                <button id="checkout-btn" onclick="showCheckoutForm()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">
+                    Checkout
+                </button>
+                <button id="submit-order-btn" onclick="submitOrder()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition hidden">
+                    Place Order
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- APP SCRIPT LOGIC -->
+    <!-- JavaScript Logic -->
     <script>
-        // --- State Management ---
-        let adminPassword = "admin";
-        let deliveryCharges = { dhaka: 60, outside: 120 };
-        let categories = ["All", "Clothing", "Electronics", "Groceries"];
-        let banners = [
-            "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1000&q=80",
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1000&q=80"
+        const defaultCategories = ["All", "Electronics", "Fashion", "Home Appliances"];
+        const defaultProducts = [
+            { id: 1, name: "Wireless Headphones", price: 1200, stock: 15, category: "Electronics", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
+            { id: 2, name: "Casual T-Shirt", price: 450, stock: 8, category: "Fashion", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" }
         ];
-        let products = [
-            { id: 101, name: "Premium Cotton T-Shirt", price: 450, stock: 15, category: "Clothing", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" },
-            { id: 102, name: "Wireless Bluetooth Earbuds", price: 1250, stock: 8, category: "Electronics", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=400&q=80" }
+        const defaultBanners = [
+            "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200",
+            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200",
+            "", "", ""
         ];
+
+        let categories = defaultCategories;
+        let products = defaultProducts;
+        let banners = defaultBanners;
         let orders = [];
         let users = [];
-        let cart = [];
+        let adminPassword = "admin";
         let currentUser = null;
-        let selectedCategory = "All";
+        let deliveryCharges = { dhaka: 60, outside: 120 };
+
+        try {
+            const savedCats = localStorage.getItem('bazari_cats');
+            if (savedCats) categories = JSON.parse(savedCats);
+
+            const savedProds = localStorage.getItem('bazari_prods');
+            if (savedProds) products = JSON.parse(savedProds);
+
+            const savedBanners = localStorage.getItem('bazari_banners');
+            if (savedBanners) banners = JSON.parse(savedBanners);
+
+            const savedOrders = localStorage.getItem('bazari_orders');
+            if (savedOrders) orders = JSON.parse(savedOrders);
+
+            const savedUsers = localStorage.getItem('bazari_users');
+            if (savedUsers) users = JSON.parse(savedUsers);
+
+            const savedPass = localStorage.getItem('bazari_admin_pass');
+            if (savedPass) adminPassword = savedPass;
+
+            const savedCurrentUser = localStorage.getItem('bazari_current_user');
+            if (savedCurrentUser) currentUser = JSON.parse(savedCurrentUser);
+
+            const savedDelivery = localStorage.getItem('bazari_delivery');
+            if (savedDelivery) deliveryCharges = JSON.parse(savedDelivery);
+        } catch(e) {
+            console.warn("LocalStorage error or disabled", e);
+        }
+
         let activeBannerIndex = 0;
         let autoSlideTimer = null;
-        let generatedOtp = null;
-        let tempPhone = null;
+        let selectedCategory = "All";
+        let cart = [];
+        let toastTimer = null;
 
-        // --- Status List Mapping ---
-        const STATUS_STEPS = [
-            "Order Received",
-            "At Local Hub",
-            "At Central Hub",
-            "In Transit",
-            "Out for Delivery",
-            "Delivered"
-        ];
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.innerText = message;
 
-        // --- Initialize ---
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-5');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-5');
+            }, 2500);
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('bazari_cats', JSON.stringify(categories));
+                localStorage.setItem('bazari_prods', JSON.stringify(products));
+                localStorage.setItem('bazari_banners', JSON.stringify(banners));
+                localStorage.setItem('bazari_orders', JSON.stringify(orders));
+                localStorage.setItem('bazari_users', JSON.stringify(users));
+                localStorage.setItem('bazari_admin_pass', adminPassword);
+                localStorage.setItem('bazari_current_user', JSON.stringify(currentUser));
+                localStorage.setItem('bazari_delivery', JSON.stringify(deliveryCharges));
+            } catch(e) {
+                console.warn("Data could not be saved to LocalStorage", e);
+            }
+        }
+
         function init() {
-            loadData();
-            renderCategories();
-            populateCategoryDropdown();
-            renderProducts();
             renderBanners();
             startAutoSlide();
+            renderCategories();
+            renderProducts();
+            populateCategoryDropdown();
             renderBannerInputs();
-            renderAdminProducts();
-            renderAdminCategories();
-            renderAdminOrders();
-            renderAdminUsers();
             updateOrderCount();
             renderUserAuthArea();
             
@@ -400,116 +418,81 @@
             document.getElementById('del-outside').value = deliveryCharges.outside;
         }
 
-        // --- LocalStorage Handling ---
-        function saveData() {
-            localStorage.setItem('bazari_products', JSON.stringify(products));
-            localStorage.setItem('bazari_categories', JSON.stringify(categories));
-            localStorage.setItem('bazari_banners', JSON.stringify(banners));
-            localStorage.setItem('bazari_orders', JSON.stringify(orders));
-            localStorage.setItem('bazari_users', JSON.stringify(users));
-            localStorage.setItem('bazari_delivery', JSON.stringify(deliveryCharges));
-            localStorage.setItem('bazari_pass', adminPassword);
-            localStorage.setItem('bazari_current_user', JSON.stringify(currentUser));
+        function renderUserAuthArea() {
+            const authArea = document.getElementById('user-auth-area');
+            if (currentUser) {
+                authArea.innerHTML = `
+                    <button onclick="switchPanel('profile')" class="bg-indigo-50 text-indigo-700 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-circle text-lg"></i>
+                        <span>${currentUser.name || currentUser.phone}</span>
+                    </button>
+                `;
+            } else {
+                authArea.innerHTML = `
+                    <button onclick="openLoginModal()" class="bg-indigo-50 text-indigo-600 text-sm px-3 py-2 rounded-lg font-medium hover:bg-indigo-100 transition">
+                        <i class="fa-solid fa-right-to-bracket mr-1"></i> Login
+                    </button>
+                `;
+            }
         }
 
-        function loadData() {
-            if (localStorage.getItem('bazari_products')) products = JSON.parse(localStorage.getItem('bazari_products'));
-            if (localStorage.getItem('bazari_categories')) categories = JSON.parse(localStorage.getItem('bazari_categories'));
-            if (localStorage.getItem('bazari_banners')) banners = JSON.parse(localStorage.getItem('bazari_banners'));
-            if (localStorage.getItem('bazari_orders')) orders = JSON.parse(localStorage.getItem('bazari_orders'));
-            if (localStorage.getItem('bazari_users')) users = JSON.parse(localStorage.getItem('bazari_users'));
-            if (localStorage.getItem('bazari_delivery')) deliveryCharges = JSON.parse(localStorage.getItem('bazari_delivery'));
-            if (localStorage.getItem('bazari_pass')) adminPassword = localStorage.getItem('bazari_pass');
-            if (localStorage.getItem('bazari_current_user')) currentUser = JSON.parse(localStorage.getItem('bazari_current_user'));
-        }
+        function switchPanel(panel) {
+            document.getElementById('user-panel').classList.add('hidden');
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('profile-panel').classList.add('hidden');
+            document.getElementById('user-nav').classList.remove('hidden');
+            document.getElementById('admin-nav').classList.add('hidden');
 
-        // --- Toast Notification ---
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.classList.remove('hidden');
-            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
-        }
-
-        // --- Navigation / Panels ---
-        function switchPanel(panelName) {
-            document.getElementById('panel-user').classList.add('hidden');
-            document.getElementById('panel-profile').classList.add('hidden');
-            document.getElementById('panel-admin').classList.add('hidden');
-
-            if (panelName === 'user') {
-                document.getElementById('panel-user').classList.remove('hidden');
-            } else if (panelName === 'profile') {
+            if (panel === 'admin') {
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('user-nav').classList.add('hidden');
+                document.getElementById('admin-nav').classList.remove('hidden');
+                renderAdminOrders();
+                renderAdminProducts();
+                renderAdminCategories();
+                renderAdminUsers();
+            } else if (panel === 'profile') {
                 if (!currentUser) {
-                    openOtpModal();
-                    document.getElementById('panel-user').classList.remove('hidden');
+                    openLoginModal();
+                    document.getElementById('user-panel').classList.remove('hidden');
                     return;
                 }
+                document.getElementById('profile-panel').classList.remove('hidden');
                 renderUserProfile();
-                document.getElementById('panel-profile').classList.remove('hidden');
-            } else if (panelName === 'admin') {
-                document.getElementById('panel-admin').classList.remove('hidden');
-            }
-        }
-
-        // --- User OTP Login System ---
-        function openOtpModal() {
-            resetOtpStep();
-            document.getElementById('otp-modal').classList.remove('hidden');
-        }
-
-        function closeOtpModal() {
-            document.getElementById('otp-modal').classList.add('hidden');
-        }
-
-        function resetOtpStep() {
-            document.getElementById('otp-step-1').classList.remove('hidden');
-            document.getElementById('otp-step-2').classList.add('hidden');
-            document.getElementById('login-phone').value = '';
-            document.getElementById('login-otp').value = '';
-            generatedOtp = null;
-            tempPhone = null;
-        }
-
-        function sendOtp() {
-            const phone = document.getElementById('login-phone').value.trim();
-            if (!phone || phone.length < 11) {
-                alert("Please enter a valid 11-digit phone number!");
-                return;
-            }
-
-            tempPhone = phone;
-            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
-
-            document.getElementById('sent-phone-display').innerText = phone;
-            document.getElementById('demo-otp-code').innerText = generatedOtp;
-            document.getElementById('otp-step-1').classList.add('hidden');
-            document.getElementById('otp-step-2').classList.remove('hidden');
-            showToast("OTP Code Sent!");
-        }
-
-        function verifyOtp() {
-            const inputOtp = document.getElementById('login-otp').value.trim();
-            if (inputOtp === generatedOtp) {
-                let user = users.find(u => u.phone === tempPhone);
-                if (!user) {
-                    user = {
-                        id: 'USR-' + Math.floor(1000 + Math.random() * 9000),
-                        name: 'User (' + tempPhone.slice(-4) + ')',
-                        phone: tempPhone,
-                        district: '', thana: '', village: '', address: ''
-                    };
-                    users.push(user);
-                }
-                currentUser = user;
-                saveData();
-                renderUserAuthArea();
-                closeOtpModal();
-                showToast("Logged in successfully!");
-                switchPanel('profile');
             } else {
-                alert("Incorrect OTP Code! Try again.");
+                document.getElementById('user-panel').classList.remove('hidden');
+                renderProducts();
             }
+        }
+
+        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+
+        function handleUserLogin(e) {
+            e.preventDefault();
+            const phone = document.getElementById('login-phone').value.trim();
+            if (!phone) return;
+
+            let existingUser = users.find(u => u.phone === phone);
+            if (!existingUser) {
+                existingUser = {
+                    id: 'USR-' + Math.floor(1000 + Math.random() * 9000),
+                    name: 'User ' + phone.slice(-4),
+                    phone: phone,
+                    district: '',
+                    thana: '',
+                    village: '',
+                    address: ''
+                };
+                users.push(existingUser);
+            }
+
+            currentUser = existingUser;
+            saveData();
+            closeLoginModal();
+            renderUserAuthArea();
+            switchPanel('profile');
+            document.getElementById('login-phone').value = '';
         }
 
         function logoutUser() {
@@ -517,160 +500,112 @@
             saveData();
             renderUserAuthArea();
             switchPanel('user');
-            showToast("Logged Out");
-        }
-
-        function renderUserAuthArea() {
-            const container = document.getElementById('user-auth-area');
-            if (currentUser) {
-                container.innerHTML = `
-                    <button onclick="switchPanel('profile')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition flex items-center gap-1">
-                        <i class="fa-solid fa-user"></i> ${currentUser.name.split(' ')[0]}
-                    </button>
-                `;
-            } else {
-                container.innerHTML = `
-                    <button onclick="openOtpModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition flex items-center gap-1">
-                        <i class="fa-solid fa-right-to-bracket"></i> Login
-                    </button>
-                    <button onclick="loginAdmin()" class="p-1.5 text-slate-400 hover:text-slate-600 text-xs" title="Admin Login">
-                        <i class="fa-solid fa-user-shield"></i>
-                    </button>
-                `;
-            }
         }
 
         function renderUserProfile() {
             if (!currentUser) return;
-            document.getElementById('profile-name').innerText = currentUser.name || "Customer Profile";
-            document.getElementById('profile-phone').innerText = "Phone: " + currentUser.phone;
+            document.getElementById('profile-user-name').innerText = currentUser.name || 'User';
+            document.getElementById('profile-user-phone').innerText = 'Phone: ' + currentUser.phone;
+            
+            const addr = [currentUser.village, currentUser.thana, currentUser.district].filter(Boolean).join(', ');
+            const fullAddr = currentUser.address ? `${currentUser.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'No address added');
+            document.getElementById('profile-user-address').innerText = 'Address: ' + fullAddr;
 
-            const myOrders = orders.filter(o => o.customer.phone === currentUser.phone);
-            const container = document.getElementById('user-orders-list');
+            const userOrdersContainer = document.getElementById('user-orders-list');
+            userOrdersContainer.innerHTML = "";
+
+            const myOrders = orders.filter(o => o.customer && o.customer.phone === currentUser.phone);
 
             if (myOrders.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">You haven't placed any orders yet.</p>`;
+                userOrdersContainer.innerHTML = `<p class="text-slate-400 text-center py-6 text-sm">You haven't placed any orders yet!</p>`;
                 return;
             }
 
-            container.innerHTML = myOrders.map(o => {
-                const currentStatus = o.status || "Order Received";
-                const activeIndex = STATUS_STEPS.indexOf(currentStatus);
-
-                const itemsList = o.items.map(i => `<div class="flex justify-between text-xs py-0.5"><span>${i.name} x${i.qty}</span><span class="font-medium">৳${i.price * i.qty}</span></div>`).join('');
-
-                return `
-                    <div class="border rounded-xl p-4 space-y-3 bg-slate-50">
-                        <div class="flex justify-between items-center text-xs border-b pb-2">
+            myOrders.forEach(o => {
+                const itemsList = o.items.map(i => `<div class="flex justify-between text-xs py-1 border-b border-dashed"><span>${i.name} (x${i.qty})</span><span class="font-bold">৳${i.price * i.qty}</span></div>`).join('');
+                const isCompleted = o.status === 'Completed';
+                
+                userOrdersContainer.innerHTML += `
+                    <div class="border rounded-xl p-4 bg-slate-50 space-y-3">
+                        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2">
                             <div>
-                                <span class="font-bold text-indigo-600">${o.id}</span>
-                                <span class="text-slate-400 ml-2">${o.date}</span>
+                                <span class="font-mono text-xs font-bold text-indigo-600">${o.id}</span>
+                                <span class="text-xs text-slate-400 ml-2">${o.date}</span>
                             </div>
-                            <span class="px-2.5 py-1 rounded-full font-bold text-[10px] bg-indigo-100 text-indigo-700">
-                                ${currentStatus}
+                            <span class="text-xs px-3 py-1 rounded-full font-bold ${isCompleted ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                                ${isCompleted ? 'Delivered' : 'Processing'}
                             </span>
                         </div>
 
-                        <!-- Tracking Progress Visual Bar -->
                         <div class="py-2">
-                            <p class="text-[11px] font-bold text-slate-600 mb-2">Live Parcel Status:</p>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[10px]">
-                                ${STATUS_STEPS.map((step, idx) => {
-                                    const isPassed = idx <= activeIndex;
-                                    return `
-                                        <div class="p-1.5 rounded-lg border text-center ${isPassed ? 'bg-indigo-600 text-white font-bold border-indigo-600' : 'bg-white text-slate-400 border-slate-200'}">
-                                            ${step}
-                                        </div>
-                                    `;
-                                }).join('')}
+                            <div class="text-xs font-semibold text-slate-600 mb-2">Order Tracking:</div>
+                            <div class="flex items-center justify-between relative max-w-md mx-auto">
+                                <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 z-0"></div>
+                                <div class="absolute top-1/2 left-0 h-1 bg-indigo-600 -translate-y-1/2 z-0 transition-all duration-500" style="width: ${isCompleted ? '100%' : '50%'}"></div>
+                                
+                                <div class="relative z-10 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </div>
+                                <div class="relative z-10 ${isCompleted ? 'bg-indigo-600 text-white' : 'bg-indigo-600 text-white ring-4 ring-indigo-100'} w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow">
+                                    <i class="fa-solid fa-box"></i>
+                                </div>
+                                <div class="relative z-10 ${isCompleted ? 'bg-emerald-600 text-white' : 'bg-slate-300 text-slate-600'} w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow">
+                                    <i class="fa-solid fa-house-chimney"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-[10px] font-bold text-slate-600 mt-2 max-w-md mx-auto">
+                                <span>Order Placed</span>
+                                <span>Processing</span>
+                                <span>Delivered</span>
                             </div>
                         </div>
 
-                        <div class="bg-white p-2.5 rounded-lg border">
+                        <div class="bg-white p-3 rounded-lg border space-y-1">
                             ${itemsList}
-                            <div class="flex justify-between text-xs text-slate-500 pt-1 border-t mt-1">
-                                <span>Delivery Charge:</span>
-                                <span>৳${o.deliveryCharge || 0}</span>
-                            </div>
-                            <div class="flex justify-between text-xs font-bold text-slate-800 pt-1">
-                                <span>Total Amount:</span>
+                            <div class="flex justify-between text-xs pt-1 font-bold">
+                                <span>Total (inc. delivery):</span>
                                 <span class="text-indigo-600">৳${o.total}</span>
                             </div>
                         </div>
                     </div>
                 `;
-            }).join('');
-        }
-
-        function loginAdmin() {
-            const pass = prompt("Enter Admin Password:");
-            if (pass === adminPassword) {
-                switchPanel('admin');
-                showToast("Logged in as Admin");
-            } else if (pass !== null) {
-                alert("Incorrect Password!");
-            }
-        }
-
-        function logoutAdmin() {
-            switchPanel('user');
-            showToast("Logged out from Admin");
-        }
-
-        function switchAdminTab(tabName) {
-            const tabs = ['orders', 'products', 'categories', 'banners', 'users', 'settings'];
-            tabs.forEach(t => {
-                const section = document.getElementById(`admin-tab-${t}`);
-                const btn = document.getElementById(`tab-btn-${t}`);
-                if (t === tabName) {
-                    section.classList.remove('hidden');
-                    btn.classList.add('active-tab');
-                } else {
-                    section.classList.add('hidden');
-                    btn.classList.remove('active-tab');
-                }
             });
         }
 
-        // --- Banners Slider Logic ---
+        // Banners
         function renderBanners() {
             const container = document.getElementById('banner-slider');
-            const activeBanners = banners.filter(b => b.trim() !== "");
-
-            if (activeBanners.length === 0) {
-                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-slate-400 text-sm">No Active Banners</div>`;
+            const validBanners = banners.filter(b => b && b.trim() !== "");
+            if (validBanners.length === 0) {
+                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-slate-400 text-sm">No banners available</div>`;
                 return;
             }
-
-            container.innerHTML = activeBanners.map((imgUrl, index) => `
-                <div class="absolute inset-0 transition-opacity duration-700 ease-in-out ${index === activeBannerIndex ? 'opacity-100 z-0' : 'opacity-0 -z-10'}">
-                    <img src="${imgUrl}" class="w-full h-full object-cover" alt="Banner ${index + 1}">
-                </div>
-            `).join('');
+            if (activeBannerIndex >= validBanners.length) activeBannerIndex = 0;
+            container.innerHTML = `<img src="${validBanners[activeBannerIndex]}" class="w-full h-full object-cover transition-all duration-500">`;
         }
 
-        function changeBanner(direction) {
-            const activeBanners = banners.filter(b => b.trim() !== "");
-            if (activeBanners.length <= 1) return;
-            activeBannerIndex = (activeBannerIndex + direction + activeBanners.length) % activeBanners.length;
+        function changeBanner(dir) {
+            const validBanners = banners.filter(b => b && b.trim() !== "");
+            if (validBanners.length === 0) return;
+            activeBannerIndex = (activeBannerIndex + dir + validBanners.length) % validBanners.length;
             renderBanners();
         }
 
         function startAutoSlide() {
             stopAutoSlide();
-            autoSlideTimer = setInterval(() => { changeBanner(1); }, 4000);
+            autoSlideTimer = setInterval(() => changeBanner(1), 4000);
         }
 
         function stopAutoSlide() {
             if (autoSlideTimer) clearInterval(autoSlideTimer);
         }
 
-        // --- Categories ---
+        // Categories
         function renderCategories() {
-            const container = document.getElementById('user-category-list');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="selectCategory('${cat}')" class="px-4 py-1.5 rounded-full text-xs font-semibold border transition ${selectedCategory === cat ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'}">
-                    ${cat}
+            const catContainer = document.getElementById('user-category-list');
+            catContainer.innerHTML = categories.map(c => `
+                <button onclick="selectCategory('${c}')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition ${selectedCategory === c ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border'}">
+                    ${c}
                 </button>
             `).join('');
         }
@@ -682,154 +617,142 @@
         }
 
         function populateCategoryDropdown() {
-            const dropdown = document.getElementById('p-category');
-            const availableCats = categories.filter(c => c !== "All");
-            dropdown.innerHTML = availableCats.map(c => `<option value="${c}">${c}</option>`).join('');
+            const select = document.getElementById('p-category');
+            select.innerHTML = categories.filter(c => c !== "All").map(c => `<option value="${c}">${c}</option>`).join('');
         }
 
-        // --- Products ---
+        // Products
         function renderProducts() {
             const grid = document.getElementById('user-product-grid');
             const filtered = selectedCategory === "All" ? products : products.filter(p => p.category === selectedCategory);
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-sm">No products found in this category.</div>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10">No products found in this category.</p>`;
                 return;
             }
 
             grid.innerHTML = filtered.map(p => `
                 <div class="bg-white rounded-2xl border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                    <div class="relative pt-[100%] bg-slate-100">
-                        <img src="${p.image}" class="absolute inset-0 w-full h-full object-cover" alt="${p.name}">
-                        <span class="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-[10px] font-bold text-slate-600 px-2 py-0.5 rounded-md border">${p.category}</span>
+                    <div>
+                        <img src="${p.image}" class="w-full h-40 md:h-48 object-cover">
+                        <div class="p-4">
+                            <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded">${p.category}</span>
+                            <h3 class="font-bold text-slate-800 text-sm mt-1 line-clamp-1">${p.name}</h3>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-lg font-black text-slate-900">৳${p.price}</span>
+                                <span class="text-xs ${p.stock > 0 ? 'text-emerald-600' : 'text-rose-500'} font-medium">${p.stock > 0 ? 'In Stock ('+p.stock+')' : 'Out of Stock'}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-4 flex-1 flex flex-col justify-between">
-                        <div>
-                            <h4 class="font-semibold text-sm text-slate-800 line-clamp-2">${p.name}</h4>
-                            <div class="text-xs text-slate-400 mt-1">Stock: <span class="font-medium text-slate-600">${p.stock}</span></div>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between">
-                            <span class="text-base font-bold text-indigo-600">৳${p.price}</span>
-                            <button onclick="addToCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''} class="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 transition disabled:bg-slate-300 text-xs flex items-center gap-1 font-medium px-3">
-                                <i class="fa-solid fa-cart-plus"></i> Add
-                            </button>
-                        </div>
+                    <div class="p-4 pt-0">
+                        <button onclick="addToCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''} class="w-full bg-slate-900 hover:bg-indigo-600 disabled:bg-slate-300 text-white font-medium py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // --- Cart Operations ---
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            if (!product || product.stock <= 0) return;
+        // Cart Logic
+        function openCart() { document.getElementById('cart-drawer').classList.remove('hidden'); updateCartUI(); }
+        function closeCart() { document.getElementById('cart-drawer').classList.add('hidden'); }
 
-            const existingItem = cart.find(item => item.id === id);
-            if (existingItem) {
-                if (existingItem.qty < product.stock) {
-                    existingItem.qty++;
-                    showToast("Cart updated");
+        function addToCart(pId) {
+            const prod = products.find(p => p.id === pId);
+            if (!prod || prod.stock <= 0) return;
+
+            const existing = cart.find(c => c.id === pId);
+            if (existing) {
+                if (existing.qty < prod.stock) {
+                    existing.qty++;
                 } else {
-                    alert("Cannot add more than available stock!");
+                    showToast("Cannot add more than available stock!");
+                    return;
                 }
             } else {
-                cart.push({ ...product, qty: 1 });
-                showToast("Added to Cart");
+                cart.push({ ...prod, qty: 1 });
             }
+            showToast("Added to cart!");
             updateCartUI();
         }
 
-        function updateCartQuantity(id, change) {
-            const item = cart.find(i => i.id === id);
-            const product = products.find(p => p.id === id);
+        function updateCartQty(pId, change) {
+            const item = cart.find(c => c.id === pId);
+            const prod = products.find(p => p.id === pId);
+            if (!item) return;
 
-            if (item) {
-                item.qty += change;
-                if (item.qty > product.stock) {
-                    item.qty = product.stock;
-                    alert("Reached maximum available stock!");
-                }
-                if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== id);
-                }
+            item.qty += change;
+            if (item.qty > prod.stock) {
+                item.qty = prod.stock;
+                showToast("Maximum available stock reached!");
+            }
+            if (item.qty <= 0) {
+                cart = cart.filter(c => c.id !== pId);
             }
             updateCartUI();
         }
 
         function updateCartUI() {
             const badge = document.getElementById('cart-badge');
-            const cartItems = document.getElementById('cart-items');
-            const subtotalEl = document.getElementById('cart-subtotal');
-            const totalEl = document.getElementById('cart-total');
-            const deliveryRow = document.getElementById('delivery-charge-row');
-            const deliveryEl = document.getElementById('cart-delivery');
-
-            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
-            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            badge.innerText = totalCount;
-
-            const district = document.getElementById('cust-district').value;
-            let deliveryCharge = 0;
-
-            if (district) {
-                deliveryCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
-                deliveryRow.classList.remove('hidden');
-                deliveryEl.innerText = `৳${deliveryCharge}`;
-            } else {
-                deliveryRow.classList.add('hidden');
-            }
-
-            const grandTotal = subtotal + deliveryCharge;
+            const container = document.getElementById('cart-items');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalQty;
 
             if (cart.length === 0) {
-                cartItems.innerHTML = `<p class="text-center text-slate-400 py-12 text-sm">Your cart is empty.</p>`;
-                document.getElementById('checkout-btn').classList.add('hidden');
-                document.getElementById('submit-order-btn').classList.add('hidden');
+                container.innerHTML = `<p class="text-center text-slate-400 py-10 text-sm">Your cart is empty.</p>`;
                 document.getElementById('checkout-form-container').classList.add('hidden');
-            } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="py-3 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg border">
-                            <div>
-                                <h5 class="text-xs font-semibold text-slate-800">${item.name}</h5>
-                                <p class="text-xs text-indigo-600 font-bold">৳${item.price}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center border rounded-lg overflow-hidden bg-slate-50">
-                            <button onclick="updateCartQuantity(${item.id}, -1)" class="px-2 py-1 hover:bg-slate-200 text-xs font-bold">-</button>
-                            <span class="px-2 py-1 text-xs font-medium">${item.qty}</span>
-                            <button onclick="updateCartQuantity(${item.id}, 1)" class="px-2 py-1 hover:bg-slate-200 text-xs font-bold">+</button>
-                        </div>
-                    </div>
-                `).join('');
-
-                const formVisible = !document.getElementById('checkout-form-container').classList.contains('hidden');
-                if (!formVisible) {
-                    document.getElementById('checkout-btn').classList.remove('hidden');
-                    document.getElementById('submit-order-btn').classList.add('hidden');
-                }
+                document.getElementById('checkout-btn').classList.remove('hidden');
+                document.getElementById('submit-order-btn').classList.add('hidden');
+                document.getElementById('delivery-charge-row').classList.add('hidden');
+                document.getElementById('cart-subtotal').innerText = '৳0';
+                document.getElementById('cart-total').innerText = '৳0';
+                return;
             }
 
-            subtotalEl.innerText = `৳${subtotal}`;
-            totalEl.innerText = `৳${grandTotal}`;
+            container.innerHTML = cart.map(item => `
+                <div class="py-3 flex items-center justify-between gap-3">
+                    <img src="${item.image}" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-xs text-slate-800 line-clamp-1">${item.name}</h4>
+                        <div class="text-xs text-slate-500 font-semibold mt-0.5">৳${item.price}</div>
+                    </div>
+                    <div class="flex items-center border rounded-lg overflow-hidden bg-slate-50">
+                        <button onclick="updateCartQty(${item.id}, -1)" class="px-2 py-1 hover:bg-slate-200 text-xs">-</button>
+                        <span class="px-2 py-1 text-xs font-bold">${item.qty}</span>
+                        <button onclick="updateCartQty(${item.id}, 1)" class="px-2 py-1 hover:bg-slate-200 text-xs">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cart-subtotal').innerText = `৳${subtotal}`;
+
+            const district = document.getElementById('cust-district').value;
+            let delCharge = 0;
+            if (district) {
+                delCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
+                document.getElementById('delivery-charge-row').classList.remove('hidden');
+                document.getElementById('cart-delivery').innerText = `৳${delCharge}`;
+            } else {
+                document.getElementById('delivery-charge-row').classList.add('hidden');
+            }
+
+            document.getElementById('cart-total').innerText = `৳${subtotal + delCharge}`;
         }
 
-        function openCart() { document.getElementById('cart-drawer').classList.remove('hidden'); }
-        function closeCart() { document.getElementById('cart-drawer').classList.add('hidden'); }
-
         function showCheckoutForm() {
+            if (cart.length === 0) return;
             document.getElementById('checkout-form-container').classList.remove('hidden');
             document.getElementById('checkout-btn').classList.add('hidden');
             document.getElementById('submit-order-btn').classList.remove('hidden');
 
             if (currentUser) {
-                if (currentUser.name) document.getElementById('cust-name').value = currentUser.name;
-                if (currentUser.phone) document.getElementById('cust-phone').value = currentUser.phone;
-                if (currentUser.district) document.getElementById('cust-district').value = currentUser.district;
-                if (currentUser.thana) document.getElementById('cust-thana').value = currentUser.thana;
-                if (currentUser.village) document.getElementById('cust-village').value = currentUser.village;
-                if (currentUser.address) document.getElementById('cust-address').value = currentUser.address;
+                document.getElementById('cust-name').value = currentUser.name || '';
+                document.getElementById('cust-phone').value = currentUser.phone || '';
+                document.getElementById('cust-district').value = currentUser.district || '';
+                document.getElementById('cust-thana').value = currentUser.thana || '';
+                document.getElementById('cust-village').value = currentUser.village || '';
+                document.getElementById('cust-address').value = currentUser.address || '';
                 updateCartUI();
             }
         }
@@ -842,118 +765,143 @@
             const village = document.getElementById('cust-village').value.trim();
             const address = document.getElementById('cust-address').value.trim();
 
-            if (!name || !phone || !district || !thana || !village || !address) {
-                alert("Please fill out all delivery fields!");
+            if (!name || !phone || !district || !thana || !address) {
+                alert("Please fill in all required delivery details!");
                 return;
             }
 
-            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const deliveryCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
-            const total = subtotal + deliveryCharge;
-
-            // Update stock
-            cart.forEach(item => {
-                const p = products.find(prod => prod.id === item.id);
-                if (p) p.stock -= item.qty;
-            });
-
-            // Save User Record
-            let existingUser = users.find(u => u.phone === phone);
-            if (existingUser) {
-                existingUser.name = name;
-                existingUser.district = district;
-                existingUser.thana = thana;
-                existingUser.village = village;
-                existingUser.address = address;
-            } else {
-                existingUser = {
-                    id: 'USR-' + Math.floor(1000 + Math.random() * 9000),
-                    name, phone, district, thana, village, address
-                };
-                users.push(existingUser);
-            }
-
-            currentUser = existingUser;
+            const delCharge = district === 'Dhaka' ? deliveryCharges.dhaka : deliveryCharges.outside;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const total = subtotal + delCharge;
 
             const newOrder = {
                 id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
                 customer: { name, phone, district, thana, village, address },
                 items: [...cart],
                 subtotal,
-                deliveryCharge,
+                delCharge,
                 total,
-                date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-                status: 'Order Received'
+                date: new Date().toLocaleDateString(),
+                status: 'Processing'
             };
 
-            orders.unshift(newOrder);
-            cart = [];
+            // Deduct stock
+            cart.forEach(c => {
+                const p = products.find(prod => prod.id === c.id);
+                if (p) p.stock -= c.qty;
+            });
 
+            // Save user profile data
+            let user = users.find(u => u.phone === phone);
+            if (!user) {
+                user = { id: 'USR-' + Math.floor(1000 + Math.random() * 9000), name, phone, district, thana, village, address };
+                users.push(user);
+            } else {
+                user.name = name;
+                user.district = district;
+                user.thana = thana;
+                user.village = village;
+                user.address = address;
+            }
+
+            currentUser = user;
+            orders.unshift(newOrder);
+
+            cart = [];
             saveData();
             updateCartUI();
             closeCart();
             renderProducts();
-            updateOrderCount();
             renderUserAuthArea();
-            showToast("Order Placed Successfully!");
-
+            showToast("Order placed successfully!");
             switchPanel('profile');
         }
 
-        // --- Admin Management ---
+        // ADMIN FUNCTIONS
+        function loginAdmin() {
+            const pass = prompt("Enter Admin Password:");
+            if (pass === adminPassword) {
+                switchPanel('admin');
+            } else if (pass !== null) {
+                alert("Incorrect Password!");
+            }
+        }
+
+        function logoutAdmin() { switchPanel('user'); }
+
+        function switchAdminTab(tab) {
+            ['orders', 'products', 'categories', 'banners', 'users', 'settings'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
+                document.getElementById(`tab-btn-${t}`).classList.remove('active-tab');
+            });
+            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).classList.add('active-tab');
+        }
+
         function updateOrderCount() {
             document.getElementById('admin-order-count').innerText = orders.length;
         }
 
         function renderAdminOrders() {
+            updateOrderCount();
             const tbody = document.getElementById('admin-orders-table');
             if (orders.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No orders received yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">No orders received yet.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = orders.map(o => `
                 <tr class="border-b hover:bg-slate-50">
-                    <td class="p-3 font-mono text-xs font-bold text-indigo-600">${o.id}</td>
+                    <td class="p-3 font-mono font-bold text-xs">${o.id}</td>
                     <td class="p-3">
-                        <div class="font-semibold text-slate-800">${o.customer.name}</div>
+                        <div class="font-bold">${o.customer.name}</div>
                         <div class="text-xs text-slate-500">${o.customer.phone}</div>
-                        <div class="text-[11px] text-slate-400 truncate max-w-xs">${o.customer.address}, ${o.customer.village}, ${o.customer.thana}, ${o.customer.district}</div>
+                        <div class="text-[10px] text-slate-400">${o.customer.address}, ${o.customer.thana}, ${o.customer.district}</div>
                     </td>
                     <td class="p-3 text-xs">
-                        ${o.items.map(i => `<div>${i.name} x${i.qty}</div>`).join('')}
+                        ${o.items.map(i => `<div>${i.name} (x${i.qty})</div>`).join('')}
                     </td>
-                    <td class="p-3 font-bold text-slate-800">৳${o.total} <span class="text-[10px] font-normal text-slate-400 block">(Inc. Delivery ৳${o.deliveryCharge || 0})</span></td>
-                    <td class="p-3 text-xs text-slate-500 whitespace-nowrap">${o.date}</td>
+                    <td class="p-3 font-bold">৳${o.total}</td>
+                    <td class="p-3 text-xs text-slate-500">${o.date}</td>
                     <td class="p-3">
-                        <select onchange="updateOrderStatus('${o.id}', this.value)" class="border p-1.5 rounded-lg text-xs bg-white font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500">
-                            ${STATUS_STEPS.map(s => `<option value="${s}" ${o.status === s ? 'selected' : ''}>${s}</option>`).join('')}
-                        </select>
+                        <span class="text-xs px-2.5 py-1 rounded-full font-bold ${o.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                            ${o.status}
+                        </span>
                     </td>
-                    <td class="p-3 text-right space-x-1 whitespace-nowrap">
-                        <button onclick="deleteOrder('${o.id}')" class="text-rose-600 hover:text-rose-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                    <td class="p-3 text-right">
+                        <button onclick="toggleOrderStatus('${o.id}')" class="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 text-xs px-2.5 py-1.5 rounded-lg font-medium">
+                            Status Shift
+                        </button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function updateOrderStatus(orderId, newStatus) {
+        function toggleOrderStatus(orderId) {
             const order = orders.find(o => o.id === orderId);
             if (order) {
-                order.status = newStatus;
+                order.status = order.status === 'Processing' ? 'Completed' : 'Processing';
                 saveData();
-                showToast("Order Status Updated!");
+                renderAdminOrders();
             }
         }
 
-        function deleteOrder(orderId) {
-            if (confirm("Are you sure you want to delete this order?")) {
-                orders = orders.filter(o => o.id !== orderId);
-                saveData();
-                renderAdminOrders();
-                updateOrderCount();
-                showToast("Order Deleted");
-            }
+        function renderAdminProducts() {
+            const tbody = document.getElementById('admin-product-table');
+            tbody.innerHTML = products.map(p => `
+                <tr class="border-b hover:bg-slate-50">
+                    <td class="p-3"><img src="${p.image}" class="w-10 h-10 rounded-lg object-cover"></td>
+                    <td class="p-3 font-bold">${p.name}</td>
+                    <td class="p-3 text-xs"><span class="bg-slate-100 px-2 py-1 rounded">${p.category}</span></td>
+                    <td class="p-3 font-bold">৳${p.price}</td>
+                    <td class="p-3">
+                        <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-16 border rounded px-2 py-1 text-xs">
+                    </td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteProduct(${p.id})" class="text-rose-600 hover:text-rose-800 text-sm"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function handleAddProduct(e) {
@@ -965,51 +913,40 @@
             const image = document.getElementById('p-image').value.trim();
 
             const newProduct = { id: Date.now(), name, price, stock, category, image };
-
             products.push(newProduct);
             saveData();
             renderAdminProducts();
             renderProducts();
             e.target.reset();
-            showToast("Product Added Successfully!");
-        }
-
-        function renderAdminProducts() {
-            const tbody = document.getElementById('admin-product-table');
-            tbody.innerHTML = products.map(p => `
-                <tr class="border-b hover:bg-slate-50">
-                    <td class="p-3"><img src="${p.image}" class="w-10 h-10 object-cover rounded border"></td>
-                    <td class="p-3 font-medium text-slate-800">${p.name}</td>
-                    <td class="p-3 text-slate-500">${p.category}</td>
-                    <td class="p-3 font-bold text-slate-800">৳${p.price}</td>
-                    <td class="p-3">
-                        <input type="number" value="${p.stock}" min="0" onchange="updateStock(${p.id}, this.value)" class="w-20 border rounded p-1 text-center">
-                    </td>
-                    <td class="p-3 text-right">
-                        <button onclick="deleteProduct(${p.id})" class="text-rose-600 hover:text-rose-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
+            showToast("Product added successfully!");
         }
 
         function updateStock(id, newStock) {
-            const product = products.find(p => p.id === id);
-            if (product) {
-                product.stock = parseInt(newStock) || 0;
+            const p = products.find(prod => prod.id === id);
+            if (p) {
+                p.stock = parseInt(newStock) || 0;
                 saveData();
                 renderProducts();
-                showToast("Stock updated");
             }
         }
 
         function deleteProduct(id) {
-            if (confirm("Delete this product?")) {
+            if (confirm("Are you sure you want to delete this product?")) {
                 products = products.filter(p => p.id !== id);
                 saveData();
                 renderAdminProducts();
                 renderProducts();
-                showToast("Product Deleted");
             }
+        }
+
+        function renderAdminCategories() {
+            const list = document.getElementById('admin-category-list');
+            list.innerHTML = categories.filter(c => c !== "All").map(c => `
+                <li class="py-2.5 flex justify-between items-center text-sm">
+                    <span class="font-medium">${c}</span>
+                    <button onclick="deleteCategory('${c}')" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i> Delete</button>
+                </li>
+            `).join('');
         }
 
         function handleAddCategory(e) {
@@ -1019,68 +956,55 @@
                 categories.push(catName);
                 saveData();
                 renderAdminCategories();
-                populateCategoryDropdown();
                 renderCategories();
+                populateCategoryDropdown();
                 document.getElementById('cat-name').value = '';
-                showToast("Category Added");
+                showToast("Category added!");
             }
         }
 
-        function renderAdminCategories() {
-            const list = document.getElementById('admin-category-list');
-            list.innerHTML = categories.map(cat => `
-                <li class="py-2 flex justify-between items-center text-sm">
-                    <span class="font-medium text-slate-700">${cat}</span>
-                    ${cat !== 'All' ? `<button onclick="deleteCategory('${cat}')" class="text-rose-600 hover:text-rose-800 text-xs"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-xs text-slate-400">Default</span>'}
-                </li>
-            `).join('');
-        }
-
-        function deleteCategory(cat) {
-            if (confirm(`Delete category "${cat}"?`)) {
-                categories = categories.filter(c => c !== cat);
+        function deleteCategory(catName) {
+            if (confirm(`Delete category "${catName}"?`)) {
+                categories = categories.filter(c => c !== catName);
                 saveData();
                 renderAdminCategories();
-                populateCategoryDropdown();
                 renderCategories();
-                showToast("Category Removed");
+                populateCategoryDropdown();
             }
         }
 
         function renderBannerInputs() {
             const container = document.getElementById('banner-inputs');
-            container.innerHTML = banners.map((url, i) => `
-                <div class="flex gap-2 items-center">
-                    <span class="text-xs font-bold text-slate-400 w-16">Slot ${i + 1}:</span>
-                    <input type="url" value="${url}" placeholder="Image URL..." onchange="updateBannerUrl(${i}, this.value)" class="border p-2 rounded-lg text-sm flex-1">
+            container.innerHTML = [0, 1, 2, 3, 4].map(i => `
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Banner ${i + 1} Image URL</label>
+                    <input type="url" value="${banners[i] || ''}" onchange="updateBanner(${i}, this.value)" placeholder="https://..." class="w-full border p-2 rounded-lg text-sm">
                 </div>
             `).join('');
         }
 
-        function updateBannerUrl(index, url) {
+        function updateBanner(index, url) {
             banners[index] = url.trim();
-            activeBannerIndex = 0;
             saveData();
             renderBanners();
-            showToast("Banner updated");
         }
 
         function renderAdminUsers() {
             const tbody = document.getElementById('admin-users-table');
             if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">No users registered yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No registered users found.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = users.map(u => {
                 const addr = [u.village, u.thana, u.district].filter(Boolean).join(', ');
-                const fullAddr = u.address ? `${u.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'None');
+                const fullAddr = u.address ? `${u.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'N/A');
                 return `
                     <tr class="border-b hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs text-slate-500">${u.id}</td>
-                        <td class="p-3 font-semibold text-slate-800">${u.name || 'Unnamed User'}</td>
-                        <td class="p-3 text-slate-600">${u.phone}</td>
-                        <td class="p-3 text-xs text-slate-500 truncate max-w-xs">${fullAddr}</td>
+                        <td class="p-3 font-mono text-xs">${u.id}</td>
+                        <td class="p-3 font-bold">${u.name || 'User'}</td>
+                        <td class="p-3 text-xs">${u.phone}</td>
+                        <td class="p-3 text-xs text-slate-500">${fullAddr}</td>
                     </tr>
                 `;
             }).join('');
@@ -1088,12 +1012,12 @@
 
         function handleDeliverySettings(e) {
             e.preventDefault();
-            const dhaka = parseFloat(document.getElementById('del-dhaka').value) || 0;
-            const outside = parseFloat(document.getElementById('del-outside').value) || 0;
+            const dhaka = parseInt(document.getElementById('del-dhaka').value) || 0;
+            const outside = parseInt(document.getElementById('del-outside').value) || 0;
 
             deliveryCharges = { dhaka, outside };
             saveData();
-            showToast("Delivery Charges Saved!");
+            showToast("Delivery charges updated!");
         }
 
         function handleChangePassword(e) {
@@ -1108,11 +1032,12 @@
 
             adminPassword = newP;
             saveData();
-            e.target.reset();
-            showToast("Admin Password Changed!");
+            document.getElementById('curr-pass').value = '';
+            document.getElementById('new-pass').value = '';
+            showToast("Admin password updated!");
         }
 
-        // Initialize app on page load
+        // Initialize App on load
         window.onload = init;
     </script>
 </body>
