@@ -280,7 +280,6 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Initial Data
         const defaultCategories = ["সব", "ইলেকট্রনিক্স", "ফ্যাশন", "হোম অ্যাপ্লায়েন্স"];
         const defaultProducts = [
             { id: 1, name: "ওয়্যারলেস হেডফোন", price: 1200, stock: 15, category: "ইলেকট্রনিক্স", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
@@ -298,9 +297,8 @@
         let orders = [];
         let users = [];
         let adminPassword = "admin";
-        let currentUser = null; // Track Currently Logged-in User
+        let currentUser = null;
 
-        // Load LocalStorage Data
         try {
             const savedCats = localStorage.getItem('bazari_cats');
             if (savedCats) categories = JSON.parse(savedCats);
@@ -323,7 +321,7 @@
             const savedCurrentUser = localStorage.getItem('bazari_current_user');
             if (savedCurrentUser) currentUser = JSON.parse(savedCurrentUser);
         } catch(e) {
-            console.warn("LocalStorage storage error or disabled", e);
+            console.warn("LocalStorage error or disabled", e);
         }
 
         let activeBannerIndex = 0;
@@ -449,7 +447,6 @@
             const fullAddr = currentUser.address ? `${currentUser.address}${addr ? ' (' + addr + ')' : ''}` : (addr || 'কোনো ঠিকানা যুক্ত করা হয়নি');
             document.getElementById('profile-user-address').innerText = 'ঠিকানা: ' + fullAddr;
 
-            // Render Orders for Tracking
             const userOrdersContainer = document.getElementById('user-orders-list');
             userOrdersContainer.innerHTML = "";
 
@@ -462,8 +459,6 @@
 
             myOrders.forEach(o => {
                 const itemsList = o.items.map(i => `<div class="flex justify-between text-xs py-1 border-b border-dashed"><span>${i.name} (x${i.qty})</span><span class="font-bold">৳${i.price * i.qty}</span></div>`).join('');
-                
-                // Tracking Status Steps logic
                 const isCompleted = o.status === 'Completed';
                 
                 userOrdersContainer.innerHTML += `
@@ -478,7 +473,6 @@
                             </span>
                         </div>
 
-                        <!-- Order Tracking Bar -->
                         <div class="py-2">
                             <div class="text-xs font-semibold text-slate-600 mb-2">অর্ডার ট্র্যাকিং:</div>
                             <div class="flex items-center justify-between relative max-w-md mx-auto">
@@ -606,10 +600,12 @@
         }
 
         function removeBanner(index) {
-            banners[index] = "";
-            saveData();
-            renderBanners();
-            renderBannerInputs();
+            if (confirm("ব্যানারটি মুছে ফেলতে চান?")) {
+                banners[index] = "";
+                saveData();
+                renderBanners();
+                renderBannerInputs();
+            }
         }
 
         function renderCategories() {
@@ -662,11 +658,13 @@
         }
 
         function deleteCategory(cat) {
-            categories = categories.filter(c => c !== cat);
-            saveData();
-            renderCategories();
-            populateCategoryDropdown();
-            renderAdminCategories();
+            if (confirm(`'${cat}' ক্যাটাগরি মুছে ফেলতে চান?`)) {
+                categories = categories.filter(c => c !== cat);
+                saveData();
+                renderCategories();
+                populateCategoryDropdown();
+                renderAdminCategories();
+            }
         }
 
         function renderProducts() {
@@ -708,11 +706,11 @@
             e.preventDefault();
             const newProd = {
                 id: Date.now(),
-                name: document.getElementById('p-name').value,
+                name: document.getElementById('p-name').value.trim(),
                 price: Number(document.getElementById('p-price').value),
                 stock: Number(document.getElementById('p-stock').value),
                 category: document.getElementById('p-category').value,
-                image: document.getElementById('p-image').value
+                image: document.getElementById('p-image').value.trim()
             };
             products.push(newProd);
             saveData();
@@ -741,9 +739,11 @@
         }
 
         function deleteProduct(id) {
-            products = products.filter(p => p.id !== id);
-            saveData();
-            renderAdminProducts();
+            if (confirm("প্রোডাক্টটি মুছে ফেলতে চান?")) {
+                products = products.filter(p => p.id !== id);
+                saveData();
+                renderAdminProducts();
+            }
         }
 
         function addToCart(id) {
@@ -810,7 +810,6 @@
         function showCheckoutForm() {
             if (cart.length === 0) return alert("আপনার কার্ট খালি!");
             
-            // Auto pre-fill if logged in
             if (currentUser) {
                 document.getElementById('cust-name').value = currentUser.name || '';
                 document.getElementById('cust-phone').value = currentUser.phone || '';
@@ -832,6 +831,12 @@
         }
 
         function submitOrder() {
+            if (cart.length === 0) {
+                alert("আপনার কার্ট খালি!");
+                closeCart();
+                return;
+            }
+
             const name = document.getElementById('cust-name').value.trim();
             const phone = document.getElementById('cust-phone').value.trim();
             const district = document.getElementById('cust-district').value;
@@ -844,7 +849,6 @@
                 return;
             }
 
-            // Auto User Account Creation / Update
             let existingUser = users.find(u => u.phone === phone);
             if (!existingUser) {
                 existingUser = {
@@ -865,16 +869,13 @@
                 existingUser.address = address;
             }
 
-            // Automatically set user session
             currentUser = existingUser;
 
-            // Reduce Stock
             cart.forEach(item => {
                 const prod = products.find(p => p.id === item.id);
                 if (prod) prod.stock -= item.qty;
             });
 
-            // Create Order
             const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             const newOrder = {
                 id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
@@ -915,7 +916,6 @@
             orders.forEach(o => {
                 const itemsList = o.items.map(i => `${i.name} (x${i.qty})`).join(', ');
                 const statusBg = o.status === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800';
-                
                 const fullAddressText = `${o.customer.address}, ${o.customer.village ? o.customer.village + ', ' : ''}${o.customer.thana ? o.customer.thana + ', ' : ''}${o.customer.district || ''}`;
 
                 table.innerHTML += `
