@@ -3,36 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Order Management</title>
+  <title>Bazari - Online Shopping & Admin</title>
   <style>
+    :root {
+      --primary-color: #ff8c42; /* হালকা কমলা */
+      --primary-hover: #e07a33;
+      --bg-color: #fff9f5;
+      --text-color: #333;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
+      background-color: var(--bg-color);
       margin: 0;
       padding: 20px;
+      color: var(--text-color);
     }
+
     .container {
       background: #fff;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255, 140, 66, 0.15);
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    .header {
+
+    /* Top Navigation */
+    .top-bar {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-color);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Admin Auth Controls (Default Hidden for Users) */
+    .admin-controls {
+      display: none;
       justify-content: flex-end;
       gap: 10px;
-      margin-bottom: 20px;
+      margin-top: 15px;
     }
+    .admin-controls.show { display: flex; }
+
     .btn {
       padding: 8px 16px;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
     }
-    .btn-admin { background-color: #e0e0e0; color: #333; }
+    .btn-admin { background-color: #ffe5d4; color: #d96b27; }
     .btn-user { background-color: #d1e7dd; color: #0f5132; }
     .btn-logout { background-color: #dc3545; color: #fff; }
+    .btn-submit {
+      background-color: var(--primary-color);
+      color: #fff;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background-color: var(--primary-hover); }
+
+    /* Admin Form Section (Default Hidden) */
+    .admin-section {
+      display: none;
+      margin-top: 20px;
+      background: #fff8f2;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ffd8be;
+    }
+    .admin-section.show { display: block; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label { font-size: 13px; margin-bottom: 5px; color: #666; font-weight: bold; }
+    .form-group input, .form-group select {
+      padding: 9px;
+      border: 1px solid #ffccaa;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    /* Product & Order Table */
+    .table-title {
+      margin-top: 30px;
+      color: var(--primary-color);
+      border-bottom: 2px solid #ffe3d1;
+      padding-bottom: 5px;
+    }
 
     table {
       width: 100%;
@@ -42,38 +126,102 @@
     th, td {
       padding: 12px;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #ffe5d4;
+      vertical-align: middle;
     }
     th {
-      background-color: #f8f9fa;
-      color: #555;
+      background-color: #fff2e8;
+      color: #d96b27;
     }
-    select {
+    
+    .product-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ffd8be;
+    }
+
+    /* Price Styles */
+    .original-price { text-decoration: line-through; color: #888; font-size: 13px; margin-right: 6px; }
+    .discount-price { font-weight: bold; color: #d9534f; font-size: 15px; }
+    .badge-discount { background: #ff4d4d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 4px; }
+
+    /* Order Status Styles */
+    select.status-select {
       padding: 6px 10px;
       border-radius: 4px;
-      border: 1px solid #ccc;
-      outline: none;
+      border: 1px solid #ffccaa;
     }
-    .status-text {
-      font-weight: bold;
-    }
-    .status-delivered { color: #0d6efd; }
+    .status-text { font-weight: bold; }
+    .status-delivered { color: #198754; }
     .status-cancelled { color: #dc3545; }
     .status-transit { color: #fd7e14; }
     .status-placed { color: #6c757d; }
+
+    .btn-delete { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 16px; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- Top Navigation -->
-  <div class="header">
+  <!-- Top Navigation / Header -->
+  <div class="top-bar">
+    <div class="brand-title">Bazari</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Track Order</a>
+    </div>
+  </div>
+
+  <!-- Admin Controls (ইউজার প্যানেলে লুকানো থাকবে) -->
+  <div id="adminControls" class="admin-controls">
     <button class="btn btn-admin">Admin Mode</button>
     <button class="btn btn-user">User Site</button>
     <button class="btn btn-logout">Logout</button>
   </div>
 
-  <!-- Order Table -->
+  <!-- Admin Panel Form (ইউজার প্যানেলে লুকানো থাকবে) -->
+  <div id="adminSection" class="admin-section">
+    <h3>Add New Product (Admin Panel)</h3>
+    <form id="addProductForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" id="prodName" placeholder="e.g. Wireless Headphones" required>
+        </div>
+        <div class="form-group">
+          <label>Regular Price (৳)</label>
+          <input type="number" id="prodPrice" placeholder="e.g. 1200" required>
+        </div>
+        <div class="form-group">
+          <label>Discount (%)</label>
+          <input type="number" id="prodDiscount" placeholder="e.g. 10 (Optional)" min="0" max="100">
+        </div>
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" id="prodStock" placeholder="e.g. 50" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="prodCategory">
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Groceries">Groceries</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Product Image (From Gallery)</label>
+          <input type="file" id="prodImage" accept="image/*" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-submit">Add Product</button>
+    </form>
+  </div>
+
+  <!-- Order List Table -->
+  <h3 class="table-title">Order Management</h3>
   <table>
     <thead>
       <tr>
@@ -90,7 +238,7 @@
         <td>৳1320</td>
         <td>08/10/2026</td>
         <td>
-          <select id="statusSelect" onchange="updateActionStatus(this.value)">
+          <select class="status-select" onchange="updateActionStatus(this.value, 'actionStatus1')">
             <option value="Order Placed">Order Placed</option>
             <option value="In Transit">In Transit</option>
             <option value="Out for Delivery (Shipped)">Out for Delivery (Shipped)</option>
@@ -99,22 +247,80 @@
           </select>
         </td>
         <td>
-          <span id="actionStatus" class="status-text status-delivered">Delivered</span>
+          <span id="actionStatus1" class="status-text status-delivered">Delivered</span>
         </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Added Products Showcase Table -->
+  <h3 class="table-title">Products & Stock</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th class="admin-only-col" style="display:none;">Action</th>
+      </tr>
+    </thead>
+    <tbody id="productTableBody">
+      <!-- Example Item with Discount -->
+      <tr>
+        <td><img src="https://via.placeholder.com/50" class="product-img" alt="Headphone"></td>
+        <td>Wireless Headphones</td>
+        <td>Electronics</td>
+        <td>
+          <span class="original-price">৳1200</span>
+          <span class="discount-price">৳1080</span>
+          <span class="badge-discount">-10%</span>
+        </td>
+        <td>14</td>
+        <td class="admin-only-col" style="display:none;"><button class="btn-delete" onclick="deleteRow(this)">🗑️</button></td>
       </tr>
     </tbody>
   </table>
 </div>
 
 <script>
-  function updateActionStatus(status) {
-    const actionElement = document.getElementById('actionStatus');
-    actionElement.innerText = status;
+  // 1. URL Based Admin Hide/Show Logic
+  function checkAdminAccess() {
+    // URL-এর শেষে #admin থাকলে এডমিন মোড ওপেন হবে
+    const isAdmin = window.location.hash === '#admin';
+    
+    const adminControls = document.getElementById('adminControls');
+    const adminSection = document.getElementById('adminSection');
+    const adminCols = document.querySelectorAll('.admin-only-col');
 
-    // Reset classes
+    if (isAdmin) {
+      adminControls.classList.add('show');
+      adminSection.classList.add('show');
+      adminCols.forEach(col => col.style.display = 'table-cell');
+    } else {
+      adminControls.classList.remove('show');
+      adminSection.classList.remove('show');
+      adminCols.forEach(col => col.style.display = 'none');
+    }
+  }
+
+  window.addEventListener('load', checkAdminAccess);
+  window.addEventListener('hashchange', checkAdminAccess);
+
+  // কিবোর্ড শর্টকাট (Ctrl + Shift + A) দিয়ে গোপন এডমিন টগল
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+      window.location.hash = (window.location.hash === '#admin') ? '' : 'admin';
+    }
+  });
+
+  // 2. Order Status Update Script
+  function updateActionStatus(status, targetId) {
+    const actionElement = document.getElementById(targetId);
+    actionElement.innerText = status;
     actionElement.className = 'status-text';
 
-    // Apply color based on status
     if (status === 'Delivered') {
       actionElement.classList.add('status-delivered');
     } else if (status === 'Cancelled') {
@@ -124,6 +330,62 @@
     } else {
       actionElement.classList.add('status-placed');
     }
+  }
+
+  // 3. Add Product with Gallery Image & Less Price (% Discount) Calculation
+  document.getElementById('addProductForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('prodName').value;
+    const originalPrice = parseFloat(document.getElementById('prodPrice').value);
+    const discountPercent = parseFloat(document.getElementById('prodDiscount').value) || 0;
+    const stock = document.getElementById('prodStock').value;
+    const category = document.getElementById('prodCategory').value;
+    const imageInput = document.getElementById('prodImage');
+
+    if (imageInput.files && imageInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const imageUrl = e.target.result; // গ্যালারি পিকচার ডাটা
+        
+        // ডিসকাউন্ট প্রসেসিং
+        let priceHTML = '';
+        if (discountPercent > 0) {
+          const discountedPrice = originalPrice - (originalPrice * (discountPercent / 100));
+          priceHTML = `
+            <span class="original-price">৳${originalPrice}</span>
+            <span class="discount-price">৳${Math.round(discountedPrice)}</span>
+            <span class="badge-discount">-${discountPercent}%</span>
+          `;
+        } else {
+          priceHTML = `<span class="discount-price">৳${originalPrice}</span>`;
+        }
+
+        // টেবিলে রো যোগ করা
+        const tbody = document.getElementById('productTableBody');
+        const newRow = document.createElement('tr');
+
+        newRow.innerHTML = `
+          <td><img src="${imageUrl}" class="product-img"></td>
+          <td>${name}</td>
+          <td>${category}</td>
+          <td>${priceHTML}</td>
+          <td>${stock}</td>
+          <td class="admin-only-col"><button class="btn-delete" onclick="deleteRow(this)">🗑️</button></td>
+        `;
+
+        tbody.appendChild(newRow);
+        document.getElementById('addProductForm').reset();
+        checkAdminAccess(); // ভিউ রিমেইন করা
+      };
+
+      reader.readAsDataURL(imageInput.files[0]);
+    }
+  });
+
+  function deleteRow(btn) {
+    btn.closest('tr').remove();
   }
 </script>
 
